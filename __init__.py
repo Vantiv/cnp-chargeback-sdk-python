@@ -1,4 +1,4 @@
-#Copyright (c) 2017 Vantiv eCommerce
+#Copyright (c) 2011-2012 Litle & Co.
 #
 #Permission is hereby granted, free of charge, to any person
 #obtaining a copy of this software and associated documentation
@@ -21,4 +21,4 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-__all__ = ["utils", "online","fields","version"]
+__all__ = ["vantivsdk"]

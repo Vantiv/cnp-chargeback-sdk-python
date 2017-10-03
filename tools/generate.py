@@ -31,6 +31,7 @@ sys.path.insert(0, package_root)
 
 from vantivsdk import utils
 
+
 #version = utils.Configuration().VERSION
 #xsd_name = 'litleChargeback_v%s.xsd' % version
 xsd_name = 'litleChargeback_v2.2.xsd'

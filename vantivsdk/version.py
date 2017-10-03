@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 # Copyright (c) 2017 Vantiv eCommerce
 #
@@ -26,3 +27,4 @@
 VERSION = u'11.3'
 # SDK release
 RELEASE = u'11.3.0dev'
+

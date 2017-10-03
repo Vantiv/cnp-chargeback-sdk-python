@@ -29,12 +29,12 @@ import sys
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, package_root)
 
-from vantivsdk import utils
+
 
 
 #version = utils.Configuration().VERSION
 #xsd_name = 'litleChargeback_v%s.xsd' % version
-xsd_name = 'litleChargeback_v2.2.xsd'
+xsd_name = 'chargeback-api-v2.xsd'
 
 # Run pregen
 # print('Generate %s' % xsd_name)

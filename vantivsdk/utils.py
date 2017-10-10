@@ -26,11 +26,9 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import json
 import os
-import tempfile
-
 import pyxb
-
 from . import version
+
 
 class Configuration(object):
     """Setup Configuration variables.
@@ -43,37 +41,28 @@ class Configuration(object):
         url (Str): Url for server.
         proxy (Str): Https proxy server address. Must start with "https://"
         sftp_username (Str): Username for sftp
-        sftp_password (Str): Password for sftp
-        sftp_url (Str): Address for sftp
-        batch_requests_path (Str): Location for saving generated batch request xml
-        batch_response_path (Str): Location for saving batch response xml
         fast_url (Str): Fast address, using for batch stream
         fast_port (Str): Fast port, using for batch stream
         print_xml (Str): Whether print request and response xml
     """
     VERSION = version.VERSION
     RELEASE = version.RELEASE
-    MERCHANTSDK = 'Python SDKv2 ' + RELEASE
-    _CONFIG_FILE_PATH = os.path.join(os.environ['VANTIV_SDK_CONFIG'], ".vantiv_python_sdk.conf") \
-        if 'VANTIV_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".vantiv_python_sdk.conf")
+    # MERCHANTSDK = 'Python SDKv2 ' + RELEASE
+    _CONFIG_FILE_PATH = os.path.join(os.environ['VANTIV_SDK_CONFIG'], ".vantiv_chargeback_sdk.conf") \
+        if 'VANTIV_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".vantiv_chargeback_sdk.conf")
 
     def __init__(self, conf_dict = dict()):
         attr_dict = {
             'user':'',
             'password':'',
             'merchantId':'',
-            'reportGroup':'Default Report Group',
-            'url':'https://www.testlitle.com/sandbox/communicator/online',
+            'reportGroup': '',
+            'url':'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
             'proxy':'',
-            'sftp_username':'',
-            'sftp_password':'',
-            'sftp_url':'',
-            'batch_requests_path':os.path.join(tempfile.gettempdir(), 'vantiv_sdk_batch_request'),
-            'batch_response_path':os.path.join(tempfile.gettempdir(), 'vantiv_sdk_batch_response'),
             'fast_url':'',
             'fast_ssl':True,
             'fast_port':'',
-            'print_xml':False,
+            'print_xml':True,
             'id':'',
         }
 
@@ -81,7 +70,7 @@ class Configuration(object):
         for k in attr_dict:
             setattr(self, k , attr_dict[k])
 
-        # override valuse by loading saved conf
+        # override values by loading saved conf
         try:
             with open(self._CONFIG_FILE_PATH, 'r') as config_file:
                 config_json = json.load(config_file)
@@ -100,10 +89,8 @@ class Configuration(object):
                 else:
                     raise VantivException('"%s" is NOT an attribute of conf' % k)
 
-
-
     def save(self):
-        """Save Class Attributes to .vantiv_python_sdk.conf
+        """Save Class Attributes to .vantiv_chargeback_sdk.conf
 
         Returns:
             full path for configuration file.

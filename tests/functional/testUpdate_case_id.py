@@ -24,7 +24,7 @@
 #
 import os
 import sys
-import unittest
+import unittest2
 
 from vantivsdk import *
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -35,7 +35,7 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestChargebackUpdateCaseId(unittest.TestCase):
+class TestChargebackUpdateCaseId(unittest2.TestCase):
     def test_put_caseId(self):
         param = fields.chargebackApiCase()
         param.caseId = u'1304283001'

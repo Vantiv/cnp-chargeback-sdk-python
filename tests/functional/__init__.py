@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 __all__ = [
-    'test_caseId',
+    'test_case_id',
     'test_activity_date',
-    'testUpdate_caseId'
+    'testUpdate_case_id'
 ]

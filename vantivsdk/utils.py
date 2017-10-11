@@ -28,6 +28,8 @@ import json
 import os
 import pyxb
 from . import version
+from dicttoxml import dicttoxml
+
 
 
 class Configuration(object):
@@ -57,7 +59,7 @@ class Configuration(object):
             'password':'',
             'merchantId':'',
             'reportGroup': '',
-            'url':'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
+            'url': 'https://services.vantivprelive.com/services/chargebacks/',
             'proxy':'',
             'fast_url':'',
             'fast_ssl':True,
@@ -117,6 +119,8 @@ def obj_to_xml(obj):
     """
     # TODO convert object to xml without default namespace gracefully.
     try:
+
+
         xml = obj.toxml('utf-8')
     except pyxb.ValidationError as e:
         raise VantivException(e.details())

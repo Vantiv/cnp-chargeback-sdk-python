@@ -113,11 +113,12 @@ def _http_request(request_type, request_body,conf, param):
         try:
             if hasattr(param, "caseId"):
                 if param.caseId != "":
+                    proxies2 = {'https': "websenseproxy:8080", 'http': "websenseproxy:8080"}
                     response = requests.put(conf.url + str(param.caseId),
                                             data=_create_request_xml(request_body, conf),
-                                            headers={"Content-Type": "application/com.litle.services-v1+xml",
-                                                     "Accept": "application/com.litle.services-v1+xml"},
-                                            auth=HTTPBasicAuth(conf.user, conf.password))
+                                            headers={"Content-Type": "application/com.vantivcnp.services-v2+xml",
+                                                     "Accept": "application/com.vantivcnp.services-v2+xml"},
+                                            auth=HTTPBasicAuth(conf.user, conf.password), proxies=proxies2)
         except requests.RequestException:
             raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
         if response.status_code != 200:

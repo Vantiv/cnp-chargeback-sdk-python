@@ -25,20 +25,42 @@ from __future__ import absolute_import, division, print_function
 
 import os
 import sys
-from vantivsdk import utils
 
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, package_root)
-version = utils.Configuration().VERSION
-xsd_name = 'chargeback-api-v%s.xsd' %version
 
+
+
+
+#version = utils.Configuration().VERSION
+#xsd_name = 'litleChargeback_v%s.xsd' % version
+xsd_name = 'chargeback-api-v2.xsd'
+
+# Run pregen
+# print('Generate %s' % xsd_name)
+# pre_gen_path = os.path.join(package_root, 'tools', 'preGeneration.py')
+# os.system('python %s' % pre_gen_path)
+
+#
 print('Generate module fields using pyxb')
 xsd_abs_path =  os.path.join(package_root, "schema", xsd_name)
 os.system('pyxbgen -u %s -m fields' % xsd_abs_path)
 
-print('Copy fields.py to package')
-gen_field_py_abs_path = os.path.join(package_root, "tools", 'fields.py')
+print('Copy filed.py to package')
+gen_field_py_abs_path = os.path.join(package_root, 'fields.py')
 target_field_py_abs_path = os.path.join(package_root, 'vantivsdk', 'fields.py')
 os.system('mv %s %s' % (gen_field_py_abs_path, target_field_py_abs_path))
 
+# # Run postgen
+# print('delete absolute path in field.py and gen docs rst')
+# pre_gen_path = os.path.join(package_root, 'tools', 'postGeneration.py')
+# os.system('python %s' % pre_gen_path)
+#
+# docs_abs_path = os.path.join(package_root, 'docs')
+# makefile_abs_path = os.path.join(package_root, 'docs', 'Makefile')
+
+# not work, have to go terminal
+# print('Generate html docs')
+# os.system('make -f %s -C %s clean' % (makefile_abs_path, docs_abs_path))
+# os.system('make -f %s -C %s html' % (makefile_abs_path, docs_abs_path))
 

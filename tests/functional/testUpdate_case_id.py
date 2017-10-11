@@ -38,14 +38,17 @@ conf = utils.Configuration()
 class TestChargebackUpdateCaseId(unittest2.TestCase):
     def test_put_caseId(self):
         param = fields.chargebackApiCase()
-        param.caseId = u'1304283001'
+        param.caseId = u'1304283003'
         request_type = "PUT"
-        request_body = fields.chargebackUpdateRequest
+        request_body = fields.chargebackUpdateRequest()
         request_body.activityType = "ADD_NOTE"
-        request_body.note = "note"
+        request_body.note = "note333"
+        print(request_body)
+        response_xml = utils.obj_to_xml(request_body)
+        print(response_xml)
         response = online.request(request_type, request_body, param, conf)
-        #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
+      #  self.assertEquals('1304283003', response['chargebackCase']['caseId'])
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest2.main()

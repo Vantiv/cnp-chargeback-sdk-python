@@ -89,39 +89,49 @@ def _create_request_xml(request_body, conf):
     return request_xml
 
 
-def _http_request(request_type, request_body,conf, param):
-    if request_type == 'GET':
-        try:
+def _http_request(request_type, request_body, conf, param):
+
+    try:
+        if request_type == 'GET':
+            if hasattr(param, "caseId"):
+                if param.caseId:
+                    response = requests.get(conf.url + str(param.caseId), auth=HTTPBasicAuth(conf.user, conf.password))
+            if hasattr(param, "activityDate"):
+                if param.activityDate:
+                    response = requests.get(conf.url + "?date=" + str(param.activityDate.date()), auth=HTTPBasicAuth(conf.user, conf.password))
+            if hasattr(param, "acquirerReferenceNumber"):
+                if param.acquirerReferenceNumber:
+                    response = requests.get(conf.url + "?arn=" + str(param.acquirerReferenceNumber),
+                                            auth=HTTPBasicAuth(conf.user, conf.password))
+            if hasattr(param, "token"):
+                if param.token:
+                    response = requests.get(conf.url + "?token=" + str(param.token), auth=HTTPBasicAuth(conf.user, conf.password))
+
+            if (hasattr(param, "card_number")) and (hasattr(param, "expiration_date")):
+                if param.card_number and param.expiration_date:
+                    response = requests.get(conf.url + "?cardNumber=" + str(param.card_number) + "&expirationDate=" + str(param.expiration_date), auth=HTTPBasicAuth(conf.user, conf.password))
+
+            if hasattr(param, "actionable"):
+                if param.actionable:
+                    response = requests.get(conf.url + "?actionable=" + str(param.actionable), auth=HTTPBasicAuth(conf.user, conf.password))
+
+        if request_type == 'PUT':
             if hasattr(param, "caseId"):
                 if param.caseId != "":
-                    response = requests.get(conf.url + str(param.caseId), auth=HTTPBasicAuth(conf.user, conf.password))
-            elif hasattr(param, "activityDate"):
-                if param.activityDate != "":
-                    response = requests.get(conf.url + "?date=" + str(param.activityDate.date()), auth=HTTPBasicAuth(conf.user, conf.password))
-        except requests.RequestException:
+                    response = requests.put(conf.url + str(param.caseId), data=_create_request_xml(request_body, conf), headers={"Content-Type": "application/com.vantivcnp.services-v2+xml","Accept": "application/com.vantivcnp.services-v2+xml"}, auth=HTTPBasicAuth(conf.user, conf.password))
+
+    except requests.RequestException:
             raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-        if response.status_code != 200:
-            raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
+
+    if response.status_code != 200:
+        raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
 
         # Check empty response
-        if not response:
-            raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
+    if not response:
+        raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
-        if conf.print_xml:
-            print('Response XML:\n', response.text, '\n')
-    elif request_type == 'PUT':
-        try:
-            if hasattr(param, "caseId"):
-                if param.caseId != "":
-                    response = requests.put(conf.url + str(param.caseId),
-                                            data=_create_request_xml(request_body, conf),
-                                            headers={"Content-Type": "application/com.litle.services-v1+xml",
-                                                     "Accept": "application/com.litle.services-v1+xml"},
-                                            auth=HTTPBasicAuth(conf.user, conf.password))
-        except requests.RequestException:
-            raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-        if response.status_code != 200:
-            raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
+    if conf.print_xml:
+        print('Response XML:\n', response.text, '\n')
 
     return response.text
 

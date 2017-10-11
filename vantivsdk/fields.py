@@ -1,8 +1,8 @@
 # ./fields.py
 # -*- coding: utf-8 -*-
-# PyXB bindings for NM:37e810e0ed20ae97cbb857a604d79e40b685ff87
-# Generated 2017-10-09 16:15:26.075167 by PyXB version 1.2.5 using Python 3.6.1.final.0
-# Namespace http://www.vantivcnp.com/chargebacks
+# PyXB bindings for NM:a8401e0dd1eaa68402838ff846d35defcfbb405f
+# Generated 2017-10-10 14:35:08.996970 by PyXB version 1.2.5 using Python 3.6.1.final.0
+# Namespace http://www.litle.com/chargebacks
 
 from __future__ import unicode_literals
 import pyxb
@@ -14,7 +14,7 @@ import pyxb.utils.domutils
 import sys
 import pyxb.utils.six as _six
 # Unique identifier for bindings created at the same time
-_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:963fd68e-ad2e-11e7-a863-001a4a01074d')
+_GenerationUID = pyxb.utils.utility.UniqueIdentifier('urn:uuid:be3551e4-ade9-11e7-a63c-001a4a01074d')
 
 # Version of PyXB used to generate the bindings
 _PyXBVersion = '1.2.5'
@@ -30,7 +30,7 @@ _module_typeBindings = pyxb.utils.utility.Object()
 import pyxb.binding.datatypes
 
 # NOTE: All namespace declarations are reserved within the binding
-Namespace = pyxb.namespace.NamespaceForURI('http://www.vantivcnp.com/chargebacks', create_if_missing=True)
+Namespace = pyxb.namespace.NamespaceForURI('http://www.litle.com/chargebacks', create_if_missing=True)
 Namespace.configureCategories(['typeBinding', 'elementBinding'])
 
 def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
@@ -104,7 +104,7 @@ STD_ANON_._InitializeFacetMap(STD_ANON_._CF_minLength,
    STD_ANON_._CF_maxLength)
 _module_typeBindings.STD_ANON_ = STD_ANON_
 
-# Atomic simple type: {http://www.vantivcnp.com/chargebacks}activityType
+# Atomic simple type: {http://www.litle.com/chargebacks}activityType
 class activityType (pyxb.binding.datatypes.string, pyxb.binding.basis.enumeration_mixin):
 
     """An atomic simple type."""
@@ -123,9 +123,9 @@ activityType._InitializeFacetMap(activityType._CF_enumeration)
 Namespace.addCategoryObject('typeBinding', 'activityType', activityType)
 _module_typeBindings.activityType = activityType
 
-# Complex type {http://www.vantivcnp.com/chargebacks}chargebackApiActivity with content type ELEMENT_ONLY
+# Complex type {http://www.litle.com/chargebacks}chargebackApiActivity with content type ELEMENT_ONLY
 class chargebackApiActivity (pyxb.binding.basis.complexTypeDefinition):
-    """Complex type {http://www.vantivcnp.com/chargebacks}chargebackApiActivity with content type ELEMENT_ONLY"""
+    """Complex type {http://www.litle.com/chargebacks}chargebackApiActivity with content type ELEMENT_ONLY"""
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
@@ -135,57 +135,57 @@ class chargebackApiActivity (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}activityDate uses Python identifier activityDate
-    __activityDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activityDate'), 'activityDate', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebacksactivityDate', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 14, 6), )
+    # Element {http://www.litle.com/chargebacks}activityDate uses Python identifier activityDate
+    __activityDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activityDate'), 'activityDate', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebacksactivityDate', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 14, 6), )
 
     
     activityDate = property(__activityDate.value, __activityDate.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}activityType uses Python identifier activityType
-    __activityType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activityType'), 'activityType', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebacksactivityType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 15, 6), )
+    # Element {http://www.litle.com/chargebacks}activityType uses Python identifier activityType
+    __activityType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activityType'), 'activityType', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebacksactivityType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 15, 6), )
 
     
     activityType = property(__activityType.value, __activityType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}fromQueue uses Python identifier fromQueue
-    __fromQueue = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'fromQueue'), 'fromQueue', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebacksfromQueue', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 16, 6), )
+    # Element {http://www.litle.com/chargebacks}fromQueue uses Python identifier fromQueue
+    __fromQueue = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'fromQueue'), 'fromQueue', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebacksfromQueue', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 16, 6), )
 
     
     fromQueue = property(__fromQueue.value, __fromQueue.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}toQueue uses Python identifier toQueue
-    __toQueue = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'toQueue'), 'toQueue', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebackstoQueue', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 17, 6), )
+    # Element {http://www.litle.com/chargebacks}toQueue uses Python identifier toQueue
+    __toQueue = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'toQueue'), 'toQueue', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebackstoQueue', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 17, 6), )
 
     
     toQueue = property(__toQueue.value, __toQueue.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}settlementAmount uses Python identifier settlementAmount
-    __settlementAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'settlementAmount'), 'settlementAmount', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebackssettlementAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 18, 6), )
+    # Element {http://www.litle.com/chargebacks}settlementAmount uses Python identifier settlementAmount
+    __settlementAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'settlementAmount'), 'settlementAmount', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebackssettlementAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 18, 6), )
 
     
     settlementAmount = property(__settlementAmount.value, __settlementAmount.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}settlementCurrencyType uses Python identifier settlementCurrencyType
-    __settlementCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'settlementCurrencyType'), 'settlementCurrencyType', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebackssettlementCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 19, 6), )
+    # Element {http://www.litle.com/chargebacks}settlementCurrencyType uses Python identifier settlementCurrencyType
+    __settlementCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'settlementCurrencyType'), 'settlementCurrencyType', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebackssettlementCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 19, 6), )
 
     
     settlementCurrencyType = property(__settlementCurrencyType.value, __settlementCurrencyType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}notes uses Python identifier notes
-    __notes = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'notes'), 'notes', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebacksnotes', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 20, 6), )
+    # Element {http://www.litle.com/chargebacks}notes uses Python identifier notes
+    __notes = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'notes'), 'notes', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebacksnotes', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 20, 6), )
 
     
     notes = property(__notes.value, __notes.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}assignedTo uses Python identifier assignedTo
-    __assignedTo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'assignedTo'), 'assignedTo', '__httpwww_vantivcnp_comchargebacks_chargebackApiActivity_httpwww_vantivcnp_comchargebacksassignedTo', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 21, 6), )
+    # Element {http://www.litle.com/chargebacks}assignedTo uses Python identifier assignedTo
+    __assignedTo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'assignedTo'), 'assignedTo', '__httpwww_litle_comchargebacks_chargebackApiActivity_httpwww_litle_comchargebacksassignedTo', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 21, 6), )
 
     
     assignedTo = property(__assignedTo.value, __assignedTo.set, None, None)
@@ -207,9 +207,9 @@ _module_typeBindings.chargebackApiActivity = chargebackApiActivity
 Namespace.addCategoryObject('typeBinding', 'chargebackApiActivity', chargebackApiActivity)
 
 
-# Complex type {http://www.vantivcnp.com/chargebacks}chargebackApiCase with content type ELEMENT_ONLY
+# Complex type {http://www.litle.com/chargebacks}chargebackApiCase with content type ELEMENT_ONLY
 class chargebackApiCase (pyxb.binding.basis.complexTypeDefinition):
-    """Complex type {http://www.vantivcnp.com/chargebacks}chargebackApiCase with content type ELEMENT_ONLY"""
+    """Complex type {http://www.litle.com/chargebacks}chargebackApiCase with content type ELEMENT_ONLY"""
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
@@ -219,232 +219,232 @@ class chargebackApiCase (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}caseId uses Python identifier caseId
-    __caseId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'caseId'), 'caseId', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackscaseId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 27, 6), )
+    # Element {http://www.litle.com/chargebacks}caseId uses Python identifier caseId
+    __caseId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'caseId'), 'caseId', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackscaseId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 27, 6), )
 
     
     caseId = property(__caseId.value, __caseId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}merchantId uses Python identifier merchantId
-    __merchantId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'merchantId'), 'merchantId', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksmerchantId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 28, 6), )
+    # Element {http://www.litle.com/chargebacks}merchantId uses Python identifier merchantId
+    __merchantId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'merchantId'), 'merchantId', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksmerchantId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 28, 6), )
 
     
     merchantId = property(__merchantId.value, __merchantId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}dayIssuedByBank uses Python identifier dayIssuedByBank
-    __dayIssuedByBank = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dayIssuedByBank'), 'dayIssuedByBank', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksdayIssuedByBank', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 29, 6), )
+    # Element {http://www.litle.com/chargebacks}dayIssuedByBank uses Python identifier dayIssuedByBank
+    __dayIssuedByBank = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dayIssuedByBank'), 'dayIssuedByBank', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksdayIssuedByBank', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 29, 6), )
 
     
     dayIssuedByBank = property(__dayIssuedByBank.value, __dayIssuedByBank.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}dateReceivedByVantivCnp uses Python identifier dateReceivedByVantivCnp
-    __dateReceivedByVantivCnp = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dateReceivedByVantivCnp'), 'dateReceivedByVantivCnp', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksdateReceivedByVantivCnp', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 30, 6), )
+    # Element {http://www.litle.com/chargebacks}dateReceivedByVantivCnp uses Python identifier dateReceivedByVantivCnp
+    __dateReceivedByVantivCnp = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'dateReceivedByVantivCnp'), 'dateReceivedByVantivCnp', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksdateReceivedByVantivCnp', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 30, 6), )
 
     
     dateReceivedByVantivCnp = property(__dateReceivedByVantivCnp.value, __dateReceivedByVantivCnp.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}vantivCnpTxnId uses Python identifier vantivCnpTxnId
-    __vantivCnpTxnId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'vantivCnpTxnId'), 'vantivCnpTxnId', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksvantivCnpTxnId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 31, 6), )
+    # Element {http://www.litle.com/chargebacks}vantivCnpTxnId uses Python identifier vantivCnpTxnId
+    __vantivCnpTxnId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'vantivCnpTxnId'), 'vantivCnpTxnId', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksvantivCnpTxnId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 31, 6), )
 
     
     vantivCnpTxnId = property(__vantivCnpTxnId.value, __vantivCnpTxnId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}cycle uses Python identifier cycle
-    __cycle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cycle'), 'cycle', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackscycle', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 32, 6), )
+    # Element {http://www.litle.com/chargebacks}cycle uses Python identifier cycle
+    __cycle = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cycle'), 'cycle', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackscycle', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 32, 6), )
 
     
     cycle = property(__cycle.value, __cycle.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}orderId uses Python identifier orderId
-    __orderId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'orderId'), 'orderId', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksorderId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 33, 6), )
+    # Element {http://www.litle.com/chargebacks}orderId uses Python identifier orderId
+    __orderId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'orderId'), 'orderId', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksorderId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 33, 6), )
 
     
     orderId = property(__orderId.value, __orderId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}cardNumberLast4 uses Python identifier cardNumberLast4
-    __cardNumberLast4 = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cardNumberLast4'), 'cardNumberLast4', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackscardNumberLast4', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 34, 6), )
+    # Element {http://www.litle.com/chargebacks}cardNumberLast4 uses Python identifier cardNumberLast4
+    __cardNumberLast4 = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cardNumberLast4'), 'cardNumberLast4', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackscardNumberLast4', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 34, 6), )
 
     
     cardNumberLast4 = property(__cardNumberLast4.value, __cardNumberLast4.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}cardType uses Python identifier cardType
-    __cardType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cardType'), 'cardType', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackscardType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 35, 6), )
+    # Element {http://www.litle.com/chargebacks}cardType uses Python identifier cardType
+    __cardType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'cardType'), 'cardType', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackscardType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 35, 6), )
 
     
     cardType = property(__cardType.value, __cardType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}chargebackAmount uses Python identifier chargebackAmount
-    __chargebackAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackAmount'), 'chargebackAmount', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackschargebackAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 36, 6), )
+    # Element {http://www.litle.com/chargebacks}chargebackAmount uses Python identifier chargebackAmount
+    __chargebackAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackAmount'), 'chargebackAmount', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackschargebackAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 36, 6), )
 
     
     chargebackAmount = property(__chargebackAmount.value, __chargebackAmount.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}chargebackCurrencyType uses Python identifier chargebackCurrencyType
-    __chargebackCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackCurrencyType'), 'chargebackCurrencyType', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackschargebackCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 37, 6), )
+    # Element {http://www.litle.com/chargebacks}chargebackCurrencyType uses Python identifier chargebackCurrencyType
+    __chargebackCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackCurrencyType'), 'chargebackCurrencyType', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackschargebackCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 37, 6), )
 
     
     chargebackCurrencyType = property(__chargebackCurrencyType.value, __chargebackCurrencyType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}originalTxnDay uses Python identifier originalTxnDay
-    __originalTxnDay = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'originalTxnDay'), 'originalTxnDay', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksoriginalTxnDay', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 38, 6), )
+    # Element {http://www.litle.com/chargebacks}originalTxnDay uses Python identifier originalTxnDay
+    __originalTxnDay = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'originalTxnDay'), 'originalTxnDay', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksoriginalTxnDay', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 38, 6), )
 
     
     originalTxnDay = property(__originalTxnDay.value, __originalTxnDay.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}chargebackType uses Python identifier chargebackType
-    __chargebackType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackType'), 'chargebackType', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackschargebackType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 39, 6), )
+    # Element {http://www.litle.com/chargebacks}chargebackType uses Python identifier chargebackType
+    __chargebackType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackType'), 'chargebackType', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackschargebackType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 39, 6), )
 
     
     chargebackType = property(__chargebackType.value, __chargebackType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}representedAmount uses Python identifier representedAmount
-    __representedAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'representedAmount'), 'representedAmount', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksrepresentedAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 40, 6), )
+    # Element {http://www.litle.com/chargebacks}representedAmount uses Python identifier representedAmount
+    __representedAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'representedAmount'), 'representedAmount', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksrepresentedAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 40, 6), )
 
     
     representedAmount = property(__representedAmount.value, __representedAmount.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}representedCurrencyType uses Python identifier representedCurrencyType
-    __representedCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'representedCurrencyType'), 'representedCurrencyType', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksrepresentedCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 41, 6), )
+    # Element {http://www.litle.com/chargebacks}representedCurrencyType uses Python identifier representedCurrencyType
+    __representedCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'representedCurrencyType'), 'representedCurrencyType', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksrepresentedCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 41, 6), )
 
     
     representedCurrencyType = property(__representedCurrencyType.value, __representedCurrencyType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}reasonCode uses Python identifier reasonCode
-    __reasonCode = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'reasonCode'), 'reasonCode', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksreasonCode', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 42, 6), )
+    # Element {http://www.litle.com/chargebacks}reasonCode uses Python identifier reasonCode
+    __reasonCode = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'reasonCode'), 'reasonCode', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksreasonCode', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 42, 6), )
 
     
     reasonCode = property(__reasonCode.value, __reasonCode.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}reasonCodeDescription uses Python identifier reasonCodeDescription
-    __reasonCodeDescription = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'reasonCodeDescription'), 'reasonCodeDescription', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksreasonCodeDescription', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 43, 6), )
+    # Element {http://www.litle.com/chargebacks}reasonCodeDescription uses Python identifier reasonCodeDescription
+    __reasonCodeDescription = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'reasonCodeDescription'), 'reasonCodeDescription', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksreasonCodeDescription', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 43, 6), )
 
     
     reasonCodeDescription = property(__reasonCodeDescription.value, __reasonCodeDescription.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}currentQueue uses Python identifier currentQueue
-    __currentQueue = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'currentQueue'), 'currentQueue', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackscurrentQueue', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 44, 6), )
+    # Element {http://www.litle.com/chargebacks}currentQueue uses Python identifier currentQueue
+    __currentQueue = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'currentQueue'), 'currentQueue', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackscurrentQueue', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 44, 6), )
 
     
     currentQueue = property(__currentQueue.value, __currentQueue.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}fraudNotificationStatus uses Python identifier fraudNotificationStatus
-    __fraudNotificationStatus = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'fraudNotificationStatus'), 'fraudNotificationStatus', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksfraudNotificationStatus', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 45, 6), )
+    # Element {http://www.litle.com/chargebacks}fraudNotificationStatus uses Python identifier fraudNotificationStatus
+    __fraudNotificationStatus = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'fraudNotificationStatus'), 'fraudNotificationStatus', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksfraudNotificationStatus', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 45, 6), )
 
     
     fraudNotificationStatus = property(__fraudNotificationStatus.value, __fraudNotificationStatus.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}acquirerReferenceNumber uses Python identifier acquirerReferenceNumber
-    __acquirerReferenceNumber = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'acquirerReferenceNumber'), 'acquirerReferenceNumber', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksacquirerReferenceNumber', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 46, 6), )
+    # Element {http://www.litle.com/chargebacks}acquirerReferenceNumber uses Python identifier acquirerReferenceNumber
+    __acquirerReferenceNumber = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'acquirerReferenceNumber'), 'acquirerReferenceNumber', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksacquirerReferenceNumber', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 46, 6), )
 
     
     acquirerReferenceNumber = property(__acquirerReferenceNumber.value, __acquirerReferenceNumber.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}chargebackReferenceNumber uses Python identifier chargebackReferenceNumber
-    __chargebackReferenceNumber = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackReferenceNumber'), 'chargebackReferenceNumber', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackschargebackReferenceNumber', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 47, 6), )
+    # Element {http://www.litle.com/chargebacks}chargebackReferenceNumber uses Python identifier chargebackReferenceNumber
+    __chargebackReferenceNumber = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackReferenceNumber'), 'chargebackReferenceNumber', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackschargebackReferenceNumber', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 47, 6), )
 
     
     chargebackReferenceNumber = property(__chargebackReferenceNumber.value, __chargebackReferenceNumber.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}preArbitrationAmount uses Python identifier preArbitrationAmount
-    __preArbitrationAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'preArbitrationAmount'), 'preArbitrationAmount', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackspreArbitrationAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 48, 6), )
+    # Element {http://www.litle.com/chargebacks}preArbitrationAmount uses Python identifier preArbitrationAmount
+    __preArbitrationAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'preArbitrationAmount'), 'preArbitrationAmount', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackspreArbitrationAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 48, 6), )
 
     
     preArbitrationAmount = property(__preArbitrationAmount.value, __preArbitrationAmount.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}preArbitrationCurrencyType uses Python identifier preArbitrationCurrencyType
-    __preArbitrationCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'preArbitrationCurrencyType'), 'preArbitrationCurrencyType', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackspreArbitrationCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 49, 6), )
+    # Element {http://www.litle.com/chargebacks}preArbitrationCurrencyType uses Python identifier preArbitrationCurrencyType
+    __preArbitrationCurrencyType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'preArbitrationCurrencyType'), 'preArbitrationCurrencyType', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackspreArbitrationCurrencyType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 49, 6), )
 
     
     preArbitrationCurrencyType = property(__preArbitrationCurrencyType.value, __preArbitrationCurrencyType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}merchantTxnId uses Python identifier merchantTxnId
-    __merchantTxnId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'merchantTxnId'), 'merchantTxnId', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksmerchantTxnId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 50, 6), )
+    # Element {http://www.litle.com/chargebacks}merchantTxnId uses Python identifier merchantTxnId
+    __merchantTxnId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'merchantTxnId'), 'merchantTxnId', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksmerchantTxnId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 50, 6), )
 
     
     merchantTxnId = property(__merchantTxnId.value, __merchantTxnId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}fraudNotificationDate uses Python identifier fraudNotificationDate
-    __fraudNotificationDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'fraudNotificationDate'), 'fraudNotificationDate', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksfraudNotificationDate', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 51, 6), )
+    # Element {http://www.litle.com/chargebacks}fraudNotificationDate uses Python identifier fraudNotificationDate
+    __fraudNotificationDate = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'fraudNotificationDate'), 'fraudNotificationDate', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksfraudNotificationDate', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 51, 6), )
 
     
     fraudNotificationDate = property(__fraudNotificationDate.value, __fraudNotificationDate.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}bin uses Python identifier bin
-    __bin = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bin'), 'bin', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksbin', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 52, 6), )
+    # Element {http://www.litle.com/chargebacks}bin uses Python identifier bin
+    __bin = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'bin'), 'bin', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksbin', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 52, 6), )
 
     
     bin = property(__bin.value, __bin.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}token uses Python identifier token
-    __token = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'token'), 'token', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackstoken', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 53, 6), )
+    # Element {http://www.litle.com/chargebacks}token uses Python identifier token
+    __token = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'token'), 'token', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackstoken', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 53, 6), )
 
     
     token = property(__token.value, __token.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}historicalWinPercentage uses Python identifier historicalWinPercentage
-    __historicalWinPercentage = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'historicalWinPercentage'), 'historicalWinPercentage', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackshistoricalWinPercentage', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 54, 6), )
+    # Element {http://www.litle.com/chargebacks}historicalWinPercentage uses Python identifier historicalWinPercentage
+    __historicalWinPercentage = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'historicalWinPercentage'), 'historicalWinPercentage', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackshistoricalWinPercentage', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 54, 6), )
 
     
     historicalWinPercentage = property(__historicalWinPercentage.value, __historicalWinPercentage.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}customerId uses Python identifier customerId
-    __customerId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customerId'), 'customerId', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackscustomerId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 55, 6), )
+    # Element {http://www.litle.com/chargebacks}customerId uses Python identifier customerId
+    __customerId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'customerId'), 'customerId', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackscustomerId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 55, 6), )
 
     
     customerId = property(__customerId.value, __customerId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}paymentAmount uses Python identifier paymentAmount
-    __paymentAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'paymentAmount'), 'paymentAmount', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackspaymentAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 56, 6), )
+    # Element {http://www.litle.com/chargebacks}paymentAmount uses Python identifier paymentAmount
+    __paymentAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'paymentAmount'), 'paymentAmount', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackspaymentAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 56, 6), )
 
     
     paymentAmount = property(__paymentAmount.value, __paymentAmount.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}paymentSecondaryAmount uses Python identifier paymentSecondaryAmount
-    __paymentSecondaryAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'paymentSecondaryAmount'), 'paymentSecondaryAmount', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebackspaymentSecondaryAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 57, 6), )
+    # Element {http://www.litle.com/chargebacks}paymentSecondaryAmount uses Python identifier paymentSecondaryAmount
+    __paymentSecondaryAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'paymentSecondaryAmount'), 'paymentSecondaryAmount', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebackspaymentSecondaryAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 57, 6), )
 
     
     paymentSecondaryAmount = property(__paymentSecondaryAmount.value, __paymentSecondaryAmount.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}replyByDay uses Python identifier replyByDay
-    __replyByDay = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'replyByDay'), 'replyByDay', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksreplyByDay', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 58, 6), )
+    # Element {http://www.litle.com/chargebacks}replyByDay uses Python identifier replyByDay
+    __replyByDay = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'replyByDay'), 'replyByDay', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksreplyByDay', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 58, 6), )
 
     
     replyByDay = property(__replyByDay.value, __replyByDay.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}activity uses Python identifier activity
-    __activity = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activity'), 'activity', '__httpwww_vantivcnp_comchargebacks_chargebackApiCase_httpwww_vantivcnp_comchargebacksactivity', True, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 59, 6), )
+    # Element {http://www.litle.com/chargebacks}activity uses Python identifier activity
+    __activity = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activity'), 'activity', '__httpwww_litle_comchargebacks_chargebackApiCase_httpwww_litle_comchargebacksactivity', True, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 59, 6), )
 
     
     activity = property(__activity.value, __activity.set, None, None)
@@ -491,9 +491,9 @@ _module_typeBindings.chargebackApiCase = chargebackApiCase
 Namespace.addCategoryObject('typeBinding', 'chargebackApiCase', chargebackApiCase)
 
 
-# Complex type {http://www.vantivcnp.com/chargebacks}chargebackRetrievalResponse with content type ELEMENT_ONLY
+# Complex type {http://www.litle.com/chargebacks}chargebackRetrievalResponse with content type ELEMENT_ONLY
 class chargebackRetrievalResponse_ (pyxb.binding.basis.complexTypeDefinition):
-    """Complex type {http://www.vantivcnp.com/chargebacks}chargebackRetrievalResponse with content type ELEMENT_ONLY"""
+    """Complex type {http://www.litle.com/chargebacks}chargebackRetrievalResponse with content type ELEMENT_ONLY"""
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
@@ -503,15 +503,15 @@ class chargebackRetrievalResponse_ (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}transactionId uses Python identifier transactionId
-    __transactionId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'transactionId'), 'transactionId', '__httpwww_vantivcnp_comchargebacks_chargebackRetrievalResponse__httpwww_vantivcnp_comchargebackstransactionId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 65, 6), )
+    # Element {http://www.litle.com/chargebacks}transactionId uses Python identifier transactionId
+    __transactionId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'transactionId'), 'transactionId', '__httpwww_litle_comchargebacks_chargebackRetrievalResponse__httpwww_litle_comchargebackstransactionId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 65, 6), )
 
     
     transactionId = property(__transactionId.value, __transactionId.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}chargebackCase uses Python identifier chargebackCase
-    __chargebackCase = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackCase'), 'chargebackCase', '__httpwww_vantivcnp_comchargebacks_chargebackRetrievalResponse__httpwww_vantivcnp_comchargebackschargebackCase', True, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 66, 6), )
+    # Element {http://www.litle.com/chargebacks}chargebackCase uses Python identifier chargebackCase
+    __chargebackCase = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'chargebackCase'), 'chargebackCase', '__httpwww_litle_comchargebacks_chargebackRetrievalResponse__httpwww_litle_comchargebackschargebackCase', True, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 66, 6), )
 
     
     chargebackCase = property(__chargebackCase.value, __chargebackCase.set, None, None)
@@ -527,9 +527,9 @@ _module_typeBindings.chargebackRetrievalResponse_ = chargebackRetrievalResponse_
 Namespace.addCategoryObject('typeBinding', 'chargebackRetrievalResponse', chargebackRetrievalResponse_)
 
 
-# Complex type {http://www.vantivcnp.com/chargebacks}chargebackUpdateRequest with content type ELEMENT_ONLY
+# Complex type {http://www.litle.com/chargebacks}chargebackUpdateRequest with content type ELEMENT_ONLY
 class chargebackUpdateRequest_ (pyxb.binding.basis.complexTypeDefinition):
-    """Complex type {http://www.vantivcnp.com/chargebacks}chargebackUpdateRequest with content type ELEMENT_ONLY"""
+    """Complex type {http://www.litle.com/chargebacks}chargebackUpdateRequest with content type ELEMENT_ONLY"""
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
@@ -539,29 +539,29 @@ class chargebackUpdateRequest_ (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}activityType uses Python identifier activityType
-    __activityType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activityType'), 'activityType', '__httpwww_vantivcnp_comchargebacks_chargebackUpdateRequest__httpwww_vantivcnp_comchargebacksactivityType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 72, 6), )
+    # Element {http://www.litle.com/chargebacks}activityType uses Python identifier activityType
+    __activityType = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'activityType'), 'activityType', '__httpwww_litle_comchargebacks_chargebackUpdateRequest__httpwww_litle_comchargebacksactivityType', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 72, 6), )
 
     
     activityType = property(__activityType.value, __activityType.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}assignedTo uses Python identifier assignedTo
-    __assignedTo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'assignedTo'), 'assignedTo', '__httpwww_vantivcnp_comchargebacks_chargebackUpdateRequest__httpwww_vantivcnp_comchargebacksassignedTo', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 73, 6), )
+    # Element {http://www.litle.com/chargebacks}assignedTo uses Python identifier assignedTo
+    __assignedTo = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'assignedTo'), 'assignedTo', '__httpwww_litle_comchargebacks_chargebackUpdateRequest__httpwww_litle_comchargebacksassignedTo', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 73, 6), )
 
     
     assignedTo = property(__assignedTo.value, __assignedTo.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}note uses Python identifier note
-    __note = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'note'), 'note', '__httpwww_vantivcnp_comchargebacks_chargebackUpdateRequest__httpwww_vantivcnp_comchargebacksnote', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 81, 6), )
+    # Element {http://www.litle.com/chargebacks}note uses Python identifier note
+    __note = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'note'), 'note', '__httpwww_litle_comchargebacks_chargebackUpdateRequest__httpwww_litle_comchargebacksnote', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 81, 6), )
 
     
     note = property(__note.value, __note.set, None, None)
 
     
-    # Element {http://www.vantivcnp.com/chargebacks}representedAmount uses Python identifier representedAmount
-    __representedAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'representedAmount'), 'representedAmount', '__httpwww_vantivcnp_comchargebacks_chargebackUpdateRequest__httpwww_vantivcnp_comchargebacksrepresentedAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 89, 6), )
+    # Element {http://www.litle.com/chargebacks}representedAmount uses Python identifier representedAmount
+    __representedAmount = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'representedAmount'), 'representedAmount', '__httpwww_litle_comchargebacks_chargebackUpdateRequest__httpwww_litle_comchargebacksrepresentedAmount', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 89, 6), )
 
     
     representedAmount = property(__representedAmount.value, __representedAmount.set, None, None)
@@ -579,9 +579,9 @@ _module_typeBindings.chargebackUpdateRequest_ = chargebackUpdateRequest_
 Namespace.addCategoryObject('typeBinding', 'chargebackUpdateRequest', chargebackUpdateRequest_)
 
 
-# Complex type {http://www.vantivcnp.com/chargebacks}chargebackUpdateResponse with content type ELEMENT_ONLY
+# Complex type {http://www.litle.com/chargebacks}chargebackUpdateResponse with content type ELEMENT_ONLY
 class chargebackUpdateResponse_ (pyxb.binding.basis.complexTypeDefinition):
-    """Complex type {http://www.vantivcnp.com/chargebacks}chargebackUpdateResponse with content type ELEMENT_ONLY"""
+    """Complex type {http://www.litle.com/chargebacks}chargebackUpdateResponse with content type ELEMENT_ONLY"""
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
@@ -591,8 +591,8 @@ class chargebackUpdateResponse_ (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}transactionId uses Python identifier transactionId
-    __transactionId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'transactionId'), 'transactionId', '__httpwww_vantivcnp_comchargebacks_chargebackUpdateResponse__httpwww_vantivcnp_comchargebackstransactionId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 95, 6), )
+    # Element {http://www.litle.com/chargebacks}transactionId uses Python identifier transactionId
+    __transactionId = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'transactionId'), 'transactionId', '__httpwww_litle_comchargebacks_chargebackUpdateResponse__httpwww_litle_comchargebackstransactionId', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 95, 6), )
 
     
     transactionId = property(__transactionId.value, __transactionId.set, None, None)
@@ -607,9 +607,9 @@ _module_typeBindings.chargebackUpdateResponse_ = chargebackUpdateResponse_
 Namespace.addCategoryObject('typeBinding', 'chargebackUpdateResponse', chargebackUpdateResponse_)
 
 
-# Complex type {http://www.vantivcnp.com/chargebacks}errorResponse with content type ELEMENT_ONLY
+# Complex type {http://www.litle.com/chargebacks}errorResponse with content type ELEMENT_ONLY
 class errorResponse_ (pyxb.binding.basis.complexTypeDefinition):
-    """Complex type {http://www.vantivcnp.com/chargebacks}errorResponse with content type ELEMENT_ONLY"""
+    """Complex type {http://www.litle.com/chargebacks}errorResponse with content type ELEMENT_ONLY"""
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
     _Abstract = False
@@ -619,8 +619,8 @@ class errorResponse_ (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}errors uses Python identifier errors
-    __errors = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'errors'), 'errors', '__httpwww_vantivcnp_comchargebacks_errorResponse__httpwww_vantivcnp_comchargebackserrors', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 101, 6), )
+    # Element {http://www.litle.com/chargebacks}errors uses Python identifier errors
+    __errors = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'errors'), 'errors', '__httpwww_litle_comchargebacks_errorResponse__httpwww_litle_comchargebackserrors', False, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 101, 6), )
 
     
     errors = property(__errors.value, __errors.set, None, None)
@@ -647,8 +647,8 @@ class CTD_ANON (pyxb.binding.basis.complexTypeDefinition):
     _AttributeMap = {}
     # Base type is pyxb.binding.datatypes.anyType
     
-    # Element {http://www.vantivcnp.com/chargebacks}error uses Python identifier error
-    __error = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'error'), 'error', '__httpwww_vantivcnp_comchargebacks_CTD_ANON_httpwww_vantivcnp_comchargebackserror', True, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 104, 12), )
+    # Element {http://www.litle.com/chargebacks}error uses Python identifier error
+    __error = pyxb.binding.content.ElementDeclaration(pyxb.namespace.ExpandedName(Namespace, 'error'), 'error', '__httpwww_litle_comchargebacks_CTD_ANON_httpwww_litle_comchargebackserror', True, pyxb.utils.utility.Location('/usr/local/litle-home/nmerchan/git/cnp-chargeback-sdk-python/schema/chargeback-api-v2.xsd', 104, 12), )
 
     
     error = property(__error.value, __error.set, None, None)

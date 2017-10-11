@@ -53,7 +53,7 @@ class Configuration(object):
     _CONFIG_FILE_PATH = os.path.join(os.environ['VANTIV_SDK_CONFIG'], ".vantiv_chargeback_sdk.conf") \
         if 'VANTIV_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".vantiv_chargeback_sdk.conf")
 
-    def __init__(self, conf_dict = dict()):
+    def __init__(self, conf_dict=dict()):
         attr_dict = {
             'user':'',
             'password':'',

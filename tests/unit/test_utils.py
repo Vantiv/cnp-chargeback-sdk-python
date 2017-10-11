@@ -27,10 +27,11 @@ import sys
 import unittest
 import random
 
+from vantivsdk import (utils)
+
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
-from vantivsdk import (utils)
 
 class TestUtils(unittest.TestCase):
     def test_not_load_save(self):

@@ -26,115 +26,258 @@ import os
 import sys
 import unittest
 from unittest import mock
+from vantivsdk import (utils, online, fields)
 import six
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
-from vantivsdk import (utils, online, fields)
-
-conf = utils.Configuration()
-
 
 class TestOnline(unittest.TestCase):
-    def test_request_args_invalid_transaction(self):
-        transaction = 1
-        self.assertRaises(utils.VantivException, online.request, transaction, conf)
-
-    def test_request_args_invalid_conf(self):
-        transaction = fields.authorization()
-        transaction.reportGroup = 'Planets'
-        transaction.orderId = '12344'
-        transaction.amount = 106
-        transaction.orderSource = 'ecommerce'
-        transaction.id = 'thisisid'
-
-        card = fields.cardType()
-        card.number = '4100000000000000'
-        card.expDate = '1210'
-        card.type = 'VI'
-
-        transaction.card = card
-        conf_wrong = 1
-        self.assertRaises(utils.VantivException, online.request, transaction, conf_wrong)
+    def test_request_args_invalid_configuration(self):
+        conf = 1
+        param = fields.chargebackApiCase()
+        param.caseId = u'1304283003'
+        request_type = "PUT"
+        request_body = fields.chargebackUpdateRequest()
+        request_body.activityType = "ADD_NOTE"
+        request_body.note = "note333"
+        self.assertRaises(utils.VantivException, online.request, request_type, request_body, param, conf)
 
     def test_request_args_invalid_timeout(self):
-        transaction = fields.authorization()
-        transaction.reportGroup = 'Planets'
-        transaction.orderId = '12344'
-        transaction.amount = 106
-        transaction.orderSource = 'ecommerce'
-        transaction.id = 'thisisid'
+        param = fields.chargebackApiCase()
+        param.caseId = u'1304283003'
+        request_type = "PUT"
+        request_body = fields.chargebackUpdateRequest()
+        request_body.activityType = "ADD_NOTE"
+        request_body.note = "note333"
 
-        card = fields.cardType()
-        card.number = '4100000000000000'
-        card.expDate = '1210'
-        card.type = 'VI'
+        conf = utils.Configuration()
+        self.assertRaises(utils.VantivException, online.request, request_type, request_body, param, conf, '-1')
+        self.assertRaises(utils.VantivException, online.request, request_type, request_body, param, conf, 'time')
 
-        transaction.card = card
+    @mock.patch.object(online, '_http_request')
+    def test_request_return_format(self, mock__http_request):
+        param = fields.chargebackApiCase()
+        param.caseId = u'1304283003'
+        request_type = 'GET'
+        request_body = ''
 
-        self.assertRaises(utils.VantivException, online.request, transaction, conf, 'dict', '-1')
-        self.assertRaises(utils.VantivException, online.request, transaction, conf, 'dict', 'time')
+        conf = 3
 
-
-    @mock.patch.object(online, '_http_post')
-    def test_request_relturn_format(self, mock__http_post):
-        transaction = fields.authorization()
-        transaction.reportGroup = 'Planets'
-        transaction.orderId = '12344'
-        transaction.amount = 106
-        transaction.orderSource = 'ecommerce'
-        transaction.id = 'thisisid'
-
-        card = fields.cardType()
-        card.number = '4100000000000000'
-        card.expDate = '1210'
-        card.type = 'VI'
-
-        transaction.card = card
-
-        mock__http_post.return_value = """<litleOnlineResponse version='11.0' response='1' message='Valid Format' xmlns='http://www.litle.com/schema'>
-</litleOnlineResponse>
+        mock__http_request.return_value = """<chargebackRetrievalResponse  xmlns='http://www.vantivcnp.com/chargebacks'></chargebackRetrievalResponse >
         """
-        self.assertRaises(utils.VantivException, online.request, transaction, conf, 'dict')
+        self.assertRaises(utils.VantivException, online.request, request_type, request_body, param, conf)
 
-        mock__http_post.return_value = """<litleOnlineResponse version='11.0' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'>
-          <authorizationResponse id='thisisid' reportGroup='Planets' customerId=''>
-            <litleTxnId>4544691351798650001</litleTxnId>
-            <orderId>12344</orderId>
-            <response>000</response>
-            <responseTime>2017-03-13T12:14:00</responseTime>
-            <message>Approved</message>
-            <authCode>07585</authCode>
-            <accountUpdater>
-              <originalCardInfo>
-                <type>VI</type>
-                <number>4100100000000000</number>
-                <expDate>1110</expDate>
-              </originalCardInfo>
-              <newCardInfo>
-                <type>VI</type>
-                <number>4532694461984309</number>
-                <expDate>1114</expDate>
-              </newCardInfo>
-            </accountUpdater>
-            <networkTransactionId>63225578415568556365452427825</networkTransactionId>
-          </authorizationResponse>
-        </litleOnlineResponse>
+        mock__http_request.return_value = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<chargebackRetrievalResponse xmlns="http://www.vantivcnp.com/chargebacks">
+    <transactionId>2111145419</transactionId>
+    <chargebackCase>
+        <caseId>1304283003</caseId>
+        <merchantId>1304283</merchantId>
+        <dayIssuedByBank>2002-01-01</dayIssuedByBank>
+        <dateReceivedByVantivCnp>2017-10-02</dateReceivedByVantivCnp>
+        <vantivCnpTxnId>219016511913</vantivCnpTxnId>
+        <cycle>First Chargeback</cycle>
+        <orderId>12345</orderId>
+        <cardNumberLast4>0001</cardNumberLast4>
+        <cardType>VISA</cardType>
+        <chargebackAmount>20000</chargebackAmount>
+        <chargebackCurrencyType>USD</chargebackCurrencyType>
+        <originalTxnDay>2002-01-01</originalTxnDay>
+        <chargebackType>D</chargebackType>
+        <representedAmount>111</representedAmount>
+        <representedCurrencyType>USD</representedCurrencyType>
+        <reasonCode>0028</reasonCode>
+        <reasonCodeDescription>T&amp;E-Account Number Verification</reasonCodeDescription>
+        <currentQueue>Vantiv Outgoing</currentQueue>
+        <acquirerReferenceNumber>2222222222</acquirerReferenceNumber>
+        <chargebackReferenceNumber>bbbbbbbbbb</chargebackReferenceNumber>
+        <bin>410000</bin>
+        <paymentAmount>1010</paymentAmount>
+        <replyByDay>2002-02-05</replyByDay>
+        <activity>
+            <activityDate>2017-10-02</activityDate>
+            <activityType>Assign To Merchant</activityType>
+            <fromQueue>Litle</fromQueue>
+            <toQueue>Merchant Automated</toQueue>
+            <notes>Please work this case</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-02</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Merchant</fromQueue>
+            <toQueue>Merchant</toQueue>
+            <notes>testing chargebacks</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Merchant Represent</activityType>
+            <fromQueue>Merchant</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent 0000000011</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent 0000000011</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-06</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent testing</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>note333</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>note3773</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>Represent test5</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>sample test note</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>note333</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>sample test note3gfhhdghgh3</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-10</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>note333</notes>
+        </activity>
+        <activity>
+            <activityDate>2017-10-11</activityDate>
+            <activityType>Add Note</activityType>
+            <fromQueue>Litle Outgoing</fromQueue>
+            <toQueue>Litle Outgoing</toQueue>
+            <settlementAmount>111</settlementAmount>
+            <notes>jgsggsfd</notes>
+        </activity>
+    </chargebackCase>
+</chargebackRetrievalResponse>
                 """
+        conf = utils.Configuration()
         # return dict
-        response = online.request(transaction, conf)
-        self.assertEquals('0', response['@response'])
-        self.assertEquals('4544691351798650001', response['authorizationResponse']['litleTxnId'])
-        self.assertIsInstance(response, dict)
+        response = online.request(request_type, request_body, param, conf)
+        self.assertEquals('1304283003', response['chargebackCase']['caseId'])
+        # self.assertIsInstance(response, dict)
 
         # return xml string
-        response = online.request(transaction, conf, 'xml')
-        self.assertIsInstance(response, str)
+        response = online.request(request_type, request_body, param, conf, 'xml')
+        # self.assertIsInstance(response, str)
 
         # return fields object.
-        response = online.request(transaction, conf, 'object')
-        self.assertEquals('0', response.response)
+        # response = online.request(request_type, request_body, param, conf, 'object')
+        # self.assertEquals('0', response.response)
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,7 +31,6 @@ from . import version
 from dicttoxml import dicttoxml
 
 
-
 class Configuration(object):
     """Setup Configuration variables.
 
@@ -55,22 +54,22 @@ class Configuration(object):
 
     def __init__(self, conf_dict=dict()):
         attr_dict = {
-            'user':'',
-            'password':'',
-            'merchantId':'',
+            'user': '',
+            'password': '',
+            'merchantId': '',
             'reportGroup': '',
             'url': 'https://services.vantivprelive.com/services/chargebacks/',
-            'proxy':'',
-            'fast_url':'',
-            'fast_ssl':True,
-            'fast_port':'',
-            'print_xml':True,
-            'id':'',
+            'proxy': '',
+            'fast_url': '',
+            'fast_ssl': True,
+            'fast_port': '',
+            'print_xml': True,
+            'id': '',
         }
 
         # set default values
         for k in attr_dict:
-            setattr(self, k , attr_dict[k])
+            setattr(self, k, attr_dict[k])
 
         # override values by loading saved conf
         try:
@@ -119,7 +118,6 @@ def obj_to_xml(obj):
     """
     # TODO convert object to xml without default namespace gracefully.
     try:
-
 
         xml = obj.toxml('utf-8')
     except pyxb.ValidationError as e:

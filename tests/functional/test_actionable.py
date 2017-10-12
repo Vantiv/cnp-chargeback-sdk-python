@@ -39,9 +39,8 @@ class TestCaseId(unittest2.TestCase):
     def test_get_actionable(self):
         param = parameters.Parameters()
         param.actionable = "true"
-        request_type = 'GET'
-        request_body = ''
-        response = online.request(request_type, request_body, param, conf)
+        response = online._get_actionable(param.actionable)
+       # response = online.request(request_type, request_body, param, conf)
         #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

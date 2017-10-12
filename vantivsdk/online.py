@@ -31,14 +31,15 @@ import pyxb
 from requests.auth import HTTPBasicAuth
 from . import (fields, utils, dict2obj)
 
+conf = utils.Configuration()
 
 def request(request_type, request_body, param, conf, return_format='dict', timeout=30):
 
     """Send request to server.
 
        Args:
-           request_type: An instance of transaction class
-           request_body
+           request_type: defines the type of the request is "GET" or "PUT"
+           request_body: object to be conver
            param:
            conf: An instance of utils.Configuration
            return_format: Return format. The default is 'dict'. Could be one of 'dict', 'object' or 'xml'.
@@ -61,7 +62,7 @@ def request(request_type, request_body, param, conf, return_format='dict', timeo
     if request_type == 'GET':
         response_dict = xmltodict.parse(response_xml)['chargebackRetrievalResponse']
     elif request_type == 'PUT':
-        response_dict = xmltodict.parse(response_xml)['chargebackUpdateResponse']
+        response_dict = xmltodict.parse(response_xml)['chargebackUpdateRespolnse']
 
     if conf.print_xml:
         import json
@@ -87,6 +88,97 @@ def _create_request_xml(request_body, conf):
         print('Request XML:\n', request_xml.decode('utf-8'), '\n')
 
     return request_xml
+
+
+def _check_response(response):
+    if response.status_code != 200:
+        raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
+
+    # Check empty response
+    if not response:
+        raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
+
+
+def _print_response(response):
+    if conf.print_xml:
+        print('Response XML:\n', response.text, '\n')
+
+
+def _get_response(parameter_value, parameter_key):
+    if parameter_key != "":
+        conf.url = conf.url + "?"
+        parameter_key = parameter_key+"="
+    try:
+        response = requests.get(conf.url + parameter_key + str(parameter_value), auth=HTTPBasicAuth(conf.user, conf.password))
+        print(requests)
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    return response
+
+
+def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter_key2):
+    if parameter_key1 != "":
+        conf.url = conf.url + "?"
+        parameter_key1 = parameter_key1+"="
+        parameter_key2 = parameter_key2 + "="
+    try:
+        response = requests.get(conf.url + parameter_key1 + str(parameter_value1) + "&"
+                                + parameter_key2 + str(parameter_value2), auth=HTTPBasicAuth(conf.user, conf.password))
+        print(requests)
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    return response
+
+
+def _get_case_id(case_id):
+    response = _get_response(case_id, "")
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    _check_response(response)
+    _print_response(response)
+    return response_dict
+
+
+def _get_token(token):
+    response = _get_response(token, "token")
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    _check_response(response)
+    _print_response(response)
+    return response_dict
+
+
+def _get_card_number(card_number, expiration_date):
+    response = _get_responses(card_number, "cardNumber", expiration_date, "expirationDate")
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    _check_response(response)
+    _print_response(response)
+    return response_dict
+
+
+def _get_arn(arn):
+    response = _get_response(arn, "arn")
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    _check_response(response)
+    _print_response(response)
+    return response_dict
+
+
+def _get_activity_date(activity_date):
+    response = _get_response(activity_date.date(), "date")
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    _check_response(response)
+    _print_response(response)
+    return response_dict
+
+
+def _get_actionable(actionable):
+    response = _get_response(actionable, "actionable")
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    _check_response(response)
+    _print_response(response)
+    return response_dict
+
 
 
 def _http_request(request_type, request_body, conf, param):

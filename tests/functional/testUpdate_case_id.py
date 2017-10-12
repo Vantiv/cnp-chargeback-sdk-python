@@ -43,7 +43,8 @@ class TestChargebackUpdateCaseId(unittest2.TestCase):
         request_body = fields.chargebackUpdateRequest
         request_body.activityType = "ADD_NOTE"
         request_body.note = "note"
-        response = online.request(request_type, request_body, param, conf)
+        response = online._put_case_id(param.caseId)
+        #response = online.request(request_type, request_body, param, conf)
         #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

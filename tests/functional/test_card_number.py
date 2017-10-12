@@ -39,9 +39,10 @@ class TestCardNumber(unittest2.TestCase):
         param = parameters.Parameters()
         param.expiration_date = u'0150'
         param.card_number = u'6500102010004006'
-        request_type = 'GET'
-        request_body = ''
-        response = online.request(request_type, request_body, param, conf)
+        # request_type = 'GET'
+        # request_body = ''
+        response = online._get_card_number(param.card_number, param.expiration_date)
+        # response = online.request(request_type, request_body, param, conf)
         #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

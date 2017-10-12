@@ -25,7 +25,9 @@
 import os
 import sys
 import unittest2
-from vantivsdk import *
+from vantivsdk import fields
+from vantivsdk import utils
+from vantivsdk import online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -38,9 +40,7 @@ class TestActivityDate(unittest2.TestCase):
     def test_get_activity_date(self):
         param = fields.chargebackApiActivity()
         param.activityDate = u'2017-10-11'
-
         response = online._get_activity_date(param.activityDate)
-       # response = online.request(request_type, request_body, param, conf)
        # self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

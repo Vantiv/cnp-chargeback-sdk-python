@@ -179,9 +179,7 @@ def _get_actionable(actionable):
     _print_response(response)
     return response_dict
 
-
-
-def _http_request(request_type, request_body, conf, param):
+def _http_request(request_type, request_body,conf, param):
 
     try:
         if request_type == 'GET':

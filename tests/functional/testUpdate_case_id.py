@@ -47,7 +47,7 @@ class TestChargebackUpdateCaseId(unittest2.TestCase):
         response_xml = utils.obj_to_xml(request_body)
         print(response_xml)
         response = online.request(request_type, request_body, param, conf)
-      #  self.assertEquals('1304283003', response['chargebackCase']['caseId'])
+      # self.assertEquals('1304283003', response['chargebackCase']['caseId'])
 
 
 if __name__ == '__main__':

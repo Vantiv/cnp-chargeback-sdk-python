@@ -39,10 +39,8 @@ class TestCaseId(unittest2.TestCase):
     def test_get_token(self):
         param = fields.chargebackApiCase()
         param.token = u'1234123999'
-        request_type = 'GET'
-        request_body = ''
-        response = online.request(request_type, request_body, param, conf)
-        #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
+        response = online._get_token(param.token)
+        self.assertRegexpMatches('1304283001', response['transactionId'])
 
 
 if __name__ == '__main__':

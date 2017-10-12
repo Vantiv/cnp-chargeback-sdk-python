@@ -39,10 +39,8 @@ conf = utils.Configuration()
 class TestActivityDate(unittest2.TestCase):
     def test_get_activity_date(self):
         param = fields.chargebackApiActivity()
-        param.activityDate = u'2017-10-02'
-        request_type = "GET"
-        request_body = ''
-        response = online.request(request_type, request_body, param, conf)
+        param.activityDate = u'2017-10-11'
+        response = online._get_activity_date(param.activityDate)
        # self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

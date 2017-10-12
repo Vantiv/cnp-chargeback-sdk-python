@@ -26,11 +26,11 @@ import os
 import sys
 import unittest2
 import pyxb
-
+from vantivsdk import utils, fields, online
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
-from vantivsdk import utils, fields, online
+
 
 conf = utils.Configuration()
 
@@ -39,9 +39,7 @@ class TestCaseId(unittest2.TestCase):
     def test_get_case_id(self):
         param = fields.chargebackApiCase()
         param.caseId = u'1304283001'
-        request_type = 'GET'
-        request_body = ''
-        response = online.request(request_type, request_body, param, conf)
+        response = online._get_case_id(param.caseId)
         self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

@@ -38,9 +38,8 @@ class TestCaseId(unittest2.TestCase):
     def test_get_arn(self):
         param = fields.chargebackApiCase()
         param.acquirerReferenceNumber = u'4444444444'
-        request_type = 'GET'
-        request_body = ''
-        response = online.request(request_type, request_body, param, conf)
+        response = online._get_arn(param.acquirerReferenceNumber)
+       # response = online.request(request_type, request_body, param, conf)
         #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

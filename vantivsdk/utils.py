@@ -64,6 +64,7 @@ class Configuration(object):
             'fast_port': '',
             'print_xml': True,
             'id': '',
+            'headers': ''
         }
 
         # set default values

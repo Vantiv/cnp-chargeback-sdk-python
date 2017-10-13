@@ -42,10 +42,8 @@ class TestChargebackUpdateCaseId(unittest2.TestCase):
         request_body = fields.chargebackUpdateRequest()
         request_body.activityType = "ADD_NOTE"
         request_body.note = "note333"
-        respo = online._put_chargeback_update(param.caseId, request_body)
-        print(respo)
-    # response = online.request(request_type, request_body, param, conf)
-      # self.assertEquals('1304283003', response['chargebackCase']['caseId'])
+        response = online._put_chargeback_update(param.caseId, request_body)
+        self.assertRegex(response["transactionId"], "\d+")
 
 
 if __name__ == '__main__':

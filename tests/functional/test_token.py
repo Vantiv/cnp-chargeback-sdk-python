@@ -35,12 +35,12 @@ from vantivsdk import utils, fields, online
 conf = utils.Configuration()
 
 
-class TestCaseId(unittest2.TestCase):
+class TestTokenId(unittest2.TestCase):
     def test_get_token(self):
         param = fields.chargebackApiCase()
         param.token = u'1234123999'
         response = online._get_token(param.token)
-        self.assertRegexpMatches('1304283001', response['transactionId'])
+        self.assertRegex(response["transactionId"], "\d+")
 
 
 if __name__ == '__main__':

@@ -41,7 +41,7 @@ class TestActivityDate(unittest2.TestCase):
         param = fields.chargebackApiActivity()
         param.activityDate = u'2017-10-11'
         response = online._get_activity_date(param.activityDate)
-       # self.assertEquals('1304283001', response['chargebackCase']['caseId'])
+        self.assertRegex(response["transactionId"], "\d+")
 
 
 if __name__ == '__main__':

@@ -34,6 +34,7 @@ from . import (fields, utils, dict2obj)
 conf = utils.Configuration()
 
 
+
 # def request(request_type, request_body, param, conf, return_format='dict', timeout=30):
 #
 #     """Send request to server.
@@ -72,6 +73,40 @@ conf = utils.Configuration()
 #     else:
 #         raise utils.VantivException(response_dict['@message'])
 
+def _get_response(parameter_value, parameter_key):
+    if parameter_key != "":
+        conf.url = conf.url + "?"
+        parameter_key = parameter_key+"="
+    try:
+        http_response = requests.get(conf.url + parameter_key + str(parameter_value), auth=HTTPBasicAuth(conf.user, conf.password))
+        print("Request : ", requests)
+        print("Response :", http_response)
+        _check_response(http_response)
+        response = _check_response_dict(http_response, return_format='dict')
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    return response
+
+
+def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter_key2):
+    if parameter_key1 != "":
+        conf.url = conf.url + "?"
+        parameter_key1 = parameter_key1+"="
+        parameter_key2 = parameter_key2 + "="
+    try:
+        http_response = requests.get(conf.url + parameter_key1 + str(parameter_value1) + "&"
+                                + parameter_key2 + str(parameter_value2), auth=HTTPBasicAuth(conf.user, conf.password))
+        print(requests)
+        print("Response :", http_response)
+        _check_response(http_response)
+        response = _check_response_dict(http_response, return_format='dict')
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    return response
+
+
 
 def _create_request_xml(request_body, conf):
     """Create xml string from transaction object
@@ -100,38 +135,30 @@ def _check_response(response):
         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
 
+
 def _print_response(response):
     if conf.print_xml:
         print('Response XML:\n', response.text, '\n')
 
 
-def _get_response(parameter_value, parameter_key):
-    if parameter_key != "":
-        conf.url = conf.url + "?"
-        parameter_key = parameter_key + "="
-    try:
-        response = requests.get(conf.url + parameter_key + str(parameter_value),
-                                auth=HTTPBasicAuth(conf.user, conf.password))
-        print(requests)
-    except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    return response
+def _check_response_dict(response, return_format='dict'):
+    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+    if response_dict['@xmlns'] != "":
+        return_f_l = return_format.lower()
+        if return_f_l == 'xml':
+            response_xml = response.text
+            return response_xml
+        elif return_f_l == 'object':
+            return fields.CreateFromDocument(response.text)
+        else:
+            if conf.print_xml:
+                import json
+                print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
+            return response_dict
+    else:
+        raise utils.VantivException("Invalid Format")
 
-
-def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter_key2):
-    if parameter_key1 != "":
-        conf.url = conf.url + "?"
-        parameter_key1 = parameter_key1 + "="
-        parameter_key2 = parameter_key2 + "="
-    try:
-        response = requests.get(conf.url + parameter_key1 + str(parameter_value1) + "&"
-                                + parameter_key2 + str(parameter_value2), auth=HTTPBasicAuth(conf.user, conf.password))
-        print(requests)
-    except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-
-    return response
 
 
 def _put_responses(parameter_value1, request_body):
@@ -150,50 +177,32 @@ def _put_responses(parameter_value1, request_body):
 
 def _get_case_id(case_id):
     response = _get_response(case_id, "")
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
+    return response
 
 
 def _get_token(token):
     response = _get_response(token, "token")
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
+    return response
 
 
 def _get_card_number(card_number, expiration_date):
     response = _get_responses(card_number, "cardNumber", expiration_date, "expirationDate")
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
+    return response
 
 
 def _get_arn(arn):
     response = _get_response(arn, "arn")
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
+    return response
 
 
 def _get_activity_date(activity_date):
     response = _get_response(activity_date.date(), "date")
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
+    return response
 
 
 def _get_actionable(actionable):
     response = _get_response(actionable, "actionable")
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
+    return response
 
 
 def _put_chargeback_update(caseId, request_body):
@@ -204,51 +213,6 @@ def _put_chargeback_update(caseId, request_body):
     return response_dict
 
 
-# def _http_request(request_type, request_body,conf, param):
-#
-#     try:
-#         if request_type == 'GET':
-#             if hasattr(param, "caseId"):
-#                 if param.caseId:
-#                     response = requests.get(conf.url + str(param.caseId), auth=HTTPBasicAuth(conf.user, conf.password))
-#             if hasattr(param, "activityDate"):
-#                 if param.activityDate:
-#                     response = requests.get(conf.url + "?date=" + str(param.activityDate.date()), auth=HTTPBasicAuth(conf.user, conf.password))
-#             if hasattr(param, "acquirerReferenceNumber"):
-#                 if param.acquirerReferenceNumber:
-#                     response = requests.get(conf.url + "?arn=" + str(param.acquirerReferenceNumber),
-#                                             auth=HTTPBasicAuth(conf.user, conf.password))
-#             if hasattr(param, "token"):
-#                 if param.token:
-#                     response = requests.get(conf.url + "?token=" + str(param.token), auth=HTTPBasicAuth(conf.user, conf.password))
-#
-#             if (hasattr(param, "card_number")) and (hasattr(param, "expiration_date")):
-#                 if param.card_number and param.expiration_date:
-#                     response = requests.get(conf.url + "?cardNumber=" + str(param.card_number) + "&expirationDate=" + str(param.expiration_date), auth=HTTPBasicAuth(conf.user, conf.password))
-#
-#             if hasattr(param, "actionable"):
-#                 if param.actionable:
-#                     response = requests.get(conf.url + "?actionable=" + str(param.actionable), auth=HTTPBasicAuth(conf.user, conf.password))
-#
-#         if request_type == 'PUT':
-#             if hasattr(param, "caseId"):
-#                 if param.caseId != "":
-#                     response = requests.put(conf.url + str(param.caseId), data=_create_request_xml(request_body, conf), headers={"Content-Type": "application/com.vantivcnp.services-v2+xml","Accept": "application/com.vantivcnp.services-v2+xml"}, auth=HTTPBasicAuth(conf.user, conf.password))
-#
-#     except requests.RequestException:
-#             raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-#
-#     if response.status_code != 200:
-#         raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
-#
-#         # Check empty response
-#     if not response:
-#         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
-#
-#     if conf.print_xml:
-#         print('Response XML:\n', response.text, '\n')
-#
-#     return response.text
 
 
 class VantivException(Exception):

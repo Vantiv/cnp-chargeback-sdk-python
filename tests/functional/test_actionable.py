@@ -35,13 +35,12 @@ from vantivsdk import utils, fields, online, parameters
 conf = utils.Configuration()
 
 
-class TestCaseId(unittest2.TestCase):
+class TestActionable(unittest2.TestCase):
     def test_get_actionable(self):
         param = parameters.Parameters()
         param.actionable = "true"
         response = online._get_actionable(param.actionable)
-       # response = online.request(request_type, request_body, param, conf)
-        #self.assertEquals('1304283001', response['chargebackCase']['caseId'])
+        self.assertRegex(response["transactionId"], "\d+")
 
 
 if __name__ == '__main__':

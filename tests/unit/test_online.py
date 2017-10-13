@@ -253,5 +253,6 @@ class TestOnline(unittest.TestCase):
 #         # response = online.request(request_type, request_body, param, conf, 'object')
 #         # self.assertEquals('0', response.response)
 
+
 if __name__ == '__main__':
     unittest.main()

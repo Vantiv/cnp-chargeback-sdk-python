@@ -35,6 +35,12 @@ conf = utils.Configuration()
 
 
 def _get_response(parameter_value, parameter_key):
+    """ generate response with request method  get
+    :param parameter_value: the parameter value to be appended in url
+    :param parameter_key: the paramater to be appended in url
+    :return: returns the response received
+    """
+
     if parameter_key != "":
         conf.url = conf.url + "?"
         parameter_key = parameter_key+"="
@@ -51,6 +57,14 @@ def _get_response(parameter_value, parameter_key):
 
 
 def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter_key2):
+    """ generate response with multiple parameters with request method  get
+    :param parameter_value1:  the parameter value to be appended in url
+    :param parameter_key1: the paramater to be appended in url
+    :param parameter_value2: the parameter value to be appended in url
+    :param parameter_key2: the paramater to be appended in url
+    :return:
+    """
+
     if parameter_key1 != "":
         conf.url = conf.url + "?"
         parameter_key1 = parameter_key1+"="
@@ -68,15 +82,11 @@ def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter
     return response
 
 
-def _create_request_xml(request_body, conf):
-    """Create xml string from transaction object
+def _create_request_xml(request_body):
 
-    Args:
-        request_body:
-        conf: an instance of utils.Configuration
-
-    Returns:
-        XML string
+    """ Create xml string from request object
+    :param request_body: request_body
+    :return: XML string
     """
     request_xml = utils.obj_to_xml(request_body)
 
@@ -87,6 +97,12 @@ def _create_request_xml(request_body, conf):
 
 
 def _check_response(response):
+
+    """check the status code of the response
+    :param response: http response generated
+    :return: raises an exception
+    """
+
     if response.status_code != 200:
         raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
 
@@ -96,6 +112,12 @@ def _check_response(response):
 
 
 def _check_response_dict(response, return_format='dict'):
+
+    """ check the response format
+    :param response: http response generated
+    :param return_format:
+    :return: raises an Exception
+    """
 
     if response.text.__contains__('chargebackUpdateResponse'):
         response_dict = xmltodict.parse(response.text)['chargebackUpdateResponse']
@@ -119,6 +141,11 @@ def _check_response_dict(response, return_format='dict'):
 
 
 def _put_responses(parameter_value1, request_body):
+    """ generate response with request method  put
+    :param parameter_value1: the parameter value to be appended in url
+    :param request_body: the input object for the xml
+    :return: return the response generated
+    """
     try:
         http_response = requests.put(conf.url + str(parameter_value1),
                                 headers={"Content-Type": "application/com.vantivcnp.services-v2+xml",
@@ -132,6 +159,11 @@ def _put_responses(parameter_value1, request_body):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
     return response
+
+
+"""
+Functions for the different combinations of get and put requests
+"""
 
 
 def _get_case_id(case_id):

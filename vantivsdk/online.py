@@ -29,51 +29,18 @@ import xmltodict
 import six
 import pyxb
 from requests.auth import HTTPBasicAuth
-from . import (fields, utils, dict2obj)
+from vantivsdk import (fields, utils, dict2obj)
 
 conf = utils.Configuration()
 
 
-
-# def request(request_type, request_body, param, conf, return_format='dict', timeout=30):
-#
-#     """Send request to server.
-#
-#        Args:
-#            request_type: defines the type of the request is "GET" or "PUT"
-#            request_body: object to be conver
-#            param:
-#            conf: An instance of utils.Configuration
-#            return_format: Return format. The default is 'dict'. Could be one of 'dict', 'object' or 'xml'.
-#            timeout: timeout for the request in seconds. timeout is not a time limit on the entire response. It's the time that server has not issued a response.
-#
-#        Returns:
-#            response XML in desired format.
-#
-#        Raises:
-#            VantivExceptions.
-#        """
-#
-#     if not isinstance(conf, utils.Configuration):
-#         raise utils.VantivException('conf must be an instance of utils.Configuration')
-#
-#     if not isinstance(timeout, six.integer_types) or timeout < 0:
-#         raise utils.VantivException('timeout must be an positive int')
-#
-#     response_xml = _http_request(request_type, request_body, conf, param)
-#     if request_type == 'GET':
-#         response_dict = xmltodict.parse(response_xml)['chargebackRetrievalResponse']
-#     elif request_type == 'PUT':
-#         response_dict = xmltodict.parse(response_xml)['chargebackUpdateRespolnse']
-#
-#     if conf.print_xml:
-#         import json
-#         print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
-#         return response_dict
-#     else:
-#         raise utils.VantivException(response_dict['@message'])
-
 def _get_response(parameter_value, parameter_key):
+    """ generate response with request method  get
+    :param parameter_value: the parameter value to be appended in url
+    :param parameter_key: the paramater to be appended in url
+    :return: returns the response received
+    """
+
     if parameter_key != "":
         conf.url = conf.url + "?"
         parameter_key = parameter_key+"="
@@ -90,6 +57,14 @@ def _get_response(parameter_value, parameter_key):
 
 
 def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter_key2):
+    """ generate response with multiple parameters with request method  get
+    :param parameter_value1:  the parameter value to be appended in url
+    :param parameter_key1: the paramater to be appended in url
+    :param parameter_value2: the parameter value to be appended in url
+    :param parameter_key2: the paramater to be appended in url
+    :return:
+    """
+
     if parameter_key1 != "":
         conf.url = conf.url + "?"
         parameter_key1 = parameter_key1+"="
@@ -108,16 +83,11 @@ def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter
     return response
 
 
+def _create_request_xml(request_body):
 
-def _create_request_xml(request_body, conf):
-    """Create xml string from transaction object
-
-    Args:
-        request_body:
-        conf: an instance of utils.Configuration
-
-    Returns:
-        XML string
+    """ Create xml string from request object
+    :param request_body: request_body
+    :return: XML string
     """
     request_xml = utils.obj_to_xml(request_body)
 
@@ -128,6 +98,12 @@ def _create_request_xml(request_body, conf):
 
 
 def _check_response(response):
+
+    """check the status code of the response
+    :param response: http response generated
+    :return: raises an exception
+    """
+
     if response.status_code != 200:
         raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
 
@@ -136,15 +112,19 @@ def _check_response(response):
         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
 
-
-def _print_response(response):
-    if conf.print_xml:
-        print('Response XML:\n', response.text, '\n')
-
-
-
 def _check_response_dict(response, return_format='dict'):
-    response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+
+    """ check the response format
+    :param response: http response generated
+    :param return_format:
+    :return: raises an Exception
+    """
+
+    if response.text.__contains__('chargebackUpdateResponse'):
+        response_dict = xmltodict.parse(response.text)['chargebackUpdateResponse']
+    if response.text.__contains__('chargebackRetrievalResponse'):
+        response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
+
     if response_dict['@xmlns'] != "":
         return_f_l = return_format.lower()
         if return_f_l == 'xml':
@@ -161,19 +141,30 @@ def _check_response_dict(response, return_format='dict'):
         raise utils.VantivException("Invalid Format")
 
 
-
 def _put_responses(parameter_value1, request_body):
+    """ generate response with request method  put
+    :param parameter_value1: the parameter value to be appended in url
+    :param request_body: the input object for the xml
+    :return: return the response generated
+    """
     try:
-        response = requests.put(conf.url + str(parameter_value1),
+        http_response = requests.put(conf.url + str(parameter_value1),
                                 headers={"Content-Type": "application/com.vantivcnp.services-v2+xml",
                                          "Accept": "application/com.vantivcnp.services-v2+xml"},
                                 auth=HTTPBasicAuth(conf.user, conf.password),
                                 data=_create_request_xml(request_body, conf))
-        print(requests)
+        print("Request :", requests)
+        print("Response :", http_response)
+        _check_response(http_response)
+        response = _check_response_dict(http_response, return_format='dict')
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-
     return response
+
+
+"""
+Functions for the different combinations of get and put requests
+"""
 
 
 def _get_case_id(case_id):
@@ -208,12 +199,7 @@ def _get_actionable(actionable):
 
 def _put_chargeback_update(caseId, request_body):
     response = _put_responses(caseId, request_body)
-    response_dict = xmltodict.parse(response.text)['chargebackUpdateResponse']
-    _check_response(response)
-    _print_response(response)
-    return response_dict
-
-
+    return response
 
 
 class VantivException(Exception):

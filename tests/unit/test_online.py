@@ -26,233 +26,55 @@ import os
 import sys
 import unittest
 from unittest import mock
-from vantivsdk import (utils, online, fields)
+from vantivsdk import (utils, online, fields, parameters)
 import six
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
+conf = utils.Configuration()
 
 
 class TestOnline(unittest.TestCase):
-
-
-
-
     # @mock.patch.object(online, '_get_response')
-    def test_request_return_format(self):
+    @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
+                     "VantivException not raised by _get_response")
+    @mock.patch.object(online, '_get_case_id')
+    def test_request_get_response(self, mock_get_case_id):
         param = fields.chargebackApiCase()
-        self.assertRaises(utils.VantivException, online._get_response,  param.caseId, "caseId")
+        param.caseId = u'1304283001'
+        self.assertRaises(utils.VantivException, online._get_response, param.caseId, "")
+        mock_get_case_id.return_value = ""
+        self.assertRaises(utils.VantivException, online._get_response, param.caseId, "")
 
-#         mock__http_request.return_value = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-# <chargebackRetrievalResponse xmlns="http://www.vantivcnp.com/chargebacks">
-#     <transactionId>2111145419</transactionId>
-#     <chargebackCase>
-#         <caseId>1304283003</caseId>l
-#         <merchantId>1304283</merchantId>
-#         <dayIssuedByBank>2002-01-01</dayIssuedByBank>
-#         <dateReceivedByVantivCnp>2017-10-02</dateReceivedByVantivCnp>
-#         <vantivCnpTxnId>219016511913</vantivCnpTxnId>
-#         <cycle>First Chargeback</cycle>
-#         <orderId>12345</orderId>
-#         <cardNumberLast4>0001</cardNumberLast4>
-#         <cardType>VISA</cardType>
-#         <chargebackAmount>20000</chargebackAmount>
-#         <chargebackCurrencyType>USD</chargebackCurrencyType>
-#         <originalTxnDay>2002-01-01</originalTxnDay>
-#         <chargebackType>D</chargebackType>
-#         <representedAmount>111</representedAmount>
-#         <representedCurrencyType>USD</representedCurrencyType>
-#         <reasonCode>0028</reasonCode>
-#         <reasonCodeDescription>T&amp;E-Account Number Verification</reasonCodeDescription>
-#         <currentQueue>Vantiv Outgoing</currentQueue>
-#         <acquirerReferenceNumber>2222222222</acquirerReferenceNumber>
-#         <chargebackReferenceNumber>bbbbbbbbbb</chargebackReferenceNumber>
-#         <bin>410000</bin>
-#         <paymentAmount>1010</paymentAmount>
-#         <replyByDay>2002-02-05</replyByDay>
-#         <activity>
-#             <activityDate>2017-10-02</activityDate>
-#             <activityType>Assign To Merchant</activityType>
-#             <fromQueue>Litle</fromQueue>
-#             <toQueue>Merchant Automated</toQueue>
-#             <notes>Please work this case</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-02</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Merchant</fromQueue>
-#             <toQueue>Merchant</toQueue>
-#             <notes>testing chargebacks</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Merchant Represent</activityType>
-#             <fromQueue>Merchant</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent 0000000011</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent 0000000011</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-06</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent testing</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>note333</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>note3773</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>Represent test5</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>sample test note</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>note333</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>sample test note3gfhhdghgh3</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-10</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>note333</notes>
-#         </activity>
-#         <activity>
-#             <activityDate>2017-10-11</activityDate>
-#             <activityType>Add Note</activityType>
-#             <fromQueue>Litle Outgoing</fromQueue>
-#             <toQueue>Litle Outgoing</toQueue>
-#             <settlementAmount>111</settlementAmount>
-#             <notes>jgsggsfd</notes>
-#         </activity>
-#     </chargebackCase>
-# </chargebackRetrievalResponse>
-#                 """
-#         conf = utils.Configuration()
-#         # return dict
-#         response = online.request(request_type, request_body, param, conf)
-#         self.assertEquals('1304283003', response['chargebackCase']['caseId'])
-#         # self.assertIsInstance(response, dict)
-#
-#         # return xml string
-#         response = online.request(request_type, request_body, param, conf, 'xml')
-#         # self.assertIsInstance(response, str)
-#
-#         # return fields object.
-#         # response = online.request(request_type, request_body, param, conf, 'object')
-#         # self.assertEquals('0', response.response)
+    def test_get_response_status(self):
+        param = fields.chargebackApiCase()
+        self.assertRaises(utils.VantivException, online._get_response, param.caseId, "")
 
+    @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
+                     "VantivException not raised by _get_response")
+    def test_request_get_responses(self):
+        param = parameters.Parameters()
+        param.expiration_date = u'0150'
+        param.card_number = u'6500102010004006'
+        self.assertRaises(utils.VantivException, online._get_responses, param.card_number, "cardNumber",
+                          param.expiration_date, "expirationDate")
+
+    def test_get_responses_status(self):
+        param = parameters.Parameters()
+        param.card_number = u'6500102010004006'
+        self.assertRaises(utils.VantivException, online._get_responses, param.card_number, "", param.expiration_date,
+                          "expirationDate")
+
+
+    @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
+                 "VantivException not raised by _get_response")
+    def test_request_put_response(self):
+        param = fields.chargebackApiCase()
+        param.caseId = u'1304283003'
+        request_body = fields.chargebackUpdateRequest()
+        request_body.activityType = "ADD_NOTE"
+        request_body.note = "note333"
+        self.assertRaises(utils.VantivException, online._put_chargeback_update, param.caseId, request_body)
 
 if __name__ == '__main__':
     unittest.main()

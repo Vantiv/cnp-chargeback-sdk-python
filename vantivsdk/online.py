@@ -46,13 +46,13 @@ def _get_response(parameter_value, parameter_key):
         parameter_key = parameter_key+"="
     try:
         http_response = requests.get(conf.url + parameter_key + str(parameter_value), auth=HTTPBasicAuth(conf.user, conf.password))
-        print("Request : ", requests)
-        print("Response :", http_response)
-        _check_response(http_response)
-        response = _check_response_dict(http_response, return_format='dict')
+
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-
+    print("Request : ", requests)
+    print("Response :", http_response)
+    _check_response(http_response)
+    response = _check_response_dict(http_response, return_format='dict')
     return response
 
 
@@ -72,12 +72,13 @@ def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter
     try:
         http_response = requests.get(conf.url + parameter_key1 + str(parameter_value1) + "&"
                                 + parameter_key2 + str(parameter_value2), auth=HTTPBasicAuth(conf.user, conf.password))
-        print("Request :", requests)
-        print("Response :", http_response)
-        _check_response(http_response)
-        response = _check_response_dict(http_response, return_format='dict')
+
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+    print(requests)
+    print("Response :", http_response)
+    _check_response(http_response)
+    response = _check_response_dict(http_response, return_format='dict')
 
     return response
 

@@ -26,7 +26,7 @@ import os
 import sys
 import unittest2
 
-from vantivsdk import *
+from vantivsdk import fields_chargeback, utils, online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -37,9 +37,9 @@ conf = utils.Configuration()
 
 class TestChargebackUpdateCaseId(unittest2.TestCase):
     def test_put_caseId(self):
-        param = fields.chargebackApiCase()
+        param = fields_chargeback.chargebackApiCase()
         param.caseId = u'1304283003'
-        request_body = fields.chargebackUpdateRequest()
+        request_body = fields_chargeback.chargebackUpdateRequest()
         request_body.activityType = "ADD_NOTE"
         request_body.note = "note333"
         response = online._put_chargeback_update(param.caseId, request_body)

@@ -16,7 +16,7 @@ class merchant_upload(unittest2.TestCase):
     def upload_doc(self):
         param=fields.CTD_ANON_3()
         te=fields.Merchant()
-        te.
+
 
 
 

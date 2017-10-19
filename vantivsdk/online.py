@@ -29,7 +29,7 @@ import xmltodict
 import six
 import pyxb
 from requests.auth import HTTPBasicAuth
-from vantivsdk import (fields, utils, dict2obj)
+from vantivsdk import (fields_chargeback, utils, dict2obj)
 
 conf = utils.Configuration()
 

@@ -24,7 +24,7 @@
 #
 from __future__ import unicode_literals
 
-from . import utils,fields
+from . import utils
 
 
 def tofileds(txn_dict):

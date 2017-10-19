@@ -25,21 +25,23 @@
 import os
 import sys
 import unittest2
-import pyxb
-from vantivsdk import utils, fields_chargeback, online
 
+from vantivsdk import fields_chargebackDocument, utils, online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
+import pyxb
 
 conf = utils.Configuration()
 
 
-class TestCaseId(unittest2.TestCase):
-    def test_get_case_id(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = u'1304283001'
-        response = online._get_case_id(param.caseId)
+class TestRetrieveChargebackDocument(unittest2.TestCase):
+    def test_retrieve_chargebackDocument(self):
+        param = fields_chargebackDocument.Merchant();
+        param.id = u'01333078'
+        param1 = fields_chargebackDocument.ChargebackCase();
+        param1.id = u'01333078001'
+        response = online._get_document(param.id, param1.id)
         self.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 

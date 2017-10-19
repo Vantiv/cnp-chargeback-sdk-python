@@ -200,6 +200,9 @@ def _put_chargeback_update(caseId, request_body):
     response = _put_responses(caseId, request_body)
     return response
 
+def _get_document(merchant_id, case_id):
+    response =  _get_responses(merchant_id, case_id)
+
 
 class VantivException(Exception):
     pass

@@ -24,7 +24,7 @@
 
 import os
 import sys
-import unittest
+import unittest2
 import random
 
 from vantivsdk import (utils)
@@ -33,7 +33,7 @@ package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(_
 sys.path.insert(0, package_root)
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils(unittest2.TestCase):
     def test_not_load_save(self):
         conf_ori = utils.Configuration()
         conf = utils.Configuration()
@@ -48,4 +48,4 @@ class TestUtils(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest2.main()

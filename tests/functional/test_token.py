@@ -30,14 +30,14 @@ import pyxb
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
-from vantivsdk import utils, fields, online
+from vantivsdk import utils, fields_chargeback, online
 
 conf = utils.Configuration()
 
 
 class TestTokenId(unittest2.TestCase):
     def test_get_token(self):
-        param = fields.chargebackApiCase()
+        param = fields_chargeback.chargebackApiCase()
         param.token = u'1234123999'
         response = online._get_token(param.token)
         self.assertRegex(response["transactionId"], "\d+")

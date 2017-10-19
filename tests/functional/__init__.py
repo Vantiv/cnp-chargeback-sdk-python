@@ -24,5 +24,10 @@
 __all__ = [
     'test_case_id',
     'test_activity_date',
-    'testUpdate_case_id'
+    'testUpdate_case_id',
+    'test_actionable',
+    'test_activity_date',
+    'test_arn',
+    'test_card_number'
+
 ]

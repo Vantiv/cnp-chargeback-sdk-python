@@ -26,7 +26,7 @@ import os
 import sys
 import unittest2
 import pyxb
-from vantivsdk import utils, fields, online
+from vantivsdk import utils, fields_chargeback, online
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -36,7 +36,7 @@ conf = utils.Configuration()
 
 class TestArn(unittest2.TestCase):
     def test_get_arn(self):
-        param = fields.chargebackApiCase()
+        param = fields_chargeback.chargebackApiCase()
         param.acquirerReferenceNumber = u'4444444444'
         response = online._get_arn(param.acquirerReferenceNumber)
         self.assertRegex(response["transactionId"], "\d+")

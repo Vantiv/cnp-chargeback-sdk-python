@@ -25,7 +25,7 @@
 import os
 import sys
 import unittest2
-from vantivsdk import fields
+from vantivsdk import fields_chargeback
 from vantivsdk import utils
 from vantivsdk import online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -38,7 +38,7 @@ conf = utils.Configuration()
 
 class TestActivityDate(unittest2.TestCase):
     def test_get_activity_date(self):
-        param = fields.chargebackApiActivity()
+        param = fields_chargeback.chargebackApiActivity()
         param.activityDate = u'2017-10-11'
         response = online._get_activity_date(param.activityDate)
         self.assertRegex(response["transactionId"], "\d+")

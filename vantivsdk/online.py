@@ -37,6 +37,7 @@ package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
 home_dir = os.environ['HOME']
 
+
 def _get_response(parameter_value, parameter_key):
     """ generate response with request method  get
     :param parameter_value: the parameter value to be appended in url
@@ -322,7 +323,6 @@ def _put_chargeback_update(caseId, request_body):
     return response
 
 
-
 def _get_case_document(merchant_id, case_id):
     response = _get_document_response(merchant_id, case_id)
     return response
@@ -330,6 +330,11 @@ def _get_case_document(merchant_id, case_id):
 
 def _get_document(merchant_id, case_id, document_id):
     response = _get_document_responses(merchant_id, case_id, document_id)
+    return response
+
+
+def _get_documents(merchant_id, case_id):
+    response = _get_document_response(merchant_id, case_id)
     return response
 
 

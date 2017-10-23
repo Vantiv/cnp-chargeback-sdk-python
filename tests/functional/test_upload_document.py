@@ -50,16 +50,6 @@
 #         response = online._upload_document(merchant_param.id, case_param.id, document_param.id, param.type, param.extension)
 #         self.assertEquals('000', response['Document']['ResponseCode'])
 #
-# class TestRetrieveChargebackDocument(unittest2.TestCase):
-#     def test_retrieve_chargebackDocument(self):
-#         param = fields_chargebackDocument.Merchant();
-#         param.id = u'01333078'
-#         param1 = fields_chargebackDocument.ChargebackCase();
-#         param1.id = u'01333078001'
-#         with open('000_puppy_picture.jpg', 'rb') as f:
-#             data = f.read()
-#         self.assertEquals('1304283001', response['chargebackCase']['caseId'])
-# >>>>>>> 9dbc05aeb6a02d920b13d51a0197e46130bf3d3c:tests/functional/retrieveDocument.py
 #
 #
 # if __name__ == '__main__':

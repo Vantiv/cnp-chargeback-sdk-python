@@ -26,9 +26,7 @@ import os
 import sys
 import unittest2
 
-from vantivsdk import fields_chargebackDocument, utils, online, contentTypeEnum
-import requests
-from requests.auth import HTTPBasicAuth
+from vantivsdk import fields_chargebackDocument, utils, online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -37,20 +35,16 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestUpdateChargebackDocument(unittest2.TestCase):
-    def test_update_chargebackDocument(self):
-        param = fields_chargebackDocument.Merchant();
-        param.id = u'01333078'
-        param1 = fields_chargebackDocument.ChargebackCase();
-        param1.id = u'01333078001'
-        param2 = fields_chargebackDocument.Document()
-        param2.id = u'test1'
-        with open('index.jpeg', 'rb') as f:
-            data = f.read()
-            contenttype = contentTypeEnum.ContentType.JPEG
-        response = online._post_document(param.id, param1.id, param2.id, data, contenttype)
-
-        self.assertEquals(200, response.status_code)
+class TestDeleteDocument(unittest2.TestCase):
+    def test_delete_chargebackDocument(self):
+        merchant_param = fields_chargebackDocument.Merchant()
+        merchant_param.id = u'01333078'
+        case_param = fields_chargebackDocument.ChargebackCase()
+        case_param.id = u'01333078001'
+        document_param = fields_chargebackDocument.Document()
+        document_param.id = u'image'
+        response = online._delete_document(merchant_param.id, case_param.id, document_param.id)
+        self.assertEquals('000', response['Document']['ResponseCode'])
 
 
 if __name__ == '__main__':

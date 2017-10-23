@@ -27,23 +27,25 @@ import sys
 import unittest2
 
 from vantivsdk import fields_chargebackDocument, utils, online
-package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-sys.path.insert(0, package_root)
+
+# sys.path.insert(0, package_root)
 
 import pyxb
 
 conf = utils.Configuration()
+package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 
-class TestRetrieveChargebackDocument(unittest2.TestCase):
+class TestRetrieveDocument(unittest2.TestCase):
     def test_retrieve_chargebackDocument(self):
-        param = fields_chargebackDocument.Merchant();
-        param.id = u'01333078'
-        param1 = fields_chargebackDocument.ChargebackCase();
-        param1.id = u'01333078001'
-        with open('000_puppy_picture.jpg', 'rb') as f:
-            data = f.read()
-        self.assertEquals('1304283001', response['chargebackCase']['caseId'])
+        merchant_param = fields_chargebackDocument.Merchant()
+        merchant_param.id = u'01333078'
+        case_param = fields_chargebackDocument.ChargebackCase()
+        case_param.id = u'01333078001'
+        document_param = fields_chargebackDocument.Document()
+        document_param.id = u'image1'
+        online._get_document(merchant_param.id, case_param.id, document_param.id)
+        self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
 
 
 if __name__ == '__main__':

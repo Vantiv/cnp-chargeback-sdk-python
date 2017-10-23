@@ -26,9 +26,7 @@ import os
 import sys
 import unittest2
 
-from vantivsdk import fields_chargebackDocument, utils, online, contentTypeEnum
-import requests
-from requests.auth import HTTPBasicAuth
+from vantivsdk import fields_chargebackDocument, utils, online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -37,20 +35,14 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestUpdateChargebackDocument(unittest2.TestCase):
-    def test_update_chargebackDocument(self):
+class TestCaseDocuments(unittest2.TestCase):
+    def test_case_chargebackDocument(self):
         param = fields_chargebackDocument.Merchant();
         param.id = u'01333078'
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
-        param2 = fields_chargebackDocument.Document()
-        param2.id = u'test1'
-        with open('index.jpeg', 'rb') as f:
-            data = f.read()
-            contenttype = contentTypeEnum.ContentType.JPEG
-        response = online._post_document(param.id, param1.id, param2.id, data, contenttype)
-
-        self.assertEquals(200, response.status_code)
+        response = online._get_case_document(param.id, param1.id)
+        #lself.assertEquals('1304283001', response['chargebackCase']['caseId'])
 
 
 if __name__ == '__main__':

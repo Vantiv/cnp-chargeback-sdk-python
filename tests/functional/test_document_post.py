@@ -37,8 +37,8 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestRetrieveChargebackDocument(unittest2.TestCase):
-    def test_retrieve_chargebackDocument(self):
+class TestUploadChargebackDocument(unittest2.TestCase):
+    def test_upload_chargebackDocument(self):
         param = fields_chargebackDocument.Merchant();
         param.id = u'01333078'
         param1 = fields_chargebackDocument.ChargebackCase();
@@ -52,7 +52,6 @@ class TestRetrieveChargebackDocument(unittest2.TestCase):
         response = online._post_document(param.id, param1.id, param2.id, data, contenttype)
 
         self.assertEquals(200, response.status_code)
-
 
 
 if __name__ == '__main__':

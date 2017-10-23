@@ -253,12 +253,13 @@ Functions for the different combinations of get and put requests
 """
 
 
-def _post_responses(param, param1, param2, data, headertype):
+def _post_responses(param, param1, param2, path, headertype):
     try:
+        with open(path, 'rb') as f:
+            data = f.read()
 
-
-        http_response = requests.post(url=conf.url + "documents/" + param + "/" + param1 + "/" + param2,
-                                      headers={"Content-Type": headertype },
+        http_response = requests.post(url = conf.url + "documents/" + str(param) + "/" + str(param1) + "/" + str(param2),
+                                      headers = {"Content-Type": headertype.value},
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", requests)
         print("Response :", http_response)
@@ -269,8 +270,10 @@ def _post_responses(param, param1, param2, data, headertype):
     return response
 
 
-def _put_response_upload(param, param1, param2, data, headertype):
+def _put_response_upload(param, param1, param2, path, headertype):
     try:
+        with open(path, 'rb') as f:
+            data = f.read()
         http_response = requests.put(url=conf.url + "documents/" + param + "/" + param1 + "/" + param2,
                                      headers={"Content-Type": headertype},
                                      auth=HTTPBasicAuth(conf.user, conf.password), data=data)
@@ -340,13 +343,13 @@ def _delete_document(merchant_id, case_id, document_id):
 #     return response
 
 
-def _post_document(merchant_id, case_id, document_id, request_body, headertype):
-    response = _post_responses(merchant_id, case_id, document_id, request_body, headertype)
+def _post_document(merchant_id, case_id, document_id, path, headertype):
+    response = _post_responses(merchant_id, case_id, document_id, path, headertype)
     return response
 
 
-def _put_document(merchant_id, case_id, document_id, request_body, headertype):
-    response = _put_response_upload(merchant_id, case_id, document_id, request_body, headertype)
+def _put_document(merchant_id, case_id, document_id, path, headertype):
+    response = _put_response_upload(merchant_id, case_id, document_id, path, headertype)
     return response
 
 

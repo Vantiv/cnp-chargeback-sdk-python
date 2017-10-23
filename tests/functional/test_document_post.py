@@ -44,7 +44,7 @@ class TestRetrieveChargebackDocument(unittest2.TestCase):
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
         param2 = fields_chargebackDocument.Document()
-        param2.id = u'test8'
+        param2.id = u'test5_1'
 
         with open('000_puppy_picture.jpg', 'rb') as f:
             data = f.read()

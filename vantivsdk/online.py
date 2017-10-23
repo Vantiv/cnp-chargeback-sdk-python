@@ -170,7 +170,7 @@ def _post_responses(param, param1, param2, data, headertype):
     try:
 
         http_response = requests.post(url=conf.url + "documents/" + param + "/" + param1 + "/" + param2,
-                                      headers={"Content-Type": headertype},
+                                      headers={"Content-Type": "image/jpeg"},
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", requests)
         print("Response :", http_response)

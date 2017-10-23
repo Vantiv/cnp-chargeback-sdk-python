@@ -44,13 +44,13 @@ class TestUpdateChargebackDocument(unittest2.TestCase):
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
         param2 = fields_chargebackDocument.Document()
-        param2.id = u'test1'
-        with open('index.jpeg', 'rb') as f:
+        param2.id = u'test6_7'
+        with open(package_root + "/samples/index.jpeg", 'rb') as f:
             data = f.read()
-            contenttype = contentTypeEnum.ContentType.JPEG
-        response = online._post_document(param.id, param1.id, param2.id, data, contenttype)
+            headercontent = contentTypeEnum.ContentType.JPEG.value
+        response = online._put_document(param.id, param1.id, param2.id, data, headercontent)
 
-        self.assertEquals(200, response.status_code)
+        self.assertEquals('000', response['Document']['ResponseCode'])
 
 
 if __name__ == '__main__':

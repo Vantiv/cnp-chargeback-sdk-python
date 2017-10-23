@@ -256,8 +256,9 @@ Functions for the different combinations of get and put requests
 def _post_responses(param, param1, param2, data, headertype):
     try:
 
+
         http_response = requests.post(url=conf.url + "documents/" + param + "/" + param1 + "/" + param2,
-                                      headers={"Content-Type": "image/jpeg"},
+                                      headers={"Content-Type": headertype },
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", requests)
         print("Response :", http_response)
@@ -345,7 +346,7 @@ def _post_document(merchant_id, case_id, document_id, request_body, headertype):
 
 
 def _put_document(merchant_id, case_id, document_id, request_body, headertype):
-    response = _post_responses(merchant_id, case_id, document_id, request_body, headertype)
+    response = _put_response_upload(merchant_id, case_id, document_id, request_body, headertype)
     return response
 
 

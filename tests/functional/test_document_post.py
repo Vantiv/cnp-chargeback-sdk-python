@@ -26,7 +26,9 @@ import os
 import sys
 import unittest2
 
-from vantivsdk import fields_chargebackDocument, utils, online
+from vantivsdk import fields_chargebackDocument, utils, online, contentTypeEnum
+import requests
+from requests.auth import HTTPBasicAuth
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -41,9 +43,16 @@ class TestRetrieveChargebackDocument(unittest2.TestCase):
         param.id = u'01333078'
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
+        param2 = fields_chargebackDocument.Document()
+        param2.id = u'test8'
+
         with open('000_puppy_picture.jpg', 'rb') as f:
             data = f.read()
-        self.assertEquals('1304283001', response['chargebackCase']['caseId'])
+            contenttype = contentTypeEnum.ContentType.JPEG
+        response = online._post_document(param.id, param1.id, param2.id, data, contenttype)
+
+        self.assertEquals(200, response.status_code)
+
 
 
 if __name__ == '__main__':

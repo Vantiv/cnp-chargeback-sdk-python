@@ -26,6 +26,7 @@ import os
 import sys
 import unittest2
 
+
 from vantivsdk import fields_chargeback, utils, online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)

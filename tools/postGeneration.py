@@ -592,4 +592,3 @@ if __name__ == '__main__':
 #     dict_list = get_class_dict(package_root)
 #     generate_dictmap_py(package_root, dict_list)
 #     #generate_rst(package_root, dict_list)
->>>>>>> 171548488747dba255fe634033865af76d5ec07b

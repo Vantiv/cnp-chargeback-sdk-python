@@ -26,7 +26,9 @@ import os
 import sys
 import unittest2
 
-from vantivsdk import fields_chargebackDocument, utils, online, parameters
+from vantivsdk import fields_chargebackDocument, utils, online, contentTypeEnum
+import requests
+from requests.auth import HTTPBasicAuth
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -35,31 +37,21 @@ import pyxb
 conf = utils.Configuration()
 
 
-<<<<<<< HEAD:tests/functional/test_upload_document.py
-class TestUploadeDocument(unittest2.TestCase):
-    def test_upload_chargebackDocument(self):
-        merchant_param = fields_chargebackDocument.Merchant()
-        merchant_param.id = u'01333078'
-        case_param = fields_chargebackDocument.ChargebackCase()
-        case_param.id = u'01333078001'
-        document_param = fields_chargebackDocument.Document()
-        document_param.id = u'image136'
-        param= parameters.Parameters()
-        param.type = u'image'
-        param.extension = u'jpeg'
-        response = online._upload_document(merchant_param.id, case_param.id, document_param.id, param.type, param.extension)
-        self.assertEquals('000', response['Document']['ResponseCode'])
-=======
 class TestRetrieveChargebackDocument(unittest2.TestCase):
     def test_retrieve_chargebackDocument(self):
         param = fields_chargebackDocument.Merchant();
         param.id = u'01333078'
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
-        with open('000_puppy_picture.jpg', 'rb') as f:
+        param2 = fields_chargebackDocument.Document()
+        param2.id = u'test1'
+        with open('index.jpeg', 'rb') as f:
             data = f.read()
-        self.assertEquals('1304283001', response['chargebackCase']['caseId'])
->>>>>>> 9dbc05aeb6a02d920b13d51a0197e46130bf3d3c:tests/functional/retrieveDocument.py
+            contenttype = contentTypeEnum.ContentType.JPEG
+        response = online._post_document(param.id, param1.id, param2.id, data, contenttype)
+
+        self.assertEquals(200, response.status_code)
+
 
 
 if __name__ == '__main__':

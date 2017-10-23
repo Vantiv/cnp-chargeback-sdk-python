@@ -28,11 +28,14 @@ import requests
 import xmltodict
 import six
 import pyxb
+import os
 from requests.auth import HTTPBasicAuth
 from vantivsdk import (fields_chargeback, utils, dict2obj)
 
-conf = utils.Configuration()
 
+package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+conf = utils.Configuration()
+home_dir = os.environ['HOME']
 
 def _get_response(parameter_value, parameter_key):
     """ generate response with request method  get
@@ -119,26 +122,34 @@ def _check_response_dict(response, return_format='dict'):
     :param return_format:
     :return: raises an Exception
     """
-
+    skip = False
     if response.text.__contains__('chargebackUpdateResponse'):
         response_dict = xmltodict.parse(response.text)['chargebackUpdateResponse']
     if response.text.__contains__('chargebackRetrievalResponse'):
         response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-
-    if response_dict['@xmlns'] != "":
-        return_f_l = return_format.lower()
-        if return_f_l == 'xml':
-            response_xml = response.text
-            return response_xml
-        elif return_f_l == 'object':
-            return fields.CreateFromDocument(response.text)
-        else:
-            if conf.print_xml:
-                import json
-                print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
-            return response_dict
+    if response.text.__contains__('Merchant'):
+        response_dict = xmltodict.parse(response.text)['Merchant']
     else:
-        raise utils.VantivException("Invalid Format")
+        skip = True
+
+    if not skip:
+        if response_dict['@xmlns'] != "":
+            return_f_l = return_format.lower()
+            if return_f_l == 'xml':
+                response_xml = response.text
+                return response_xml
+            elif return_f_l == 'object':
+                return fields_chargeback.CreateFromDocument(response.text)
+            else:
+                if conf.print_xml:
+                    import json
+                    print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
+                return response_dict['ChargebackCase']
+        else:
+            raise utils.VantivException("Invalid Format")
+    else:
+        with open(package_root+'/samples/doc.pdf', 'wb') as f:
+            f.write(response.content)
 
 
 def _put_responses(parameter_value1, request_body):
@@ -160,6 +171,82 @@ def _put_responses(parameter_value1, request_body):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
     return response
+
+
+def _get_document_response(parameter_value1, parameter_value2):
+    """ generate response with multiple parameters with request method  get
+    :param parameter_value1:  the parameter value to be appended in url
+    :param parameter_value2: the parameter value to be appended in url
+    :return:
+    """
+
+    conf.url = conf.url + "documents/"
+    try:
+        http_response = requests.get(conf.url + str(parameter_value1) + "/" +
+                                     str(parameter_value2), auth=HTTPBasicAuth(conf.user, conf.password))
+
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+    print(requests)
+    print("Response :", http_response)
+    _check_response(http_response)
+    response = _check_response_dict(http_response, return_format='dict')
+
+    return response
+
+
+def _get_document_responses(parameter_value1, parameter_value2, parameter_value3):
+
+    conf.url = conf.url + "documents/"
+    try:
+        http_response = requests.get(conf.url + str(parameter_value1) + "/" +
+                                     str(parameter_value2) + "/" + str(parameter_value3), auth=HTTPBasicAuth(conf.user, conf.password))
+
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+    print(requests)
+    print("Response :", http_response)
+    _check_response(http_response)
+    response = _check_response_dict(http_response, return_format='dict')
+
+    return response
+
+
+def _delete_document_response(parameter_value1, parameter_value2, parameter_value3):
+    conf.url = conf.url + "documents/"
+    try:
+        http_response = requests.delete(conf.url + str(parameter_value1) + "/" +
+                                     str(parameter_value2) + "/" + str(parameter_value3),
+                                     auth=HTTPBasicAuth(conf.user, conf.password))
+
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+    print(requests)
+    print("Response :", http_response)
+    _check_response(http_response)
+    response = _check_response_dict(http_response, return_format='dict')
+
+    return response
+
+
+# def _upload_document_response(parameter_value1, parameter_value2, parameter_value3, file_type, extension):
+#     conf.url = conf.url + "documents/"
+#     file = open(package_root+"/samples/000_puppy_picture.jpg", 'rb').read()
+#     try:
+#         http_response = requests.post(conf.url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3),
+#                                      data=file,
+#                                      headers={"Content-Type": file_type+"/"+extension},
+#                                      auth=HTTPBasicAuth(conf.user, conf.password))
+#
+#     except requests.RequestException:
+#         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+#
+#     print(requests)
+#     print("Response :", http_response)
+#     _check_response(http_response)
+#     response = _check_response_dict(http_response, return_format='dict')
+#
+#     return response
 
 
 """
@@ -201,8 +288,25 @@ def _put_chargeback_update(caseId, request_body):
     response = _put_responses(caseId, request_body)
     return response
 
-def _get_document(merchant_id, case_id):
-    response =  _get_responses(merchant_id, case_id)
+
+def _get_case_document(merchant_id, case_id):
+    response = _get_document_response(merchant_id, case_id)
+    return response
+
+
+def _get_document(merchant_id, case_id, document_id):
+    response = _get_document_responses(merchant_id, case_id, document_id)
+    return response
+
+
+def _delete_document(merchant_id, case_id, document_id):
+    response = _delete_document_response(merchant_id, case_id, document_id)
+    return response
+
+
+def _upload_document(merchant_id, case_id, document_id, type, extension):
+    response = _upload_document_response(merchant_id, case_id, document_id, type, extension)
+    return response
 
 
 class VantivException(Exception):

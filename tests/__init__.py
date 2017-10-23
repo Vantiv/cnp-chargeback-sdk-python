@@ -23,5 +23,6 @@
 
 __all__ = [
 
-    'functional'
+    'functional',
+    'unit'
 ]

@@ -37,7 +37,7 @@ conf = utils.Configuration()
 
 
 class TestActivityDate(unittest2.TestCase):
-    def test_get_activity_date(self):
+    def test_activity_date(self):
         param = fields_chargeback.chargebackApiActivity()
         param.activityDate = u'2017-10-11'
         response = online._get_activity_date(param.activityDate)

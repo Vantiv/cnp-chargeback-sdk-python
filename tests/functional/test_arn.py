@@ -35,7 +35,7 @@ conf = utils.Configuration()
 
 
 class TestArn(unittest2.TestCase):
-    def test_get_arn(self):
+    def test_arn(self):
         param = fields_chargeback.chargebackApiCase()
         param.acquirerReferenceNumber = u'4444444444'
         response = online._get_arn(param.acquirerReferenceNumber)

@@ -43,7 +43,7 @@ class TestRetrieveDocument(unittest2.TestCase):
         case_param = fields_chargebackDocument.ChargebackCase()
         case_param.id = u'01333078001'
         document_param = fields_chargebackDocument.Document()
-        document_param.id = u'image1'
+        document_param.id = u'image125'
         online._get_document(merchant_param.id, case_param.id, document_param.id)
         self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
 

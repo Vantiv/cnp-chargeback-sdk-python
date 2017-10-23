@@ -26,7 +26,7 @@ import os
 import sys
 import unittest
 from unittest import mock
-from vantivsdk import (utils, online, fields, parameters)
+from vantivsdk import (utils, online, fields_chargeback, fields_chargebackDocument, parameters)
 import six
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -40,14 +40,14 @@ class TestOnline(unittest.TestCase):
                      "VantivException not raised by _get_response")
     @mock.patch.object(online, '_get_case_id')
     def test_request_get_response(self, mock_get_case_id):
-        param = fields.chargebackApiCase()
+        param = fields_chargeback.chargebackApiCase()
         param.caseId = u'1304283001'
         self.assertRaises(utils.VantivException, online._get_response, param.caseId, "")
         mock_get_case_id.return_value = ""
         self.assertRaises(utils.VantivException, online._get_response, param.caseId, "")
 
     def test_get_response_status(self):
-        param = fields.chargebackApiCase()
+        param = fields_chargeback.chargebackApiCase()
         self.assertRaises(utils.VantivException, online._get_response, param.caseId, "")
 
     @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
@@ -69,9 +69,9 @@ class TestOnline(unittest.TestCase):
     @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
                  "VantivException not raised by _get_response")
     def test_request_put_response(self):
-        param = fields.chargebackApiCase()
+        param = fields_chargeback.chargebackApiCase()
         param.caseId = u'1304283003'
-        request_body = fields.chargebackUpdateRequest()
+        request_body = fields_chargeback.chargebackUpdateRequest()
         request_body.activityType = "ADD_NOTE"
         request_body.note = "note333"
         self.assertRaises(utils.VantivException, online._put_chargeback_update, param.caseId, request_body)
@@ -79,12 +79,13 @@ class TestOnline(unittest.TestCase):
     @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
                          "VantivException not raised by _get_response")
     def test_request_post_response(self):
-            param = fields.chargebackApiCase()
+            param = fields_chargeback.chargebackApiCase()
             param.caseId = u'1304283003'
-            request_body = fields.chargebackUpdateRequest()
+            request_body = fields_chargeback.chargebackUpdateRequest()
             request_body.activityType = "ADD_NOTE"
             request_body.note = "note333"
             self.assertRaises(utils.VantivException, online._put_chargeback_update, param.caseId, request_body)
+
 
 if __name__ == '__main__':
     unittest.main()

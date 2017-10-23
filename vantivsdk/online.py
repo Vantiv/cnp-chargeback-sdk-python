@@ -44,17 +44,18 @@ def _get_response(parameter_value, parameter_key):
     :param parameter_key: the paramater to be appended in url
     :return: returns the response received
     """
-
-    if parameter_key != "":
-        conf.url = conf.url + "?"
-        parameter_key = parameter_key + "="
+    url = conf.url
     try:
-        http_response = requests.get(conf.url + parameter_key + str(parameter_value),
-                                     auth=HTTPBasicAuth(conf.user, conf.password))
+        if parameter_key != "":
+            url = url  + "?"
+            parameter_key = parameter_key + "="
+        request = url + parameter_key + str(parameter_value)
+        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print("Request : ", requests)
+    # print("URL :", )
+    print("Request : ", request)
     print("Response :", http_response)
     _check_response(http_response)
     response = _check_response_dict(http_response, return_format='dict')
@@ -71,17 +72,17 @@ def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter
     """
 
     if parameter_key1 != "":
-        conf.url = conf.url + "?"
+        url = conf.url + "?"
         parameter_key1 = parameter_key1 + "="
         parameter_key2 = parameter_key2 + "="
+
     try:
-        http_response = requests.get(conf.url + parameter_key1 + str(parameter_value1) + "&"
-                                     + parameter_key2 + str(parameter_value2),
-                                     auth=HTTPBasicAuth(conf.user, conf.password))
+        request = url + parameter_key1 + str(parameter_value1) + "&" + parameter_key2 + str(parameter_value2)
+        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print(requests)
+    print("Request :", request)
     print("Response :", http_response)
     _check_response(http_response)
     response = _check_response_dict(http_response, return_format='dict')
@@ -125,9 +126,9 @@ def _check_response_dict(response, return_format='dict'):
     skip = False
     if response.text.__contains__('chargebackUpdateResponse'):
         response_dict = xmltodict.parse(response.text)['chargebackUpdateResponse']
-    if response.text.__contains__('chargebackRetrievalResponse'):
+    elif response.text.__contains__('chargebackRetrievalResponse'):
         response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    if response.text.__contains__('Merchant'):
+    elif response.text.__contains__('Merchant'):
         response_dict = xmltodict.parse(response.text)['Merchant']
     else:
         skip = True
@@ -144,7 +145,7 @@ def _check_response_dict(response, return_format='dict'):
                 if conf.print_xml:
                     import json
                     print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
-                return response_dict['ChargebackCase']
+                    return response_dict
         else:
             raise utils.VantivException("Invalid Format")
     else:
@@ -158,13 +159,13 @@ def _put_responses(parameter_value1, request_body):
     :param request_body: the input object for the xml
     :return: return the response generated
     """
+
     try:
-        http_response = requests.put(conf.url + str(parameter_value1),
-                                     headers={"Content-Type": "application/com.vantivcnp.services-v2+xml",
-                                              "Accept": "application/com.vantivcnp.services-v2+xml"},
+        request = conf.url + str(parameter_value1)
+        http_response = requests.put(request, headers={"Content-Type": "application/com.vantivcnp.services-v2+xml", "Accept": "application/com.vantivcnp.services-v2+xml"},
                                      auth=HTTPBasicAuth(conf.user, conf.password),
-                                     data=_create_request_xml(request_body, conf))
-        print("Request :", requests)
+                                     data=_create_request_xml(request_body))
+        print("Request :", request)
         print("Response :", http_response)
         _check_response(http_response)
         response = _check_response_dict(http_response, return_format='dict')
@@ -180,14 +181,16 @@ def _get_document_response(parameter_value1, parameter_value2):
     :return:
     """
 
-    conf.url = conf.url + "documents/"
+    url = conf.url + "documents/"
+
     try:
-        http_response = requests.get(conf.url + str(parameter_value1) + "/" +
-                                     str(parameter_value2), auth=HTTPBasicAuth(conf.user, conf.password))
+
+        request = url + str(parameter_value1) + "/" + str(parameter_value2)
+        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print(requests)
+    print("Request: ", request)
     print("Response :", http_response)
     _check_response(http_response)
     response = _check_response_dict(http_response, return_format='dict')
@@ -197,10 +200,10 @@ def _get_document_response(parameter_value1, parameter_value2):
 
 def _get_document_responses(parameter_value1, parameter_value2, parameter_value3):
 
-    conf.url = conf.url + "documents/"
+    url = conf.url + "documents/"
     try:
-        http_response = requests.get(conf.url + str(parameter_value1) + "/" +
-                                     str(parameter_value2) + "/" + str(parameter_value3), auth=HTTPBasicAuth(conf.user, conf.password))
+        request = url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3)
+        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -213,11 +216,11 @@ def _get_document_responses(parameter_value1, parameter_value2, parameter_value3
 
 
 def _delete_document_response(parameter_value1, parameter_value2, parameter_value3):
-    conf.url = conf.url + "documents/"
+    url = conf.url + "documents/"
+
     try:
-        http_response = requests.delete(conf.url + str(parameter_value1) + "/" +
-                                     str(parameter_value2) + "/" + str(parameter_value3),
-                                     auth=HTTPBasicAuth(conf.user, conf.password))
+        request = url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3)
+        http_response = requests.delete(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -255,10 +258,10 @@ Functions for the different combinations of get and put requests
 
 
 def _post_responses(param, param1, param2, data, headertype):
+
+    url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
     try:
-
-
-        http_response = requests.post(url=conf.url + "documents/" + param + "/" + param1 + "/" + param2,
+        http_response = requests.post(url=url,
                                       headers={"Content-Type": headertype },
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", requests)
@@ -271,8 +274,10 @@ def _post_responses(param, param1, param2, data, headertype):
 
 
 def _put_response_upload(param, param1, param2, data, headertype):
+
+    url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
     try:
-        http_response = requests.put(url=conf.url + "documents/" + param + "/" + param1 + "/" + param2,
+        http_response = requests.put(url=url,
                                      headers={"Content-Type": headertype},
                                      auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", requests)

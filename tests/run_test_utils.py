@@ -88,7 +88,7 @@ def run_tests(_test_dirs):
             # Find all subclasses of unittest.TestCase that were
             # in the test source and add them to the suite.
             for (nm, obj) in g.items():
-                if (type == type(obj)) and issubclass(obj, unittest.TestCase):
+                if (type == type(obj)) and issubclass(obj, unittest2.TestCase):
                     suite.addTest(loader.loadTestsFromTestCase(obj))
         except Exception as e:
             raise

@@ -39,7 +39,7 @@ conf = utils.Configuration()
 class TestChargebackUpdateCaseId(unittest2.TestCase):
     def test_put_caseId(self):
         param = fields_chargeback.chargebackApiCase()
-        param.caseId = u'1304283003'
+        param.caseId = u'01333078001'
         request_body = fields_chargeback.chargebackUpdateRequest()
         request_body.activityType = "ADD_NOTE"
         request_body.note = "note333"

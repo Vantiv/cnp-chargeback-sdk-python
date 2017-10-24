@@ -42,7 +42,7 @@ class TestCaseDocuments(unittest2.TestCase):
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
         response = online._get_case_document(param.id, param1.id)
-        #lself.assertEquals('1304283001', response['chargebackCase']['caseId'])
+        self.assertEquals('01333078001', response['ChargebackCase']['@id'])
 
 
 if __name__ == '__main__':

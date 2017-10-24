@@ -37,20 +37,19 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestUploadChargebackDocument(unittest2.TestCase):
-    def test_upload_chargebackDocument(self):
+class TestUpdateChargebackDocument(unittest2.TestCase):
+    def test_update_chargebackDocument(self):
         param = fields_chargebackDocument.Merchant();
         param.id = u'01333078'
         param1 = fields_chargebackDocument.ChargebackCase();
         param1.id = u'01333078001'
         param2 = fields_chargebackDocument.Document()
-        param2.id = u'test6_8'
+        param2.id = u'test6_7'
+        path = package_root + "/samples/index.jpeg"
+        headercontent = contentTypeEnum.ContentType.JPEG.value
+        response = online._put_document(param.id, param1.id, param2.id, path, headercontent)
 
-        path = package_root+"/samples/000_puppy_picture.jpg"
-        headercontent = contentTypeEnum.ContentType.JPEG
-        response = online._post_document(param.id, param1.id, param2.id, path, headercontent)
-
-        self.assertEquals('000', response['Document']['ResponseCode'])
+        self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
 
 
 if __name__ == '__main__':

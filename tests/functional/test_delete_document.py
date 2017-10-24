@@ -42,9 +42,9 @@ class TestDeleteDocument(unittest2.TestCase):
         case_param = fields_chargebackDocument.ChargebackCase()
         case_param.id = u'01333078001'
         document_param = fields_chargebackDocument.Document()
-        document_param.id = u'image'
+        document_param.id = u'image125'
         response = online._delete_document(merchant_param.id, case_param.id, document_param.id)
-        self.assertEquals('000', response['Document']['ResponseCode'])
+        self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
 
 
 if __name__ == '__main__':

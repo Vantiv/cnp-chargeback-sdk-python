@@ -36,7 +36,7 @@ conf = utils.Configuration()
 
 
 class TestActionable(unittest2.TestCase):
-    def test_get_actionable(self):
+    def test_actionable(self):
         param = parameters.Parameters()
         param.actionable = "true"
         response = online._get_actionable(param.actionable)

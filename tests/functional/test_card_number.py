@@ -35,7 +35,7 @@ conf = utils.Configuration()
 
 
 class TestCardNumber(unittest2.TestCase):
-    def test_get_token(self):
+    def test_card_number(self):
         param = parameters.Parameters()
         param.expiration_date = u'0150'
         param.card_number = u'6500102010004006'

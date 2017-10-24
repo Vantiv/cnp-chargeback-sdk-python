@@ -332,11 +332,6 @@ def _delete_document(merchant_id, case_id, document_id):
     return response
 
 
-# def _upload_document(merchant_id, case_id, document_id, type, extension):
-#     response = _upload_document_response(merchant_id, case_id, document_id, type, extension)
-#     return response
-
-
 def _post_document(merchant_id, case_id, document_id, path, headertype):
     response = _post_document_responses(merchant_id, case_id, document_id, path, headertype)
     return response

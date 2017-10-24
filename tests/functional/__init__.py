@@ -35,6 +35,11 @@ __all__ = [
     'test_token',
     'test_activity_date',
     'testUpdate_case_id',
+    'testUpdate_assign_to_cbk_request',
+    'testUpdate_case_accept_liability',
+    'testUpdate_case_represent',
+    'testUpdate_merchant_respond',
+    'testUpdate_merchant_response_arbitration'
 
 
 

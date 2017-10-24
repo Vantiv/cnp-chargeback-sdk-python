@@ -57,7 +57,7 @@ class Configuration(object):
             'password': '',
             'merchantId': '',
             'reportGroup': '',
-            'url': 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
+            'url': 'https://services.vantivprelive.com/services/chargebacks/',
             'proxy': '',
             'fast_url': '',
             'fast_ssl': True,

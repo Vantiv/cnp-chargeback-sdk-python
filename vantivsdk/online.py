@@ -40,7 +40,7 @@ home_dir = os.environ['HOME']
 
 
 def _get_response(parameter_value, parameter_key):
-    """ generate response with request method  get
+    """ generate response with request method  GET
     :param parameter_value: the parameter value to be appended in url
     :param parameter_key: the paramater to be appended in url
     :return: returns the response received
@@ -64,7 +64,7 @@ def _get_response(parameter_value, parameter_key):
 
 
 def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter_key2):
-    """ generate response with multiple parameters with request method  get
+    """ generate response with multiple parameters with request method  GET
     :param parameter_value1:  the parameter value to be appended in url
     :param parameter_key1: the paramater to be appended in url
     :param parameter_value2: the parameter value to be appended in url
@@ -155,7 +155,7 @@ def _check_response_dict(response, return_format='dict'):
 
 
 def _put_responses(parameter_value1, request_body):
-    """ generate response with request method  put
+    """ generate response with request method  PUT
     :param parameter_value1: the parameter value to be appended in url
     :param request_body: the input object for the xml
     :return: return the response generated
@@ -174,7 +174,7 @@ def _put_responses(parameter_value1, request_body):
 
 
 def _get_document_response(parameter_value1, parameter_value2):
-    """ generate response with multiple parameters with request method  get
+    """ generate response when merchant id, case id is given using GET method
     :param parameter_value1:  the parameter value to be appended in url
     :param parameter_value2: the parameter value to be appended in url
     :return:
@@ -198,7 +198,13 @@ def _get_document_response(parameter_value1, parameter_value2):
 
 
 def _get_document_responses(parameter_value1, parameter_value2, parameter_value3):
+    """ generate response when merchant id, case id and document id is given using GET method
 
+    :param parameter_value1: merchant id to be appended to url
+    :param parameter_value2: case id to be appended to ur
+    :param parameter_value3: document id to be appended to ur
+    :return: the http response generated
+    """
     url = conf.url + "documents/"
     try:
         request = url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3)
@@ -215,8 +221,15 @@ def _get_document_responses(parameter_value1, parameter_value2, parameter_value3
 
 
 def _delete_document_response(parameter_value1, parameter_value2, parameter_value3):
-    url = conf.url + "documents/"
+    """ generate response when merchant id, case id and document id is given using DELETE method
 
+    :param parameter_value1: merchant id to be appended to url
+    :param parameter_value2: case id to be appended to ur
+    :param parameter_value3: document id to be appended to ur
+    :return: the http response generated
+    """
+
+    url = conf.url + "documents/"
     try:
         request = url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3)
         http_response = requests.delete(request, auth=HTTPBasicAuth(conf.user, conf.password))
@@ -231,9 +244,18 @@ def _delete_document_response(parameter_value1, parameter_value2, parameter_valu
     return response
 
 
-def _post_document_responses(param, param1, param2, path, headertype):
+def _post_document_responses(merchant_id, case_id, document_id, path, headertype):
+    """ generate response when merchant id, case id and document id is given using POST method
+
+    :param merchant_id:merchant id to be appended to url
+    :param case_id:case id to be appended to url
+    :param document_id:document id to be appended to ur
+    :param path: file path of the document to be uploaded
+    :param headertype: appropriate header for the document to be uploaded
+    :return:
+    """
     try:
-        url = conf.url + "documents/" + str(param) + "/" + str(param1) + "/" + str(param2)
+        url = conf.url + "documents/" + str(merchant_id) + "/" + str(case_id) + "/" + str(document_id)
         with open(path, 'rb') as f:
             data = f.read()
 
@@ -249,9 +271,18 @@ def _post_document_responses(param, param1, param2, path, headertype):
     return response
 
 
-def _update_document_responses(param, param1, param2, path, headertype):
+def _update_document_responses(merchant_id, case_id, document_id, path, headertype):
+    """generate response when merchant id, case id and document id is given using PUT method
+
+    :param merchant_id: merchant_id:merchant id to be appended to url
+    :param case_id: case_id:case id to be appended to url
+    :param document_id: document id to be appended to ur
+    :param path: file path of the document to be uploaded
+    :param headertype: appropriate header for the document to be uploaded
+    :return:
+    """
     try:
-        url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
+        url = conf.url + "documents/" + merchant_id + "/" + case_id + "/" + document_id
         with open(path, 'rb') as f:
             data = f.read()
         http_response = requests.put(url=url,

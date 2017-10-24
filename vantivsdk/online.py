@@ -232,37 +232,14 @@ def _delete_document_response(parameter_value1, parameter_value2, parameter_valu
     return response
 
 
-# def _upload_document_response(parameter_value1, parameter_value2, parameter_value3, file_type, extension):
-#     conf.url = conf.url + "documents/"
-#     file = open(package_root+"/samples/000_puppy_picture.jpg", 'rb').read()
-#     try:
-#         http_response = requests.post(conf.url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3),
-#                                      data=file,
-#                                      headers={"Content-Type": file_type+"/"+extension},
-#                                      auth=HTTPBasicAuth(conf.user, conf.password))
-#
-#     except requests.RequestException:
-#         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-#
-#     print(requests)
-#     print("Response :", http_response)
-#     _check_response(http_response)
-#     response = _check_response_dict(http_response, return_format='dict')
-#
-#     return response
-
-
-"""
-Functions for the different combinations of get and put requests
-"""
-
-
-def _post_responses(param, param1, param2, data, headertype):
-
-    url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
+def _post_responses(param, param1, param2, path, headertype):
     try:
+        url = conf.url + "documents/" + str(param) + "/" + str(param1) + "/" + str(param2)
+        with open(path, 'rb') as f:
+            data = f.read()
+
         http_response = requests.post(url=url,
-                                      headers={"Content-Type": headertype },
+                                      headers={"Content-Type": headertype.value},
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", requests)
         print("Response :", http_response)
@@ -273,10 +250,11 @@ def _post_responses(param, param1, param2, data, headertype):
     return response
 
 
-def _put_response_upload(param, param1, param2, data, headertype):
-
-    url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
+def _put_response_upload(param, param1, param2, path, headertype):
     try:
+        url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
+        with open(path, 'rb') as f:
+            data = f.read()
         http_response = requests.put(url=url,
                                      headers={"Content-Type": headertype},
                                      auth=HTTPBasicAuth(conf.user, conf.password), data=data)
@@ -288,6 +266,10 @@ def _put_response_upload(param, param1, param2, data, headertype):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
     return response
+
+"""
+Functions for the different combinations of get and put requests
+"""
 
 
 def _get_case_id(case_id):
@@ -350,13 +332,13 @@ def _delete_document(merchant_id, case_id, document_id):
 #     return response
 
 
-def _post_document(merchant_id, case_id, document_id, request_body, headertype):
-    response = _post_responses(merchant_id, case_id, document_id, request_body, headertype)
+def _post_document(merchant_id, case_id, document_id, path, headertype):
+    response = _post_responses(merchant_id, case_id, document_id, path, headertype)
     return response
 
 
-def _put_document(merchant_id, case_id, document_id, request_body, headertype):
-    response = _put_response_upload(merchant_id, case_id, document_id, request_body, headertype)
+def _put_document(merchant_id, case_id, document_id, path, headertype):
+    response = _put_response_upload(merchant_id, case_id, document_id, path, headertype)
     return response
 
 

@@ -26,7 +26,8 @@ import os
 import sys
 import unittest
 from unittest import mock
-from vantivsdk import (utils, online, fields_chargeback, fields_chargebackDocument, parameters)
+from vantivsdk import (utils, online, fields_chargebackDocument, fields_chargeback, contentTypeEnum,  parameters)
+
 import six
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -65,9 +66,8 @@ class TestOnline(unittest.TestCase):
         self.assertRaises(utils.VantivException, online._get_responses, param.card_number, "", param.expiration_date,
                           "expirationDate")
 
-
     @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
-                 "VantivException not raised by _get_response")
+                     "VantivException not raised by _get_response")
     def test_request_put_response(self):
         param = fields_chargeback.chargebackApiCase()
         param.caseId = u'1304283003'
@@ -76,15 +76,25 @@ class TestOnline(unittest.TestCase):
         request_body.note = "note333"
         self.assertRaises(utils.VantivException, online._put_chargeback_update, param.caseId, request_body)
 
-    @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
-                         "VantivException not raised by _get_response")
-    def test_request_post_response(self):
-            param = fields_chargeback.chargebackApiCase()
-            param.caseId = u'1304283003'
-            request_body = fields_chargeback.chargebackUpdateRequest()
-            request_body.activityType = "ADD_NOTE"
-            request_body.note = "note333"
-            self.assertRaises(utils.VantivException, online._put_chargeback_update, param.caseId, request_body)
+    # @unittest.skipIf(conf.url == 'http://prelive-pl-app1.litle.com:8048/services/chargebacks/',
+    #                  "VantivException not raised by _put_response")
+    # def test_request_post_response(self):
+    #         param = fields_chargeback.chargebackApiCase()
+    #         param.caseId = u'1304283003'
+    #         request_body = fields_chargeback.chargebackUpdateRequest()
+    #         request_body.activityType = "ADD_NOTE"
+    #         request_body.note = "note333"
+    #         self.assertRaises(utils.VantivException, online._put_chargeback_update, param.caseId, request_body)
+    #
+    #     param = fields_chargebackDocument.Merchant();
+    #     param.id = u'01333078'
+    #     param1 = fields_chargebackDocument.ChargebackCase();
+    #     param1.id = u'01333078001'
+    #     param2 = fields_chargebackDocument.Document()
+    #     param2.id = u'test6_7'
+    #     path = package_root + "/samples/000_puppy_picture.jpg"
+    #     headertype = contentTypeEnum.ContentType.JPEG
+    #     self.assertRaises(utils.VantivException, online._post_responses, param, param1, param2, path, headertypee)
 
 
 if __name__ == '__main__':

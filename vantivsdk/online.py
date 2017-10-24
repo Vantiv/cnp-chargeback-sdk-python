@@ -246,7 +246,7 @@ def _delete_document_response(parameter_value1, parameter_value2, parameter_valu
 #     _check_response(http_response)
 #     response = _check_response_dict(http_response, return_format='dict')
 #
-#     return response
+#     return response   `
 
 
 """
@@ -341,11 +341,6 @@ def _get_documents(merchant_id, case_id):
 def _delete_document(merchant_id, case_id, document_id):
     response = _delete_document_response(merchant_id, case_id, document_id)
     return response
-
-
-# def _upload_document(merchant_id, case_id, document_id, type, extension):
-#     response = _upload_document_response(merchant_id, case_id, document_id, type, extension)
-#     return response
 
 
 def _post_document(merchant_id, case_id, document_id, path, headertype):

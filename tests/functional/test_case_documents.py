@@ -37,12 +37,12 @@ conf = utils.Configuration()
 
 class TestCaseDocuments(unittest2.TestCase):
     def test_case_chargebackDocument(self):
-        param = fields_chargebackDocument.Merchant();
-        param.id = u'01333078'
-        param1 = fields_chargebackDocument.ChargebackCase();
-        param1.id = u'01333078001'
-        response = online._get_case_document(param.id, param1.id)
-        self.assertEquals('01333078001', response['ChargebackCase']['@id'])
+        param_merchant = fields_chargebackDocument.Merchant();
+        param_merchant.id = conf.merchant_id
+        param_case = fields_chargebackDocument.ChargebackCase();
+        param_case.id = conf.case_id
+        response = online._get_case_document(param_merchant.id, param_case.id)
+        self.assertEquals(conf.case_id, response['ChargebackCase']['@id'])
 
 
 if __name__ == '__main__':

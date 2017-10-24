@@ -25,9 +25,7 @@
 import os
 import sys
 import unittest2
-
-
-from vantivsdk import fields_chargeback, utils, online
+from vantivsdk import fields_chargeback, utils,online, parameters
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -36,14 +34,13 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestChargebackUpdateCaseId(unittest2.TestCase):
-    def test_put_caseId(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = u'01333078001'
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "ADD_NOTE"
-        request_body.note = "note333"
-        response = online._put_chargeback_update(param.caseId, request_body)
+class TestActivityDate(unittest2.TestCase):
+    def test_activity_date_financial_impact(self):
+        param = fields_chargeback.chargebackApiActivity()
+        param.activityDate = conf.activity_date
+        params = parameters.Parameters()
+        params.financialOnly = conf.financial_impact
+        response = online._get_financial_impact(param.activityDate, params.financialOnly)
         self.assertRegex(response["transactionId"], "\d+")
 
 

@@ -39,16 +39,15 @@ conf = utils.Configuration()
 
 class TestUploadChargebackDocument(unittest2.TestCase):
     def test_upload_chargebackDocument(self):
-        param = fields_chargebackDocument.Merchant();
-        param.id = u'01333078'
-        param1 = fields_chargebackDocument.ChargebackCase();
-        param1.id = u'01333078001'
-        param2 = fields_chargebackDocument.Document()
-        param2.id = u'test6_8'
-
+        param_merchant = fields_chargebackDocument.Merchant();
+        param_merchant.id = conf.merchant_id
+        param_case = fields_chargebackDocument.ChargebackCase();
+        param_case.id = conf.case_id
+        param_document = fields_chargebackDocument.Document()
+        param_document.id = conf.document_id
         path = package_root+"/samples/000_puppy_picture.jpg"
         headercontent = contentTypeEnum.ContentType.JPEG
-        response = online._post_document(param.id, param1.id, param2.id, path, headercontent)
+        response = online._post_document(param_merchant.id, param_case.id, param_document.id, path, headercontent)
 
         self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
 

@@ -38,7 +38,7 @@ conf = utils.Configuration()
 class TestTokenId(unittest2.TestCase):
     def test_get_token(self):
         param = fields_chargeback.chargebackApiCase()
-        param.token = u'1234123999'
+        param.token = conf.token
         response = online._get_token(param.token)
         self.assertRegex(response["transactionId"], "\d+")
 

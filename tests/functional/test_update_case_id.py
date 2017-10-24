@@ -26,7 +26,8 @@ import os
 import sys
 import unittest2
 
-from vantivsdk import fields_chargebackDocument, utils, online
+
+from vantivsdk import fields_chargeback, utils, online
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 
@@ -35,16 +36,15 @@ import pyxb
 conf = utils.Configuration()
 
 
-class TestDeleteDocument(unittest2.TestCase):
-    def test_delete_chargebackDocument(self):
-        merchant_param = fields_chargebackDocument.Merchant()
-        merchant_param.id = conf.merchant_id
-        case_param = fields_chargebackDocument.ChargebackCase()
-        case_param.id = conf.case_id
-        document_param = fields_chargebackDocument.Document()
-        document_param.id = conf.document_id
-        response = online._delete_document(merchant_param.id, case_param.id, document_param.id)
-        self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
+class TestChargebackUpdateCaseId(unittest2.TestCase):
+    def test_put_caseId(self):
+        param = fields_chargeback.chargebackApiCase()
+        param.caseId = conf.case_id
+        request_body = fields_chargeback.chargebackUpdateRequest()
+        request_body.activityType = "ADD_NOTE"
+        request_body.note = "note333"
+        response = online._put_chargeback_update(param.caseId, request_body)
+        self.assertRegex(response["transactionId"], "\d+")
 
 
 if __name__ == '__main__':

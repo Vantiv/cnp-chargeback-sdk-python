@@ -38,7 +38,7 @@ conf = utils.Configuration()
 class TestActionable(unittest2.TestCase):
     def test_actionable(self):
         param = parameters.Parameters()
-        param.actionable = "true"
+        param.actionable = conf.actionable
         response = online._get_actionable(param.actionable)
         self.assertRegex(response["transactionId"], "\d+")
 

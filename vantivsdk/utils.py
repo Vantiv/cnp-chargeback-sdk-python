@@ -64,7 +64,19 @@ class Configuration(object):
             'fast_port': '',
             'print_xml': True,
             'id': '',
-            'headers': ''
+            'chargebackApi_headers': {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"},
+            'chargebackdocument_headers':'',
+            'merchant_id': u'01333078',
+            'case_id': u'1333078001',
+            'actionable': 'true',
+            'activity_date': u'2017-10-11',
+            'acquirer_reference_number': u'4444444444',
+            'card_number': u'6500102010004006',
+            'expiration_date': u'0150',
+            'document_id': u'document',
+            'financial_impact': 'true',
+            'token': u'1234123999'
+
         }
 
         # set default values

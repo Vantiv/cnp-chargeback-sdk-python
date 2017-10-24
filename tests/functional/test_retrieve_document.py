@@ -39,11 +39,11 @@ package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(_
 class TestRetrieveDocument(unittest2.TestCase):
     def test_retrieve_chargebackDocument(self):
         merchant_param = fields_chargebackDocument.Merchant()
-        merchant_param.id = u'01333078'
+        merchant_param.id = conf.merchant_id
         case_param = fields_chargebackDocument.ChargebackCase()
-        case_param.id = u'01333078001'
+        case_param.id = conf.case_id
         document_param = fields_chargebackDocument.Document()
-        document_param.id = u'image125'
+        document_param.id = conf.document_id
         online._get_document(merchant_param.id, case_param.id, document_param.id)
         self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
 

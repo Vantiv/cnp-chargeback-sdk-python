@@ -37,8 +37,8 @@ conf = utils.Configuration()
 class TestCardNumber(unittest2.TestCase):
     def test_card_number(self):
         param = parameters.Parameters()
-        param.expiration_date = u'0150'
-        param.card_number = u'6500102010004006'
+        param.expiration_date = conf.expiration_date
+        param.card_number = conf.card_number
         response = online._get_card_number(param.card_number, param.expiration_date)
         self.assertRegex(response["transactionId"], "\d+")
 

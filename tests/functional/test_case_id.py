@@ -38,9 +38,9 @@ conf = utils.Configuration()
 class TestCaseId(unittest2.TestCase):
     def test_get_case_id(self):
         param = fields_chargeback.chargebackApiCase()
-        param.caseId = u'01333078001'
+        param.caseId = conf.case_id
         response = online._get_case_id(param.caseId)
-        self.assertEquals('1333078001', response['chargebackCase']['caseId'])
+        self.assertEquals(conf.case_id, response['chargebackCase']['caseId'])
 
 
 if __name__ == '__main__':

@@ -36,6 +36,7 @@ from vantivsdk import (fields_chargeback, utils, dict2obj)
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
 home_dir = os.environ['HOME']
+# conf.header = {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"}
 
 
 def _get_response(parameter_value, parameter_key):
@@ -50,7 +51,7 @@ def _get_response(parameter_value, parameter_key):
             url = url  + "?"
             parameter_key = parameter_key + "="
         request = url + parameter_key + str(parameter_value)
-        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request, headers=conf.chargebackApi_headers,auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -78,7 +79,7 @@ def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter
 
     try:
         request = url + parameter_key1 + str(parameter_value1) + "&" + parameter_key2 + str(parameter_value2)
-        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request, headers=conf.chargebackApi_headers, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -162,9 +163,7 @@ def _put_responses(parameter_value1, request_body):
 
     try:
         request = conf.url + str(parameter_value1)
-        http_response = requests.put(request, headers={"Content-Type": "application/com.vantivcnp.services-v2+xml", "Accept": "application/com.vantivcnp.services-v2+xml"},
-                                     auth=HTTPBasicAuth(conf.user, conf.password),
-                                     data=_create_request_xml(request_body))
+        http_response = requests.put(request, headers=conf.chargebackApi_headers, auth=HTTPBasicAuth(conf.user, conf.password), data=_create_request_xml(request_body))
         print("Request :", request)
         print("Response :", http_response)
         _check_response(http_response)
@@ -207,7 +206,7 @@ def _get_document_responses(parameter_value1, parameter_value2, parameter_value3
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print(requests)
+    print("Request:", request)
     print("Response :", http_response)
     _check_response(http_response)
     response = _check_response_dict(http_response, return_format='dict')
@@ -224,7 +223,7 @@ def _delete_document_response(parameter_value1, parameter_value2, parameter_valu
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print(requests)
+    print("Request:", request)
     print("Response :", http_response)
     _check_response(http_response)
     response = _check_response_dict(http_response, return_format='dict')
@@ -232,7 +231,7 @@ def _delete_document_response(parameter_value1, parameter_value2, parameter_valu
     return response
 
 
-def _post_responses(param, param1, param2, path, headertype):
+def _post_document_responses(param, param1, param2, path, headertype):
     try:
         url = conf.url + "documents/" + str(param) + "/" + str(param1) + "/" + str(param2)
         with open(path, 'rb') as f:
@@ -241,7 +240,7 @@ def _post_responses(param, param1, param2, path, headertype):
         http_response = requests.post(url=url,
                                       headers={"Content-Type": headertype.value},
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
-        print("Request :", requests)
+        print("Request :", url)
         print("Response :", http_response)
         _check_response(http_response)
         response = _check_response_dict(http_response, return_format='dict')
@@ -250,7 +249,7 @@ def _post_responses(param, param1, param2, path, headertype):
     return response
 
 
-def _put_response_upload(param, param1, param2, path, headertype):
+def _update_document_responses(param, param1, param2, path, headertype):
     try:
         url = conf.url + "documents/" + param + "/" + param1 + "/" + param2
         with open(path, 'rb') as f:
@@ -258,7 +257,7 @@ def _put_response_upload(param, param1, param2, path, headertype):
         http_response = requests.put(url=url,
                                      headers={"Content-Type": headertype},
                                      auth=HTTPBasicAuth(conf.user, conf.password), data=data)
-        print("Request :", requests)
+        print("Request :", url)
         print("Response :", http_response)
         _check_response(http_response)
         response = _check_response_dict(http_response, return_format='dict')
@@ -266,6 +265,7 @@ def _put_response_upload(param, param1, param2, path, headertype):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
     return response
+
 
 """
 Functions for the different combinations of get and put requests
@@ -294,6 +294,11 @@ def _get_arn(arn):
 
 def _get_activity_date(activity_date):
     response = _get_response(activity_date.date(), "date")
+    return response
+
+
+def _get_financial_impact(activity_date, financial_impact):
+    response = _get_responses(activity_date.date(), "date", financial_impact, "financialOnly")
     return response
 
 
@@ -333,12 +338,12 @@ def _delete_document(merchant_id, case_id, document_id):
 
 
 def _post_document(merchant_id, case_id, document_id, path, headertype):
-    response = _post_responses(merchant_id, case_id, document_id, path, headertype)
+    response = _post_document_responses(merchant_id, case_id, document_id, path, headertype)
     return response
 
 
 def _put_document(merchant_id, case_id, document_id, path, headertype):
-    response = _put_response_upload(merchant_id, case_id, document_id, path, headertype)
+    response = _update_document_responses(merchant_id, case_id, document_id, path, headertype)
     return response
 
 

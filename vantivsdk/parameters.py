@@ -35,5 +35,6 @@ class Parameters(object):
     actionable = ""
     type = ""
     extension = ""
+    financialOnly = ""
 
 

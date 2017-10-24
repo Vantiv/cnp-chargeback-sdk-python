@@ -39,7 +39,7 @@ conf = utils.Configuration()
 class TestActivityDate(unittest2.TestCase):
     def test_activity_date(self):
         param = fields_chargeback.chargebackApiActivity()
-        param.activityDate = u'2017-10-11'
+        param.activityDate = conf.activity_date
         response = online._get_activity_date(param.activityDate)
         self.assertRegex(response["transactionId"], "\d+")
 

@@ -22,25 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 __all__ = [
-    'test_case_id',
-    'test_activity_date',
-    'test_arn',
-    'test_card_number',
-    'test_case_documents',
-    'test_case_id',
-    'test_delete_document',
-    'test_document_post',
-    'test_document_put',
-    'test_retrieve_document',
-    'test_token',
-    'test_activity_date',
-    'testUpdate_case_id',
-    'testUpdate_assign_to_cbk_request',
-    'testUpdate_case_accept_liability',
-    'testUpdate_case_represent',
-    'testUpdate_merchant_respond',
-    'testUpdate_merchant_response_arbitration'
-
-
-
+    'test_chargeback_retrieval',
+    'test_chargeback_update',
+    'test_chargeback_document'
 ]

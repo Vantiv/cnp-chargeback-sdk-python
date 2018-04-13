@@ -22,25 +22,62 @@
 # # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # # OTHER DEALINGS IN THE SOFTWARE.
 #
+
 import os
 import sys
 import unittest2
-from vantivsdk import fields_chargeback, utils,online, parameters
+from vantivsdk import fields_chargeback, online, parameters, utils
+
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
-
-import pyxb
 
 conf = utils.Configuration()
 
 
 class TestActivityDate(unittest2.TestCase):
+    def test_activity_date(self):
+        param = fields_chargeback.chargebackApiActivity()
+        param.activityDate = conf.activity_date
+        response = online._get_activity_date(param.activityDate)
+        self.assertRegex(response["transactionId"], "\d+")
+
     def test_activity_date_financial_impact(self):
         param = fields_chargeback.chargebackApiActivity()
         param.activityDate = conf.activity_date
         params = parameters.Parameters()
         params.financialOnly = conf.financial_impact
         response = online._get_financial_impact(param.activityDate, params.financialOnly)
+        self.assertRegex(response["transactionId"], "\d+")
+
+    def test_actionable(self):
+        param = parameters.Parameters()
+        param.actionable = conf.actionable
+        response = online._get_actionable(param.actionable)
+        self.assertRegex(response["transactionId"], "\d+")
+
+    def test_get_case_id(self):
+        param = fields_chargeback.chargebackApiCase()
+        param.caseId = conf.case_id
+        response = online._get_case_id(param.caseId)
+        self.assertEquals(conf.case_id, response['chargebackCase']['caseId'])
+
+    def test_get_token(self):
+        param = fields_chargeback.chargebackApiCase()
+        param.token = conf.token
+        response = online._get_token(param.token)
+        self.assertRegex(response["transactionId"], "\d+")
+
+    def test_card_number(self):
+        param = parameters.Parameters()
+        param.expiration_date = conf.expiration_date
+        param.card_number = conf.card_number
+        response = online._get_card_number(param.card_number, param.expiration_date)
+        self.assertRegex(response["transactionId"], "\d+")
+
+    def test_arn(self):
+        param = fields_chargeback.chargebackApiCase()
+        param.acquirerReferenceNumber = u'4444444444'
+        response = online._get_arn(param.acquirerReferenceNumber)
         self.assertRegex(response["transactionId"], "\d+")
 
 

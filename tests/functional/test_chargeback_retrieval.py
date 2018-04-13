@@ -34,50 +34,34 @@ sys.path.insert(0, package_root)
 conf = utils.Configuration()
 
 
-class TestActivityDate(unittest2.TestCase):
+class TestChargebackRetrieval(unittest2.TestCase):
+    print(conf.url)
     def test_activity_date(self):
-        param = fields_chargeback.chargebackApiActivity()
-        param.activityDate = conf.activity_date
-        response = online._get_activity_date(param.activityDate)
+        response = online.get_activity_date("2018-01-01")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_activity_date_financial_impact(self):
-        param = fields_chargeback.chargebackApiActivity()
-        param.activityDate = conf.activity_date
-        params = parameters.Parameters()
-        params.financialOnly = conf.financial_impact
-        response = online._get_financial_impact(param.activityDate, params.financialOnly)
+        response = online.get_financial_impact("2018-01-01", "true")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_actionable(self):
-        param = parameters.Parameters()
-        param.actionable = conf.actionable
-        response = online._get_actionable(param.actionable)
+        response = online.get_actionable("true")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_get_case_id(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        response = online._get_case_id(param.caseId)
-        self.assertEquals(conf.case_id, response['chargebackCase']['caseId'])
+        response = online.get_case_id("1333078000")
+        self.assertEquals("1333078000", response['chargebackCase']['caseId'])
 
     def test_get_token(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.token = conf.token
-        response = online._get_token(param.token)
+        response = online.get_token("1000000")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_card_number(self):
-        param = parameters.Parameters()
-        param.expiration_date = conf.expiration_date
-        param.card_number = conf.card_number
-        response = online._get_card_number(param.card_number, param.expiration_date)
+        response = online.get_card_number("1111000011110000", "0118")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_arn(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.acquirerReferenceNumber = u'4444444444'
-        response = online._get_arn(param.acquirerReferenceNumber)
+        response = online.get_arn("1111111111")
         self.assertRegex(response["transactionId"], "\d+")
 
 

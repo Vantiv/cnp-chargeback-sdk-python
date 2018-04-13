@@ -34,61 +34,33 @@ sys.path.insert(0, package_root)
 conf = utils.Configuration()
 
 
-class TestChargebackUpdateCaseId(unittest2.TestCase):
-    def test_put_assign(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "ASSIGN_TO_USER"
-        request_body.assignedTo = "jdeo@company.com"
-        request_body.note = "Assigning to "
-        response = online._put_chargeback_update(param.caseId, request_body)
+class TestChargebackUpdate(unittest2.TestCase):
+    def test_assign_case_to_user(self):
+        response = online.assign_case_to_user(10000, "jdeo@company.com", "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
-    def test_put_caseId(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "ADD_NOTE"
-        request_body.note = "note333"
-        response = online._put_chargeback_update(param.caseId, request_body)
+    def test_add_not_to_case(self):
+        response = online.add_note_to_case(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
-    def test_put_accept_libaility(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "MERCHANT_ACCEPTS_LIABILITY"
-        request_body.note = "note about case"
-        response = online._put_chargeback_update(param.caseId, request_body)
+    def test_assume_liability(self):
+        response = online.assume_liability(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
-    def test_put_RepresentAmount(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "MERCHANT_REPRESENT"
-        request_body.note = "Represent with documentation 1000"
-        request_body.representedAmount = "1000"
-        response = online._put_chargeback_update(param.caseId, request_body)
+    def test_represent_case(self):
+        response = online.represent_case(10000, "Test note", 12000)
         self.assertRegex(response["transactionId"], "\d+")
 
-    def test_put_respond_to_retrival(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "MERCHANT_RESPOND"
-        request_body.note = "Respond to Retrieval Request"
-        response = online._put_chargeback_update(param.caseId, request_body)
+    def test_represent_case_full(self):
+        response = online.represent_case(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
-    def test_put_Request_Arbitration(self):
-        param = fields_chargeback.chargebackApiCase()
-        param.caseId = conf.case_id
-        request_body = fields_chargeback.chargebackUpdateRequest()
-        request_body.activityType = "MERCHANT_REQUESTS_ARBITRATION"
-        request_body.note = "Request arbitration"
-        response = online._put_chargeback_update(param.caseId, request_body)
+    def test_respond_to_retrieval_request(self):
+        response = online.respond_to_retrieval_request(10000, "Test note")
+        self.assertRegex(response["transactionId"], "\d+")
+
+    def test_request_arbitration(self):
+        response = online.request_arbitration(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
 

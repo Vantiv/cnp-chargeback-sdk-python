@@ -24,6 +24,8 @@
 #
 from __future__ import absolute_import, print_function, unicode_literals
 
+import mimetypes
+
 import requests
 import xmltodict
 import six
@@ -32,10 +34,11 @@ import os
 from requests.auth import HTTPBasicAuth
 from vantivsdk import (fields_chargeback, utils, dict2obj)
 
-
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
 home_dir = os.environ['HOME']
+
+
 # conf.header = {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"}
 
 
@@ -48,10 +51,11 @@ def _get_response(parameter_value, parameter_key):
     url = conf.url
     try:
         if parameter_key != "":
-            url = url  + "?"
+            url = url + "?"
             parameter_key = parameter_key + "="
         request = url + parameter_key + str(parameter_value)
-        http_response = requests.get(request, headers=conf.chargebackApi_headers,auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request, headers=conf.chargebackApi_headers,
+                                     auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -79,7 +83,8 @@ def _get_responses(parameter_value1, parameter_key1, parameter_value2, parameter
 
     try:
         request = url + parameter_key1 + str(parameter_value1) + "&" + parameter_key2 + str(parameter_value2)
-        http_response = requests.get(request, headers=conf.chargebackApi_headers, auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request, headers=conf.chargebackApi_headers,
+                                     auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -150,7 +155,7 @@ def _check_response_dict(response, return_format='dict'):
         else:
             raise utils.VantivException("Invalid Format")
     else:
-        with open(package_root+'/samples/doc.pdf', 'wb') as f:
+        with open(package_root + '/samples/doc.pdf', 'wb') as f:
             f.write(response.content)
 
 
@@ -163,7 +168,9 @@ def _put_responses(parameter_value1, request_body):
 
     try:
         request = conf.url + str(parameter_value1)
-        http_response = requests.put(request, headers=conf.chargebackApi_headers, auth=HTTPBasicAuth(conf.user, conf.password), data=_create_request_xml(request_body))
+        http_response = requests.put(request, headers=conf.chargebackApi_headers,
+                                     auth=HTTPBasicAuth(conf.user, conf.password),
+                                     data=_create_request_xml(request_body))
         print("Request :", request)
         print("Response :", http_response)
         _check_response(http_response)
@@ -173,18 +180,18 @@ def _put_responses(parameter_value1, request_body):
     return response
 
 
-def _get_document_response(parameter_value1, parameter_value2):
+def _get_document_response(case_id):
     """ generate response when merchant id, case id is given using GET method
     :param parameter_value1:  the parameter value to be appended in url
-    :param parameter_value2: the parameter value to be appended in url
+    :param case_id: the parameter value to be appended in url
     :return:
     """
 
-    url = conf.url + "documents/"
+    url = conf.url
 
     try:
 
-        request = url + str(parameter_value1) + "/" + str(parameter_value2)
+        request = url + "/list/" + str(case_id)
         http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
@@ -197,17 +204,17 @@ def _get_document_response(parameter_value1, parameter_value2):
     return response
 
 
-def _get_document_responses(parameter_value1, parameter_value2, parameter_value3):
+def _get_document_responses(case_id, document_id):
     """ generate response when merchant id, case id and document id is given using GET method
 
     :param parameter_value1: merchant id to be appended to url
-    :param parameter_value2: case id to be appended to ur
-    :param parameter_value3: document id to be appended to ur
+    :param case_id: case id to be appended to ur
+    :param document_id: document id to be appended to ur
     :return: the http response generated
     """
-    url = conf.url + "documents/"
+    url = conf.url
     try:
-        request = url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3)
+        request = url + "/retrieve/" + str(case_id) + "/" + str(document_id)
         http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
@@ -220,18 +227,18 @@ def _get_document_responses(parameter_value1, parameter_value2, parameter_value3
     return response
 
 
-def _delete_document_response(parameter_value1, parameter_value2, parameter_value3):
+def _delete_document_response(case_id, document_id):
     """ generate response when merchant id, case id and document id is given using DELETE method
 
     :param parameter_value1: merchant id to be appended to url
-    :param parameter_value2: case id to be appended to ur
-    :param parameter_value3: document id to be appended to ur
+    :param case_id: case id to be appended to ur
+    :param document_id: document id to be appended to ur
     :return: the http response generated
     """
 
-    url = conf.url + "documents/"
+    url = conf.url
     try:
-        request = url + str(parameter_value1) + "/" + str(parameter_value2) + "/" + str(parameter_value3)
+        request = url + "/remove/" + str(case_id) + "/" + str(document_id)
         http_response = requests.delete(request, auth=HTTPBasicAuth(conf.user, conf.password))
 
     except requests.RequestException:
@@ -244,7 +251,7 @@ def _delete_document_response(parameter_value1, parameter_value2, parameter_valu
     return response
 
 
-def _post_document_responses(merchant_id, case_id, document_id, path, headertype):
+def _post_document_responses(case_id, path):
     """ generate response when merchant id, case id and document id is given using POST method
 
     :param merchant_id:merchant id to be appended to url
@@ -255,12 +262,14 @@ def _post_document_responses(merchant_id, case_id, document_id, path, headertype
     :return:
     """
     try:
-        url = conf.url + "documents/" + str(merchant_id) + "/" + str(case_id) + "/" + str(document_id)
         with open(path, 'rb') as f:
             data = f.read()
 
+        document_id = path.split("/")[-1]
+        headertype = mimetypes.guess_type(path)[0]
+        url = conf.url + "/upload/" + str(case_id) + "/" + str(document_id)
         http_response = requests.post(url=url,
-                                      headers={"Content-Type": headertype.value},
+                                      headers={"Content-Type": headertype},
                                       auth=HTTPBasicAuth(conf.user, conf.password), data=data)
         print("Request :", url)
         print("Response :", http_response)
@@ -271,7 +280,7 @@ def _post_document_responses(merchant_id, case_id, document_id, path, headertype
     return response
 
 
-def _update_document_responses(merchant_id, case_id, document_id, path, headertype):
+def _update_document_responses(case_id, document_id, path):
     """generate response when merchant id, case id and document id is given using PUT method
 
     :param merchant_id: merchant_id:merchant id to be appended to url
@@ -282,9 +291,11 @@ def _update_document_responses(merchant_id, case_id, document_id, path, headerty
     :return:
     """
     try:
-        url = conf.url + "documents/" + merchant_id + "/" + case_id + "/" + document_id
+        url = conf.url + "/replace/" + case_id + "/" + document_id
         with open(path, 'rb') as f:
             data = f.read()
+
+        headertype = mimetypes.guess_type(path)[0]
         http_response = requests.put(url=url,
                                      headers={"Content-Type": headertype},
                                      auth=HTTPBasicAuth(conf.user, conf.password), data=data)
@@ -303,39 +314,127 @@ Functions for the different combinations of get and put requests
 """
 
 
-def _get_case_id(case_id):
+def get_case_id(case_id):
     response = _get_response(case_id, "")
     return response
 
 
-def _get_token(token):
+def get_token(token):
     response = _get_response(token, "token")
     return response
 
 
-def _get_card_number(card_number, expiration_date):
+def get_card_number(card_number, expiration_date):
     response = _get_responses(card_number, "cardNumber", expiration_date, "expirationDate")
     return response
 
 
-def _get_arn(arn):
+def get_arn(arn):
     response = _get_response(arn, "arn")
     return response
 
 
-def _get_activity_date(activity_date):
-    response = _get_response(activity_date.date(), "date")
+def get_activity_date(activity_date):
+    response = _get_response(activity_date, "date")
     return response
 
 
-def _get_financial_impact(activity_date, financial_impact):
-    response = _get_responses(activity_date.date(), "date", financial_impact, "financialOnly")
+def get_financial_impact(activity_date, financial_impact):
+    response = _get_responses(activity_date, "date", financial_impact, "financialOnly")
     return response
 
 
-def _get_actionable(actionable):
+def get_actionable(actionable):
     response = _get_response(actionable, "actionable")
     return response
+
+
+"""
+Update requests
+"""
+
+
+def assign_case_to_user(case_id, user_id, note):
+    request_body = fields_chargeback.chargebackUpdateRequest()
+    request_body.activityType = "ASSIGN_TO_USER"
+    request_body.assignedTo = user_id
+    request_body.note = note
+    response = _put_chargeback_update(case_id, request_body)
+    return response
+
+
+def add_note_to_case(case_id, note):
+    request_body = fields_chargeback.chargebackUpdateRequest()
+    request_body.activityType = "ADD_NOTE"
+    request_body.note = note
+    response = _put_chargeback_update(case_id, request_body)
+    return response
+
+
+def assume_liability(case_id, note):
+    request_body = fields_chargeback.chargebackUpdateRequest()
+    request_body.activityType = "MERCHANT_ACCEPTS_LIABILITY"
+    request_body.note = note
+    response = _put_chargeback_update(case_id, request_body)
+    return response
+
+
+def represent_case(case_id, note, representment_amount=None):
+    request_body = fields_chargeback.chargebackUpdateRequest()
+    request_body.activityType = "MERCHANT_REPRESENT"
+    request_body.note = note
+    request_body.representedAmount = representment_amount
+    response = _put_chargeback_update(case_id, request_body)
+    return response
+
+
+def respond_to_retrieval_request(case_id, note):
+    request_body = fields_chargeback.chargebackUpdateRequest()
+    request_body.activityType = "MERCHANT_RESPOND"
+    request_body.note = note
+    response = _put_chargeback_update(case_id, request_body)
+    return response
+
+
+def request_arbitration(case_id, note):
+    request_body = fields_chargeback.chargebackUpdateRequest()
+    request_body.activityType = "MERCHANT_REQUESTS_ARBITRATION"
+    request_body.note = note
+    response = _put_chargeback_update(case_id, request_body)
+    return response
+
+
+"""
+Document requests
+"""
+
+def upload_document(case_id, document):
+    response = _post_document_responses(case_id, document)
+    return response
+
+
+def retrieve_document(case_id, document_id):
+    _get_document(case_id, document_id)
+    return None
+
+
+def replace_document(case_id, document_id, document_path):
+    response = _update_document_responses(case_id, document_id, document_path)
+    return response
+
+
+def remove_document(case_id, document_id):
+    response = _delete_document_response(case_id, document_id)
+    return response
+
+
+def list_documents(case_id):
+    response = _get_document_response(case_id)
+    return response
+
+"""
+Internal methods
+"""
 
 
 def _put_chargeback_update(caseId, request_body):
@@ -343,13 +442,13 @@ def _put_chargeback_update(caseId, request_body):
     return response
 
 
-def _get_case_document(merchant_id, case_id):
-    response = _get_document_response(merchant_id, case_id)
+def _get_case_document(case_id):
+    response = _get_document_response(case_id)
     return response
 
 
-def _get_document(merchant_id, case_id, document_id):
-    response = _get_document_responses(merchant_id, case_id, document_id)
+def _get_document(case_id, document_id):
+    response = _get_document_responses(case_id, document_id)
     return response
 
 
@@ -358,13 +457,13 @@ def _get_documents(merchant_id, case_id):
     return response
 
 
-def _delete_document(merchant_id, case_id, document_id):
-    response = _delete_document_response(merchant_id, case_id, document_id)
+def _delete_document(case_id, document_id):
+    response = _delete_document_response(case_id, document_id)
     return response
 
 
-def _post_document(merchant_id, case_id, document_id, path, headertype):
-    response = _post_document_responses(merchant_id, case_id, document_id, path, headertype)
+def _post_document(case_id, path):
+    response = _post_document_responses(case_id, path)
     return response
 
 

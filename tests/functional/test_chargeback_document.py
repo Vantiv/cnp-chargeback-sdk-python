@@ -33,60 +33,28 @@ conf = utils.Configuration()
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 
-class TestRetrieveDocument(unittest2.TestCase):
+class TestChargebackDocument(unittest2.TestCase):
     def test_retrieve_chargebackDocument(self):
-        merchant_param = fields_chargebackDocument.Merchant()
-        merchant_param.id = conf.merchant_id
-        case_param = fields_chargebackDocument.ChargebackCase()
-        case_param.id = conf.case_id
-        document_param = fields_chargebackDocument.Document()
-        document_param.id = conf.document_id
-        online._get_document(merchant_param.id, case_param.id, document_param.id)
+        online._get_document("10000000", "document")
         self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
 
     def test_upload_chargebackDocument(self):
-        param_merchant = fields_chargebackDocument.Merchant();
-        param_merchant.id = conf.merchant_id
-        param_case = fields_chargebackDocument.ChargebackCase();
-        param_case.id = conf.case_id
-        param_document = fields_chargebackDocument.Document()
-        param_document.id = conf.document_id
         path = package_root+"/samples/000_puppy_picture.jpg"
-        headercontent = contentTypeEnum.ContentType.JPEG
-        response = online._post_document(param_merchant.id, param_case.id, param_document.id, path, headercontent)
-
+        response = online.upload_document("10000", path)
         self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
 
     def test_update_chargebackDocument(self):
-        param_merchant = fields_chargebackDocument.Merchant();
-        param_merchant.id = conf.merchant_id
-        param_case = fields_chargebackDocument.ChargebackCase();
-        param_case.id = conf.case_id
-        param_document = fields_chargebackDocument.Document()
-        param_document.id = conf.document_id
         path = package_root + "/samples/index.jpeg"
-        headercontent = contentTypeEnum.ContentType.JPEG.value
-        response = online._put_document(param_merchant.id, param_case.id, param_document.id, path, headercontent)
-
+        response = online.replace_document("10000", "logo.tiff", path)
         self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
 
     def test_delete_chargebackDocument(self):
-        merchant_param = fields_chargebackDocument.Merchant()
-        merchant_param.id = conf.merchant_id
-        case_param = fields_chargebackDocument.ChargebackCase()
-        case_param.id = conf.case_id
-        document_param = fields_chargebackDocument.Document()
-        document_param.id = conf.document_id
-        response = online._delete_document(merchant_param.id, case_param.id, document_param.id)
+        response = online.remove_document("10000", "logo.tiff")
         self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
 
-    def test_case_chargebackDocument(self):
-        param_merchant = fields_chargebackDocument.Merchant();
-        param_merchant.id = conf.merchant_id
-        param_case = fields_chargebackDocument.ChargebackCase();
-        param_case.id = conf.case_id
-        response = online._get_case_document(param_merchant.id, param_case.id)
-        self.assertEquals(conf.case_id, response['ChargebackCase']['@id'])
+    def test_list_chargebackDocument(self):
+        response = online.list_documents("1000000")
+        self.assertEquals("1000000", response['ChargebackCase']['@id'])
 
 
 

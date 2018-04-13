@@ -57,7 +57,7 @@ class Configuration(object):
             'password': '',
             'merchantId': '',
             'reportGroup': '',
-            'url': 'https://services.vantivprelive.com/services/chargebacks/',
+            'url': 'http://www.testvantivcnp.com/sandbox/new/services/chargebacks/',
             'proxy': '',
             'fast_url': '',
             'fast_ssl': True,

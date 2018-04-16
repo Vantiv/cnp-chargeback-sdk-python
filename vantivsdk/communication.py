@@ -36,12 +36,6 @@ home_dir = os.environ['HOME']
 
 
 def get_retrieval_request(request_url, config=conf):
-    http_response = http_get_request(request_url, config)
-    response = utils.generate_retrieval_response(http_response)
-    return response
-
-
-def http_get_request(request_url, config=conf):
     try:
         http_response = requests.get(request_url, headers=config.chargebackApi_headers,
                                      auth=HTTPBasicAuth(config.user, config.password))
@@ -50,10 +44,11 @@ def http_get_request(request_url, config=conf):
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
     if config.print_xml:
-        print("GET request to:", request_url)
-        print("Response :", http_response)
+        print("\nGET request to:", request_url)
+        print("\nResponse :", utils.generate_retrieval_response(http_response, "xml"))
     check_response(http_response)
-    return http_response
+    response = utils.generate_retrieval_response(http_response)
+    return response
 
 
 def http_put_request(request_url, request_xml, config=conf):
@@ -65,8 +60,8 @@ def http_put_request(request_url, request_xml, config=conf):
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
     if config.print_xml:
-        print("PUT request to:", request_url)
-        print("Response :", http_response)
+        print("\nPUT request to:", request_url)
+        print("\nResponse :", utils.generate_update_response(http_response, "xml"))
     check_response(http_response)
     response = utils.generate_update_response(http_response)
     return response
@@ -86,7 +81,7 @@ def get_document_request(request_url, document_path, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
     if config.print_xml:
-        print("GET Request to:", request_url)
+        print("\nGET Request to:", request_url)
     check_response(http_response)
     retrieve_file(http_response, document_path, config.print_xml)
 
@@ -99,8 +94,8 @@ def delete_document_response(request_url, config=conf):
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
     if config.print_xml:
-        print("DELETE request to:", request_url)
-        print("Response :", http_response)
+        print("\nDELETE request to:", request_url)
+        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -116,9 +111,9 @@ def post_document_request(request_url, document_path, config=conf):
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
     if config.print_xml:
-        print("POST request to:", request_url)
-        print("File:", document_path)
-        print("Response :", http_response)
+        print("\nPOST request to:", request_url)
+        print("\nFile:", document_path)
+        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -134,16 +129,26 @@ def put_document_request(request_url, document_path, config=conf):
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
     if config.print_xml:
-        print("PUT request to:", request_url)
-        print("File:", document_path)
-        print("Response :", http_response)
+        print("\nPUT request to:", request_url)
+        print("\nFile:", document_path)
+        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
 
 
 def get_document_list_request(request_url, config=conf):
-    http_response = http_get_request(request_url, config)
+    try:
+        http_response = requests.get(request_url, headers=config.chargebackApi_headers,
+                                     auth=HTTPBasicAuth(config.user, config.password))
+
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    if config.print_xml:
+        print("\nGET request to:", request_url)
+        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
+    check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
 
@@ -168,7 +173,7 @@ def retrieve_file(response, document_path, print_xml):
             f.write(block)
 
     if print_xml:
-        print("Document saved at: ", document_path)
+        print("\nDocument saved at: ", document_path)
 
 
 def create_request_xml(request_body):
@@ -179,7 +184,7 @@ def create_request_xml(request_body):
     request_xml = utils.obj_to_xml(request_body)
 
     if conf.print_xml:
-        print('Request XML:\n', request_xml.decode('utf-8'), '\n')
+        print('\nRequest XML:\n', request_xml.decode('utf-8'), '\n')
 
     return request_xml
 

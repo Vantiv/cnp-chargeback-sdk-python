@@ -25,18 +25,20 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import mimetypes
-
-import requests
-import xmltodict
-import six
-import pyxb
 import os
+import requests
 from requests.auth import HTTPBasicAuth
-from vantivsdk import (fields_chargeback, utils, dict2obj)
+from vantivsdk import (utils)
 
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
 home_dir = os.environ['HOME']
+
+
+def get_retrieval_request(request_url, config=conf):
+    http_response = http_get_request(request_url, config)
+    response = utils.generate_retrieval_response(http_response)
+    return response
 
 
 def http_get_request(request_url, config=conf):
@@ -49,8 +51,7 @@ def http_get_request(request_url, config=conf):
     print("GET request to:", request_url)
     print("Response :", http_response)
     check_response(http_response)
-    response = check_response_dict(http_response, return_format='dict')
-    return response
+    return http_response
 
 
 def http_put_request(request_url, request_xml, config=conf):
@@ -58,16 +59,17 @@ def http_put_request(request_url, request_xml, config=conf):
         http_response = requests.put(request_url, headers=config.chargebackApi_headers,
                                      auth=HTTPBasicAuth(config.user, config.password),
                                      data=create_request_xml(request_xml))
-        print("Request :", request_url)
-        print("Response :", http_response)
-        check_response(http_response)
-        response = check_response_dict(http_response, return_format='dict')
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    print("Request :", request_url)
+    print("Response :", http_response)
+    check_response(http_response)
+    response = utils.generate_update_response(http_response)
     return response
 
 
-def get_document_responses(case_id, document_id, config=conf):
+def get_document_responses(request_url, document_path, config=conf):
     """ generate response when merchant id, case id and document id is given using GET method
 
     :param parameter_value1: merchant id to be appended to url
@@ -75,124 +77,67 @@ def get_document_responses(case_id, document_id, config=conf):
     :param document_id: document id to be appended to ur
     :return: the http response generated
     """
-    url = config.url
     try:
-        request = url + "/retrieve/" + str(case_id) + "/" + str(document_id)
-        http_response = requests.get(request, auth=HTTPBasicAuth(config.user, config.password))
+        http_response = requests.get(request_url, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print("Request:", request)
+
+    print("Request:", request_url)
     print("Response :", http_response)
     check_response(http_response)
-    response = check_response_dict(http_response, return_format='dict')
-
-    return response
+    retrieve_file(http_response, document_path)
 
 
-def delete_document_response(case_id, document_id, config=conf):
-    """ generate response when merchant id, case id and document id is given using DELETE method
-
-    :param parameter_value1: merchant id to be appended to url
-    :param case_id: case id to be appended to ur
-    :param document_id: document id to be appended to ur
-    :return: the http response generated
-    """
-
-    url = config.url
+def delete_document_response(request_url, config=conf):
     try:
-        request = url + "/remove/" + str(case_id) + "/" + str(document_id)
-        http_response = requests.delete(request, auth=HTTPBasicAuth(config.user, config.password))
+        http_response = requests.delete(request_url, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print("Request:", request)
+
+    print("Request:", request_url)
     print("Response :", http_response)
     check_response(http_response)
-    response = check_response_dict(http_response, return_format='dict')
-
+    response = utils.generate_document_response(http_response)
     return response
 
 
-def post_document_responses(case_id, path, config=conf):
-    """ generate response when merchant id, case id and document id is given using POST method
-
-    :param merchant_id:merchant id to be appended to url
-    :param case_id:case id to be appended to url
-    :param document_id:document id to be appended to ur
-    :param path: file path of the document to be uploaded
-    :param headertype: appropriate header for the document to be uploaded
-    :return:
-    """
+def post_document_request(request_url, document_path, config=conf):
     try:
-        with open(path, 'rb') as f:
-            data = f.read()
-
-        document_id = path.split("/")[-1]
-        headertype = mimetypes.guess_type(path)[0]
-        url = config.url + "/upload/" + str(case_id) + "/" + str(document_id)
-        http_response = requests.post(url=url,
-                                      headers={"Content-Type": headertype},
+        data, content_type = get_file_content(document_path)
+        http_response = requests.post(url=request_url,
+                                      headers={"Content-Type": content_type},
                                       auth=HTTPBasicAuth(config.user, config.password), data=data)
-        print("Request :", url)
-        print("Response :", http_response)
-        check_response(http_response)
-        response = check_response_dict(http_response, return_format='dict')
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    return response
 
-
-def update_document_responses(case_id, document_id, path, config=conf):
-    """generate response when merchant id, case id and document id is given using PUT method
-
-    :param merchant_id: merchant_id:merchant id to be appended to url
-    :param case_id: case_id:case id to be appended to url
-    :param document_id: document id to be appended to ur
-    :param path: file path of the document to be uploaded
-    :param headertype: appropriate header for the document to be uploaded
-    :return:
-    """
-    try:
-        url = config.url + "/replace/" + case_id + "/" + document_id
-        with open(path, 'rb') as f:
-            data = f.read()
-
-        headertype = mimetypes.guess_type(path)[0]
-        http_response = requests.put(url=url,
-                                     headers={"Content-Type": headertype},
-                                     auth=HTTPBasicAuth(config.user, config.password), data=data)
-        print("Request :", url)
-        print("Response :", http_response)
-        check_response(http_response)
-        response = check_response_dict(http_response, return_format='dict')
-
-    except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    return response
-
-
-def get_document_response(case_id, config=conf):
-    """ generate response when merchant id, case id is given using GET method
-    :param parameter_value1:  the parameter value to be appended in url
-    :param case_id: the parameter value to be appended in url
-    :return:
-    """
-
-    url = config.url
-
-    try:
-
-        request = url + "/list/" + str(case_id)
-        http_response = requests.get(request, auth=HTTPBasicAuth(config.user, config.password))
-
-    except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print("Request: ", request)
+    print("Request :", request_url)
     print("Response :", http_response)
     check_response(http_response)
-    response = check_response_dict(http_response, return_format='dict')
+    response = utils.generate_document_response(http_response)
+    return response
 
+
+def put_document_request(request_url, document_path, config=conf):
+    try:
+        data, content_type = get_file_content(document_path)
+        http_response = requests.put(url=request_url,
+                                     headers={"Content-Type": content_type},
+                                     auth=HTTPBasicAuth(config.user, config.password), data=data)
+    except requests.RequestException:
+        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+
+    print("Request :", request_url)
+    print("Response :", http_response)
+    check_response(http_response)
+    response = utils.generate_document_response(http_response)
+    return response
+
+
+def get_document_request(request_url, config=conf):
+    http_response = http_get_request(request_url, config)
+    response = utils.generate_document_response(http_response)
     return response
 
 
@@ -210,40 +155,9 @@ def check_response(response):
         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
 
-def check_response_dict(response, return_format='dict'):
-    """ check the response format
-    :param response: http response generated
-    :param return_format:
-    :return: raises an Exception
-    """
-    skip = False
-    if response.text.__contains__('chargebackUpdateResponse'):
-        response_dict = xmltodict.parse(response.text)['chargebackUpdateResponse']
-    elif response.text.__contains__('chargebackRetrievalResponse'):
-        response_dict = xmltodict.parse(response.text)['chargebackRetrievalResponse']
-    elif response.text.__contains__('Merchant'):
-        response_dict = xmltodict.parse(response.text)['Merchant']
-    else:
-        skip = True
-
-    if not skip:
-        if response_dict['@xmlns'] != "":
-            return_f_l = return_format.lower()
-            if return_f_l == 'xml':
-                response_xml = response.text
-                return response_xml
-            elif return_f_l == 'object':
-                return fields_chargeback.CreateFromDocument(response.text)
-            else:
-                if conf.print_xml:
-                    import json
-                    print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
-                    return response_dict
-        else:
-            raise utils.VantivException("Invalid Format")
-    else:
-        with open(package_root + '/samples/doc.pdf', 'wb') as f:
-            f.write(response.content)
+def retrieve_file(data, document_path):
+    with open(document_path, 'wb') as f:
+        f.write(data)
 
 
 def create_request_xml(request_body):
@@ -259,5 +173,8 @@ def create_request_xml(request_body):
     return request_xml
 
 
-class VantivException(Exception):
-    pass
+def get_file_content(path):
+    with open(path, 'rb') as f:
+        data = f.read()
+    content_type = mimetypes.guess_type(path)[0]
+    return data, content_type

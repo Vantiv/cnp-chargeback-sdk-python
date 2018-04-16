@@ -27,6 +27,9 @@ from __future__ import absolute_import, print_function, unicode_literals
 import json
 import os
 import pyxb
+import xmltodict
+from vantivsdk import fields_chargeback
+
 from . import version
 
 
@@ -127,6 +130,37 @@ def obj_to_xml(obj):
     xml = xml.replace(b'ns1:', b'')
     xml = xml.replace(b':ns1', b'')
     return xml
+
+
+def generate_retrieval_response(xml_response, return_format='dict'):
+    return convert_to_format(xml_response, "chargebackRetrievalResponse", return_format)
+
+
+def generate_update_response(xml_response, return_format='dict'):
+    return convert_to_format(xml_response, "chargebackUpdateResponse", return_format)
+
+
+def generate_document_response(xml_response, return_format='dict', config=Configuration()):
+    return convert_to_format(xml_response, "chargebackDocumentResponse", return_format)
+
+
+def convert_to_format(xml_response, response_type, return_format='dict'):
+    response_dict = xmltodict.parse(xml_response.text)[response_type]
+
+    if response_dict['@xmlns'] != "":
+        return_format = return_format.lower()
+        if return_format == 'xml':
+            response_xml = xml_response.text
+            return response_xml
+        elif return_format == 'object':
+            return fields_chargeback.CreateFromDocument(xml_response.text)
+        else:
+            # if config.print_xml:
+            #     import json
+            #     print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
+            return response_dict
+    else:
+        raise VantivException("Invalid Format")
 
 
 class VantivException(Exception):

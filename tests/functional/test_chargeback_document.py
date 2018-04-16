@@ -25,7 +25,7 @@
 
 import os
 import unittest2
-from vantivsdk import fields_chargebackDocument, utils, chargebackDocument, contentTypeEnum
+from vantivsdk import utils, chargebackDocument
 
 # sys.path.insert(0, package_root)
 
@@ -35,7 +35,7 @@ package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(_
 
 class TestChargebackDocument(unittest2.TestCase):
     def test_retrieve_chargebackDocument(self):
-        chargebackDocument.retrieve_document("10000000", "document")
+        chargebackDocument.retrieve_document("10000000", "document", package_root+"/samples/doc.pdf")
         self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
 
     def test_upload_chargebackDocument(self):

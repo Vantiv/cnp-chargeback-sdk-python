@@ -97,5 +97,5 @@ def _get_response(parameter_value1, parameter_key1, parameter_value2=None, param
             parameter_key2 = parameter_key2 + "="
         request = request + "&" + parameter_key2 + str(parameter_value2)
 
-    response = communication.http_get_request(request, config)
+    response = communication.get_retrieval_request(request, config)
     return response

@@ -41,25 +41,31 @@ Document requests
 """
 
 
-def upload_document(case_id, document, config=conf):
-    response = communication.post_document_responses(case_id, document, config=config)
+def upload_document(case_id, document_path, config=conf):
+    document_id = document_path.split("/")[-1]
+    request_url = config.url + "/upload/" + str(case_id) + "/" + str(document_id)
+    response = communication.post_document_request(request_url, document_path, config=config)
     return response
 
 
-def retrieve_document(case_id, document_id, config=conf):
-    communication.get_document_responses(case_id, document_id, config=config)
+def retrieve_document(case_id, document_id, document_path, config=conf):
+    request_url = config.url + "/retrieve/" + str(case_id) + "/" + str(document_id)
+    communication.get_document_responses(request_url, document_path, config=config)
 
 
 def replace_document(case_id, document_id, document_path, config=conf):
-    response = communication.update_document_responses(case_id, document_id, document_path, config=config)
+    request_url = config.url + "/replace/" + case_id + "/" + document_id
+    response = communication.put_document_request(request_url, document_path, config=config)
     return response
 
 
 def remove_document(case_id, document_id, config=conf):
-    response = communication.delete_document_response(case_id, document_id, config=config)
+    request_url = config.url + "/remove/" + str(case_id) + "/" + str(document_id)
+    response = communication.delete_document_response(request_url, config=config)
     return response
 
 
 def list_documents(case_id, config=conf):
-    response = communication.get_document_response(case_id, config=config)
+    request_url = config.url + "/list/" + str(case_id)
+    response = communication.get_document_request(request_url, config=config)
     return response

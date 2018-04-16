@@ -41,37 +41,37 @@ Retrieval requests
 
 
 def get_case_id(case_id, config=conf):
-    response = _get_response(case_id, "", None, None, config)
+    response = _get_response(case_id, "", config=config)
     return response
 
 
 def get_token(token, config=conf):
-    response = _get_response(token, "token", None, None, config)
+    response = _get_response(token, "token", config=config)
     return response
 
 
 def get_card_number(card_number, expiration_date, config=conf):
-    response = _get_response(card_number, "cardNumber", expiration_date, "expirationDate", config)
+    response = _get_response(card_number, "cardNumber", expiration_date, "expirationDate", config=config)
     return response
 
 
 def get_arn(arn, config=conf):
-    response = _get_response(arn, "arn", None, None, config)
+    response = _get_response(arn, "arn", config=config)
     return response
 
 
 def get_activity_date(activity_date, config=conf):
-    response = _get_response(activity_date, "date", None, None, config)
+    response = _get_response(activity_date, "date", config=config)
     return response
 
 
 def get_financial_impact(activity_date, financial_impact, config=conf):
-    response = _get_response(activity_date, "date", financial_impact, "financialOnly", config)
+    response = _get_response(activity_date, "date", financial_impact, "financialOnly", config=config)
     return response
 
 
 def get_actionable(actionable, config=conf):
-    response = _get_response(actionable, "actionable", None, None, config)
+    response = _get_response(actionable, "actionable", config=config)
     return response
 
 """

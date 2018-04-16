@@ -53,10 +53,10 @@ def http_get_request(request_url, config=conf):
     return response
 
 
-def http_put_request(request_url, request_xml):
+def http_put_request(request_url, request_xml, config=conf):
     try:
-        http_response = requests.put(request_url, headers=conf.chargebackApi_headers,
-                                     auth=HTTPBasicAuth(conf.user, conf.password),
+        http_response = requests.put(request_url, headers=config.chargebackApi_headers,
+                                     auth=HTTPBasicAuth(config.user, config.password),
                                      data=create_request_xml(request_xml))
         print("Request :", request_url)
         print("Response :", http_response)
@@ -67,7 +67,7 @@ def http_put_request(request_url, request_xml):
     return response
 
 
-def get_document_responses(case_id, document_id):
+def get_document_responses(case_id, document_id, config=conf):
     """ generate response when merchant id, case id and document id is given using GET method
 
     :param parameter_value1: merchant id to be appended to url
@@ -75,10 +75,10 @@ def get_document_responses(case_id, document_id):
     :param document_id: document id to be appended to ur
     :return: the http response generated
     """
-    url = conf.url
+    url = config.url
     try:
         request = url + "/retrieve/" + str(case_id) + "/" + str(document_id)
-        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -90,7 +90,7 @@ def get_document_responses(case_id, document_id):
     return response
 
 
-def delete_document_response(case_id, document_id):
+def delete_document_response(case_id, document_id, config=conf):
     """ generate response when merchant id, case id and document id is given using DELETE method
 
     :param parameter_value1: merchant id to be appended to url
@@ -99,10 +99,10 @@ def delete_document_response(case_id, document_id):
     :return: the http response generated
     """
 
-    url = conf.url
+    url = config.url
     try:
         request = url + "/remove/" + str(case_id) + "/" + str(document_id)
-        http_response = requests.delete(request, auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.delete(request, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
@@ -114,7 +114,7 @@ def delete_document_response(case_id, document_id):
     return response
 
 
-def post_document_responses(case_id, path):
+def post_document_responses(case_id, path, config=conf):
     """ generate response when merchant id, case id and document id is given using POST method
 
     :param merchant_id:merchant id to be appended to url
@@ -130,10 +130,10 @@ def post_document_responses(case_id, path):
 
         document_id = path.split("/")[-1]
         headertype = mimetypes.guess_type(path)[0]
-        url = conf.url + "/upload/" + str(case_id) + "/" + str(document_id)
+        url = config.url + "/upload/" + str(case_id) + "/" + str(document_id)
         http_response = requests.post(url=url,
                                       headers={"Content-Type": headertype},
-                                      auth=HTTPBasicAuth(conf.user, conf.password), data=data)
+                                      auth=HTTPBasicAuth(config.user, config.password), data=data)
         print("Request :", url)
         print("Response :", http_response)
         check_response(http_response)
@@ -143,7 +143,7 @@ def post_document_responses(case_id, path):
     return response
 
 
-def update_document_responses(case_id, document_id, path):
+def update_document_responses(case_id, document_id, path, config=conf):
     """generate response when merchant id, case id and document id is given using PUT method
 
     :param merchant_id: merchant_id:merchant id to be appended to url
@@ -154,14 +154,14 @@ def update_document_responses(case_id, document_id, path):
     :return:
     """
     try:
-        url = conf.url + "/replace/" + case_id + "/" + document_id
+        url = config.url + "/replace/" + case_id + "/" + document_id
         with open(path, 'rb') as f:
             data = f.read()
 
         headertype = mimetypes.guess_type(path)[0]
         http_response = requests.put(url=url,
                                      headers={"Content-Type": headertype},
-                                     auth=HTTPBasicAuth(conf.user, conf.password), data=data)
+                                     auth=HTTPBasicAuth(config.user, config.password), data=data)
         print("Request :", url)
         print("Response :", http_response)
         check_response(http_response)
@@ -172,19 +172,19 @@ def update_document_responses(case_id, document_id, path):
     return response
 
 
-def get_document_response(case_id):
+def get_document_response(case_id, config=conf):
     """ generate response when merchant id, case id is given using GET method
     :param parameter_value1:  the parameter value to be appended in url
     :param case_id: the parameter value to be appended in url
     :return:
     """
 
-    url = conf.url
+    url = config.url
 
     try:
 
         request = url + "/list/" + str(case_id)
-        http_response = requests.get(request, auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")

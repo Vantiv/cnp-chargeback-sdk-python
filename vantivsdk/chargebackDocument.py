@@ -41,25 +41,25 @@ Document requests
 """
 
 
-def upload_document(case_id, document):
-    response = communication.post_document_responses(case_id, document)
+def upload_document(case_id, document, config=conf):
+    response = communication.post_document_responses(case_id, document, config=config)
     return response
 
 
-def retrieve_document(case_id, document_id):
-    communication.get_document_responses(case_id, document_id)
+def retrieve_document(case_id, document_id, config=conf):
+    communication.get_document_responses(case_id, document_id, config=config)
 
 
-def replace_document(case_id, document_id, document_path):
-    response = communication.update_document_responses(case_id, document_id, document_path)
+def replace_document(case_id, document_id, document_path, config=conf):
+    response = communication.update_document_responses(case_id, document_id, document_path, config=config)
     return response
 
 
-def remove_document(case_id, document_id):
-    response = communication.delete_document_response(case_id, document_id)
+def remove_document(case_id, document_id, config=conf):
+    response = communication.delete_document_response(case_id, document_id, config=config)
     return response
 
 
-def list_documents(case_id):
-    response = communication.get_document_response(case_id)
+def list_documents(case_id, config=conf):
+    response = communication.get_document_response(case_id, config=config)
     return response

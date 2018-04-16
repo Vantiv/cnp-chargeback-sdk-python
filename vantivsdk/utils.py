@@ -141,7 +141,7 @@ def generate_update_response(xml_response, return_format='dict'):
 
 
 def generate_document_response(xml_response, return_format='dict', config=Configuration()):
-    return convert_to_format(xml_response, "chargebackDocumentResponse", return_format)
+    return convert_to_format(xml_response, "chargebackDocumentUploadResponse", return_format)
 
 
 def convert_to_format(xml_response, response_type, return_format='dict'):

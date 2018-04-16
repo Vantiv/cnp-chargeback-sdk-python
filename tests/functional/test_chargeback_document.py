@@ -35,7 +35,7 @@ package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(_
 
 class TestChargebackDocument(unittest2.TestCase):
     def test_retrieve_chargebackDocument(self):
-        chargebackDocument.retrieve_document("10000000", "document", package_root+"/samples/doc.pdf")
+        chargebackDocument.retrieve_document("10000000", "document.jpg", package_root+"/samples/doc.tiff")
         self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
 
     def test_upload_chargebackDocument(self):

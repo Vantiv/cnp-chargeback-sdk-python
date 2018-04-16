@@ -155,9 +155,10 @@ def check_response(response):
         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
 
-def retrieve_file(data, document_path):
+def retrieve_file(response, document_path):
     with open(document_path, 'wb') as f:
-        f.write(data)
+        for block in response.iter_content(1024):
+            f.write(block)
 
 
 def create_request_xml(request_body):

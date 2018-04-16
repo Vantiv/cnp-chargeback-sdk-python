@@ -26,7 +26,7 @@
 import os
 import sys
 import unittest2
-from vantivsdk import fields_chargeback, utils, online
+from vantivsdk import fields_chargeback, utils, chargebackUpdate
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -36,31 +36,31 @@ conf = utils.Configuration()
 
 class TestChargebackUpdate(unittest2.TestCase):
     def test_assign_case_to_user(self):
-        response = online.assign_case_to_user(10000, "jdeo@company.com", "Test note")
+        response = chargebackUpdate.assign_case_to_user(10000, "jdeo@company.com", "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_add_not_to_case(self):
-        response = online.add_note_to_case(10000, "Test note")
+        response = chargebackUpdate.add_note_to_case(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_assume_liability(self):
-        response = online.assume_liability(10000, "Test note")
+        response = chargebackUpdate.assume_liability(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_represent_case(self):
-        response = online.represent_case(10000, "Test note", 12000)
+        response = chargebackUpdate.represent_case(10000, "Test note", 12000)
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_represent_case_full(self):
-        response = online.represent_case(10000, "Test note")
+        response = chargebackUpdate.represent_case(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_respond_to_retrieval_request(self):
-        response = online.respond_to_retrieval_request(10000, "Test note")
+        response = chargebackUpdate.respond_to_retrieval_request(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_request_arbitration(self):
-        response = online.request_arbitration(10000, "Test note")
+        response = chargebackUpdate.request_arbitration(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
 

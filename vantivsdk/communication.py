@@ -39,10 +39,10 @@ conf = utils.Configuration()
 home_dir = os.environ['HOME']
 
 
-def http_get_request(request_url):
+def http_get_request(request_url, config=conf):
     try:
-        http_response = requests.get(request_url, headers=conf.chargebackApi_headers,
-                                     auth=HTTPBasicAuth(conf.user, conf.password))
+        http_response = requests.get(request_url, headers=config.chargebackApi_headers,
+                                     auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")

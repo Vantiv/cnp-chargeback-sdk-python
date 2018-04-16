@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-l
+# Copyright (c) 2017 Vantiv eCommerce
+#
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use,
+# copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following
+# conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+from __future__ import absolute_import, print_function, unicode_literals
+
+import os
+
+from vantivsdk import (fields_chargeback, utils, communication)
+
+package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+conf = utils.Configuration()
+home_dir = os.environ['HOME']
+
+
+# conf.header = {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"}
+
+
+"""
+Document requests
+"""
+
+
+def upload_document(case_id, document):
+    response = communication.post_document_responses(case_id, document)
+    return response
+
+
+def retrieve_document(case_id, document_id):
+    communication.get_document_responses(case_id, document_id)
+
+
+def replace_document(case_id, document_id, document_path):
+    response = communication.update_document_responses(case_id, document_id, document_path)
+    return response
+
+
+def remove_document(case_id, document_id):
+    response = communication.delete_document_response(case_id, document_id)
+    return response
+
+
+def list_documents(case_id):
+    response = communication.get_document_response(case_id)
+    return response

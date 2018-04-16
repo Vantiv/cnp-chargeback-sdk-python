@@ -74,91 +74,6 @@ def get_actionable(actionable, config=conf):
     response = _get_response(actionable, "actionable", None, None, config)
     return response
 
-
-"""
-Update requests
-"""
-
-
-def assign_case_to_user(case_id, user_id, note):
-    request_body = fields_chargeback.chargebackUpdateRequest()
-    request_body.activityType = "ASSIGN_TO_USER"
-    request_body.assignedTo = user_id
-    request_body.note = note
-    response = _put_response(case_id, request_body)
-    return response
-
-
-def add_note_to_case(case_id, note):
-    request_body = fields_chargeback.chargebackUpdateRequest()
-    request_body.activityType = "ADD_NOTE"
-    request_body.note = note
-    response = _put_response(case_id, request_body)
-    return response
-
-
-def assume_liability(case_id, note):
-    request_body = fields_chargeback.chargebackUpdateRequest()
-    request_body.activityType = "MERCHANT_ACCEPTS_LIABILITY"
-    request_body.note = note
-    response = _put_response(case_id, request_body)
-    return response
-
-
-def represent_case(case_id, note, representment_amount=None):
-    request_body = fields_chargeback.chargebackUpdateRequest()
-    request_body.activityType = "MERCHANT_REPRESENT"
-    request_body.note = note
-    request_body.representedAmount = representment_amount
-    response = _put_response(case_id, request_body)
-    return response
-
-
-def respond_to_retrieval_request(case_id, note):
-    request_body = fields_chargeback.chargebackUpdateRequest()
-    request_body.activityType = "MERCHANT_RESPOND"
-    request_body.note = note
-    response = _put_response(case_id, request_body)
-    return response
-
-
-def request_arbitration(case_id, note):
-    request_body = fields_chargeback.chargebackUpdateRequest()
-    request_body.activityType = "MERCHANT_REQUESTS_ARBITRATION"
-    request_body.note = note
-    response = _put_response(case_id, request_body)
-    return response
-
-
-"""
-Document requests
-"""
-
-
-def upload_document(case_id, document):
-    response = communication.post_document_responses(case_id, document)
-    return response
-
-
-def retrieve_document(case_id, document_id):
-    communication.get_document_responses(case_id, document_id)
-
-
-def replace_document(case_id, document_id, document_path):
-    response = communication.update_document_responses(case_id, document_id, document_path)
-    return response
-
-
-def remove_document(case_id, document_id):
-    response = communication.delete_document_response(case_id, document_id)
-    return response
-
-
-def list_documents(case_id):
-    response = communication.get_document_response(case_id)
-    return response
-
-
 """
 Internal methods
 """
@@ -183,10 +98,4 @@ def _get_response(parameter_value1, parameter_key1, parameter_value2=None, param
         request = request + "&" + parameter_key2 + str(parameter_value2)
 
     response = communication.http_get_request(request, config)
-    return response
-
-
-def _put_response(parameter_value1, request_body):
-    request = conf.url + "/" + str(parameter_value1)
-    response = communication.http_put_request(request, request_body)
     return response

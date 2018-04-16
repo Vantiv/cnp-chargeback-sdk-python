@@ -26,7 +26,7 @@
 import os
 import sys
 import unittest2
-from vantivsdk import fields_chargeback, online, parameters, utils
+from vantivsdk import fields_chargeback, chargebackRetrieval, parameters, utils
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -35,33 +35,34 @@ conf = utils.Configuration()
 
 
 class TestChargebackRetrieval(unittest2.TestCase):
-    print(conf.url)
+
     def test_activity_date(self):
-        response = online.get_activity_date("2018-01-01")
+        response = chargebackRetrieval.get_activity_date("2018-01-01")
         self.assertRegex(response["transactionId"], "\d+")
+        self.assertEqual("2018-01-01", response["chargebackCase"][0]["dateReceivedByVantivCnp"])
 
     def test_activity_date_financial_impact(self):
-        response = online.get_financial_impact("2018-01-01", "true")
+        response = chargebackRetrieval.get_financial_impact("2018-01-01", "true")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_actionable(self):
-        response = online.get_actionable("true")
+        response = chargebackRetrieval.get_actionable("true")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_get_case_id(self):
-        response = online.get_case_id("1333078000")
+        response = chargebackRetrieval.get_case_id("1333078000")
         self.assertEquals("1333078000", response['chargebackCase']['caseId'])
 
     def test_get_token(self):
-        response = online.get_token("1000000")
+        response = chargebackRetrieval.get_token("1000000")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_card_number(self):
-        response = online.get_card_number("1111000011110000", "0118")
+        response = chargebackRetrieval.get_card_number("1111000011110000", "0118")
         self.assertRegex(response["transactionId"], "\d+")
 
     def test_arn(self):
-        response = online.get_arn("1111111111")
+        response = chargebackRetrieval.get_arn("1111111111")
         self.assertRegex(response["transactionId"], "\d+")
 
 

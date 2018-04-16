@@ -50,7 +50,7 @@ def upload_document(case_id, document_path, config=conf):
 
 def retrieve_document(case_id, document_id, document_path, config=conf):
     request_url = config.url + "/retrieve/" + str(case_id) + "/" + str(document_id)
-    communication.get_document_responses(request_url, document_path, config=config)
+    communication.get_document_list_request(request_url, document_path, config=config)
 
 
 def replace_document(case_id, document_id, document_path, config=conf):
@@ -67,5 +67,5 @@ def remove_document(case_id, document_id, config=conf):
 
 def list_documents(case_id, config=conf):
     request_url = config.url + "/list/" + str(case_id)
-    response = communication.get_document_request(request_url, config=config)
+    response = communication.get_document_list_request(request_url, config=config)
     return response

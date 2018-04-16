@@ -24,7 +24,9 @@
 #
 
 import os
+
 import unittest2
+
 from vantivsdk import utils, chargebackDocument
 
 # sys.path.insert(0, package_root)

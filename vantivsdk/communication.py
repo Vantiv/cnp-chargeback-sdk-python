@@ -48,8 +48,10 @@ def http_get_request(request_url, config=conf):
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    print("GET request to:", request_url)
-    print("Response :", http_response)
+
+    if config.print_xml:
+        print("GET request to:", request_url)
+        print("Response :", http_response)
     check_response(http_response)
     return http_response
 
@@ -62,14 +64,15 @@ def http_put_request(request_url, request_xml, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    print("Request :", request_url)
-    print("Response :", http_response)
+    if config.print_xml:
+        print("PUT request to:", request_url)
+        print("Response :", http_response)
     check_response(http_response)
     response = utils.generate_update_response(http_response)
     return response
 
 
-def get_document_responses(request_url, document_path, config=conf):
+def get_document_request(request_url, document_path, config=conf):
     """ generate response when merchant id, case id and document id is given using GET method
 
     :param parameter_value1: merchant id to be appended to url
@@ -82,11 +85,10 @@ def get_document_responses(request_url, document_path, config=conf):
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-
-    print("Request:", request_url)
-    print("Response :", http_response)
+    if config.print_xml:
+        print("GET Request to:", request_url)
     check_response(http_response)
-    retrieve_file(http_response, document_path)
+    retrieve_file(http_response, document_path, config.print_xml)
 
 
 def delete_document_response(request_url, config=conf):
@@ -96,8 +98,9 @@ def delete_document_response(request_url, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    print("Request:", request_url)
-    print("Response :", http_response)
+    if config.print_xml:
+        print("DELETE request to:", request_url)
+        print("Response :", http_response)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -112,8 +115,10 @@ def post_document_request(request_url, document_path, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    print("Request :", request_url)
-    print("Response :", http_response)
+    if config.print_xml:
+        print("POST request to:", request_url)
+        print("File:", document_path)
+        print("Response :", http_response)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -128,14 +133,16 @@ def put_document_request(request_url, document_path, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    print("Request :", request_url)
-    print("Response :", http_response)
+    if config.print_xml:
+        print("PUT request to:", request_url)
+        print("File:", document_path)
+        print("Response :", http_response)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
 
 
-def get_document_request(request_url, config=conf):
+def get_document_list_request(request_url, config=conf):
     http_response = http_get_request(request_url, config)
     response = utils.generate_document_response(http_response)
     return response
@@ -155,10 +162,13 @@ def check_response(response):
         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
 
-def retrieve_file(response, document_path):
+def retrieve_file(response, document_path, print_xml):
     with open(document_path, 'wb') as f:
         for block in response.iter_content(1024):
             f.write(block)
+
+    if print_xml:
+        print("Document saved at: ", document_path)
 
 
 def create_request_xml(request_body):

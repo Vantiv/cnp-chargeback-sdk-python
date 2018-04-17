@@ -148,6 +148,7 @@ def convert_to_format(xml_response, response_type, return_format='dict'):
     response_dict = xmltodict.parse(xml_response.text)[response_type]
 
     if response_dict['@xmlns'] != "":
+        create_lists(response_dict)
         return_format = return_format.lower()
         if return_format == 'xml':
             response_xml = xml_response.text
@@ -161,6 +162,18 @@ def convert_to_format(xml_response, response_type, return_format='dict'):
             return response_dict
     else:
         raise VantivException("Invalid Format")
+
+
+def create_lists(response_dict):
+    chargeback_case = response_dict['chargebackCase']
+    if chargeback_case != "" and not isinstance(chargeback_case, list):
+        response_dict['chargebackCase'] = [chargeback_case]
+
+    for case in response_dict['chargebackCase']:
+        chargeback_activity = case['activity']
+        if chargeback_activity != "" and not isinstance(chargeback_activity, list):
+            case['activity'] = [chargeback_activity]
+
 
 
 class VantivException(Exception):

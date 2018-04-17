@@ -165,14 +165,18 @@ def convert_to_format(xml_response, response_type, return_format='dict'):
 
 
 def create_lists(response_dict):
-    chargeback_case = response_dict['chargebackCase']
-    if chargeback_case != "" and not isinstance(chargeback_case, list):
-        response_dict['chargebackCase'] = [chargeback_case]
+    case_key = 'chargebackCase'
+    activity_key = 'activity'
+    if case_key in response_dict:
+        chargeback_case = response_dict[case_key]
+        if chargeback_case != "" and not isinstance(chargeback_case, list):
+            response_dict[case_key] = [chargeback_case]
 
-    for case in response_dict['chargebackCase']:
-        chargeback_activity = case['activity']
-        if chargeback_activity != "" and not isinstance(chargeback_activity, list):
-            case['activity'] = [chargeback_activity]
+        if activity_key in response_dict[case_key]:
+            for case in response_dict[case_key]:
+                chargeback_activity = case[activity_key]
+                if chargeback_activity != "" and not isinstance(chargeback_activity, list):
+                    case[activity_key] = [chargeback_activity]
 
 
 

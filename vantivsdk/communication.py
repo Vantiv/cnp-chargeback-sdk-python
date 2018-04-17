@@ -34,10 +34,13 @@ package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
 home_dir = os.environ['HOME']
 
+chargebackApi_headers = {"Accept": "application/com.vantivcnp.services-v2+xml",
+                         "Content-Type": "application/com.vantivcnp.services-v2+xml"}
+
 
 def get_retrieval_request(request_url, config=conf):
     try:
-        http_response = requests.get(request_url, headers=config.chargebackApi_headers,
+        http_response = requests.get(request_url, headers=chargebackApi_headers,
                                      auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
@@ -53,7 +56,7 @@ def get_retrieval_request(request_url, config=conf):
 
 def http_put_request(request_url, request_xml, config=conf):
     try:
-        http_response = requests.put(request_url, headers=config.chargebackApi_headers,
+        http_response = requests.put(request_url, headers=chargebackApi_headers,
                                      auth=HTTPBasicAuth(config.user, config.password),
                                      data=create_request_xml(request_xml))
     except requests.RequestException:
@@ -139,7 +142,7 @@ def put_document_request(request_url, document_path, config=conf):
 
 def get_document_list_request(request_url, config=conf):
     try:
-        http_response = requests.get(request_url, headers=config.chargebackApi_headers,
+        http_response = requests.get(request_url, headers=chargebackApi_headers,
                                      auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:

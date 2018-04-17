@@ -59,17 +59,10 @@ class Configuration(object):
             'user': '',
             'password': '',
             'merchantId': '',
-            'reportGroup': '',
             'url': 'http://www.testvantivcnp.com/sandbox/new/services/chargebacks/',
             'proxy': '',
-            'fast_url': '',
-            'fast_ssl': True,
-            'fast_port': '',
             'print_xml': True,
-            'id': '',
-            'chargebackApi_headers': {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"},
-            'chargebackdocument_headers':'',
-
+            'neuter_xml': False,
         }
 
         # set default values
@@ -140,7 +133,7 @@ def generate_update_response(xml_response, return_format='dict'):
     return convert_to_format(xml_response, "chargebackUpdateResponse", return_format)
 
 
-def generate_document_response(xml_response, return_format='dict', config=Configuration()):
+def generate_document_response(xml_response, return_format='dict'):
     return convert_to_format(xml_response, "chargebackDocumentUploadResponse", return_format)
 
 

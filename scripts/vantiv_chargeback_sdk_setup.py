@@ -39,31 +39,23 @@ def ask_user():
         'user',
         'password',
         'merchantId',
-        'reportGroup',
         'url',
         'proxy',
-        'fast_url',
-        'fast_ssl',
-        'fast_port',
         'print_xml',
-        'id'
+        'neuter_xml'
     ]
     attr_dict = {
         'user': '',
         'password': '',
         'merchantId': '',
-        'reportGroup': 'Default Report Group',
         'url': '',
         'proxy': '',
-        'fast_url': '',
-        'fast_ssl': 'y',
-        'fast_port': '',
         'print_xml': 'n',
-        'id': ''
+        'neuter_xml': 'n'
     }
     attr_valid_dict = {
 
-        'fast_ssl': {
+        'neuter_xml': {
             'y': True,
             'n': False,
         },
@@ -77,13 +69,9 @@ def ask_user():
         'password': 'Presenter Password for online request',
         'merchantId': 'Your merchantId:',
         'url': 'URL for you online request',
-        'reportGroup': 'Your default report group:',
         'proxy': 'If you want to using https proxy, please input your proxy server address. Must start with "https://"',
-        'fast_url': 'Please input fast address, using for batch stream:',
-        'fast_ssl': 'Using ssl for fast stream? y for Yes, n for No.',
-        'fast_port': 'Please input fast port, using for batch stream',
         'print_xml': 'Do you want to print xml in console? y for Yes, n for No.',
-        'id': 'vantivRequest id for batch'
+        'neuter_xml': 'Do you want to hide sensitive data in printed xml? y for Yes, n for No.'
     }
     print(CC.bpurple('Vantiv eCommerce Chargeback SDK configuration!'))
     print('''

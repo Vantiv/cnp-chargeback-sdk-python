@@ -26,6 +26,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import mimetypes
 import os
+
+import re
 import requests
 from requests.auth import HTTPBasicAuth
 from vantivsdk import (utils)
@@ -46,9 +48,8 @@ def get_retrieval_request(request_url, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    if config.print_xml:
-        print("\nGET request to:", request_url)
-        print("\nResponse :", utils.generate_retrieval_response(http_response, "xml"))
+    print_to_console("\nGET request to:", request_url, config)
+    print_to_console("\nResponse :", utils.generate_retrieval_response(http_response, "xml"), config)
     check_response(http_response)
     response = utils.generate_retrieval_response(http_response)
     return response
@@ -62,9 +63,8 @@ def http_put_request(request_url, request_xml, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    if config.print_xml:
-        print("\nPUT request to:", request_url)
-        print("\nResponse :", utils.generate_update_response(http_response, "xml"))
+    print_to_console("\nPUT request to:", request_url, config)
+    print_to_console("\nResponse :", utils.generate_update_response(http_response, "xml"), config)
     check_response(http_response)
     response = utils.generate_update_response(http_response)
     return response
@@ -83,8 +83,8 @@ def get_document_request(request_url, document_path, config=conf):
 
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
-    if config.print_xml:
-        print("\nGET Request to:", request_url)
+
+    print_to_console("\nGET Request to:", request_url, config)
     check_response(http_response)
     retrieve_file(http_response, document_path, config.print_xml)
 
@@ -96,9 +96,8 @@ def delete_document_response(request_url, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    if config.print_xml:
-        print("\nDELETE request to:", request_url)
-        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
+    print_to_console("\nDELETE request to:", request_url, config)
+    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -113,10 +112,9 @@ def post_document_request(request_url, document_path, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    if config.print_xml:
-        print("\nPOST request to:", request_url)
-        print("\nFile:", document_path)
-        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
+    print_to_console("\nPOST request to:", request_url, config)
+    print_to_console("\nFile:", document_path, config)
+    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -131,10 +129,9 @@ def put_document_request(request_url, document_path, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    if config.print_xml:
-        print("\nPUT request to:", request_url)
-        print("\nFile:", document_path)
-        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
+    print_to_console("\nPUT request to:", request_url, config)
+    print_to_console("\nFile:", document_path, config)
+    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -148,9 +145,8 @@ def get_document_list_request(request_url, config=conf):
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
-    if config.print_xml:
-        print("\nGET request to:", request_url)
-        print("\nResponse :", utils.generate_document_response(http_response, "xml"))
+    print_to_console("\nGET request to:", request_url, config)
+    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
     check_response(http_response)
     response = utils.generate_document_response(http_response)
     return response
@@ -185,10 +181,8 @@ def create_request_xml(request_body):
     :return: XML string
     """
     request_xml = utils.obj_to_xml(request_body)
-
-    if conf.print_xml:
-        print('\nRequest XML:\n', request_xml.decode('utf-8'), '\n')
-
+    # if conf.print_xml:
+    #     print('\nRequest XML:\n', request_xml.decode('utf-8'), '\n')
     return request_xml
 
 
@@ -197,3 +191,19 @@ def get_file_content(path):
         data = f.read()
     content_type = mimetypes.guess_type(path)[0]
     return data, content_type
+
+
+def neuter_xml(xml_string):
+    xml_string = re.sub(r"<accNum>.*</accNum>", "<accNum>****</accNum>", xml_string)
+    xml_string = re.sub(r"<user>.*</user>", "<user>****</user>", xml_string)
+    xml_string = re.sub(r"<password>.*</password>", "<password>****</password>", xml_string)
+    xml_string = re.sub(r"<track>.*</track>", "<track>****</track>", xml_string)
+    xml_string = re.sub(r"<number>.*</number>", "<number>****</number>", xml_string)
+    return xml_string
+
+
+def print_to_console(prefix_message, xml_string, config=conf):
+    if config.print_xml:
+        if config.neuter_xml:
+            xml_string = neuter_xml(xml_string)
+        print(prefix_message, xml_string)

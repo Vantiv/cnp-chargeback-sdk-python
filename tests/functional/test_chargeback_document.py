@@ -43,20 +43,20 @@ class TestChargebackDocument(unittest2.TestCase):
     def test_upload_chargebackDocument(self):
         path = package_root+"/samples/000_puppy_picture.jpg"
         response = chargebackDocument.upload_document("10000", path)
-        self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
+        self.assertEquals('000', response['responseCode'])
 
     def test_update_chargebackDocument(self):
         path = package_root + "/samples/index.jpeg"
         response = chargebackDocument.replace_document("10000", "logo.tiff", path)
-        self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
+        self.assertEquals('000', response['responseCode'])
 
     def test_delete_chargebackDocument(self):
         response = chargebackDocument.remove_document("10000", "logo.tiff")
-        self.assertEquals('000', response['ChargebackCase']['Document']['ResponseCode'])
+        self.assertEquals('000', response['responseCode'])
 
     def test_list_chargebackDocument(self):
         response = chargebackDocument.list_documents("1000000")
-        self.assertEquals("1000000", response['ChargebackCase']['@id'])
+        self.assertEquals("000", response['responseCode'])
 
 
 

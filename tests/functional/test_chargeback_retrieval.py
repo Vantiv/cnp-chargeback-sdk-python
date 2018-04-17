@@ -53,7 +53,7 @@ class TestChargebackRetrieval(unittest2.TestCase):
 
     def test_get_case_id(self):
         response = chargebackRetrieval.get_case_id("1333078000")
-        self.assertEquals("1333078000", response['chargebackCase']['caseId'])
+        self.assertEquals("1333078000", response["chargebackCase"][0]["caseId"])
 
     def test_get_token(self):
         response = chargebackRetrieval.get_token("1000000")

@@ -132,11 +132,9 @@ class TestChargebackDocument(unittest2.TestCase):
         os.remove(document_maxsize)
 
         document_maxsize = package_root + "/tests/maxsize1.tif"
-        f = open(document_maxsize, "w+")
-        f.seek(2050)
-        f.write("\0")
-        f.close()
-        print(os.stat(document_maxsize).st_size)
+        with open(document_maxsize, "w+") as f:
+            f.seek(2050)
+            f.write("\0")
 
         response = chargebackDocument.upload_document(case_id, document_maxsize, config=conf)
         self.assertEquals('005', response['responseCode'])

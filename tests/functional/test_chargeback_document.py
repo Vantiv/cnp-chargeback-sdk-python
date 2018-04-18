@@ -74,7 +74,7 @@ class TestChargebackDocument(unittest2.TestCase):
         response = chargebackDocument.list_documents("1000000")
         self.assertEquals("000", response['responseCode'])
 
-    def test_upload_chargebackDocument(self):
+    def test_upload_chargebackDocument_error(self):
         path = package_root + "/tests/000_puppy_picture.jpg"
         response = chargebackDocument.upload_document("10001", path)
         self.assertEquals('001', response['responseCode'])

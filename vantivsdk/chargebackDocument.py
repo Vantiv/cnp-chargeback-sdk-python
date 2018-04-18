@@ -33,9 +33,6 @@ conf = utils.Configuration()
 home_dir = os.environ['HOME']
 
 
-# conf.header = {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"}
-
-
 """
 Document requests
 """

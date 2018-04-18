@@ -24,7 +24,8 @@ setup(
         'requests>=2.13.0',
         'six>=1.10.0',
         'xmltodict>=0.10.2',
-        'unittest2>=1.1.0'
+        'unittest2>=1.1.0',
+        'mock'
     ],
     license='MIT',
     classifiers=[

@@ -36,17 +36,33 @@ package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(_
 
 
 class TestChargebackDocument(unittest2.TestCase):
+    document_to_upload1 = package_root + "/tests/doc.tiff"
+    document_to_upload2 = package_root + "/tests/000_puppy_picture.jpg"
+    document_to_upload3 = package_root + "/tests/index.jpeg"
+
+    def setUp(self):
+        # create documents
+        open(self.document_to_upload1, "w+").close()
+        open(self.document_to_upload2, "w+").close()
+        open(self.document_to_upload3, "w+").close()
+
+    def tearDown(self):
+        # delete documents
+        os.remove(self.document_to_upload1)
+        os.remove(self.document_to_upload2)
+        os.remove(self.document_to_upload3)
+
     def test_retrieve_chargebackDocument(self):
-        chargebackDocument.retrieve_document("10000000", "document.jpg", package_root+"/samples/doc.tiff")
-        self.assertTrue(os.path.exists(package_root+"/samples/doc.pdf"))
+        chargebackDocument.retrieve_document("10000000", "document.jpg", package_root+"/tests/doc.tiff")
+        self.assertTrue(os.path.exists(package_root+"/tests/doc.tiff"))
 
     def test_upload_chargebackDocument(self):
-        path = package_root+"/samples/000_puppy_picture.jpg"
+        path = package_root+"/tests/000_puppy_picture.jpg"
         response = chargebackDocument.upload_document("10000", path)
         self.assertEquals('000', response['responseCode'])
 
     def test_update_chargebackDocument(self):
-        path = package_root + "/samples/index.jpeg"
+        path = package_root + "/tests/index.jpeg"
         response = chargebackDocument.replace_document("10000", "logo.tiff", path)
         self.assertEquals('000', response['responseCode'])
 
@@ -58,8 +74,10 @@ class TestChargebackDocument(unittest2.TestCase):
         response = chargebackDocument.list_documents("1000000")
         self.assertEquals("000", response['responseCode'])
 
-
-
+    def test_upload_chargebackDocument(self):
+        path = package_root + "/tests/000_puppy_picture.jpg"
+        response = chargebackDocument.upload_document("10001", path)
+        self.assertEquals('001', response['responseCode'])
 
 if __name__ == '__main__':
     unittest2.main()

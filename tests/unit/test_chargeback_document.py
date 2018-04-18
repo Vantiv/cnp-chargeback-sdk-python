@@ -48,10 +48,11 @@ class TestChargebackRetrieval(unittest.TestCase):
         # delete documents
         os.remove(self.document_to_upload)
 
-
     @mock.patch('vantivsdk.communication.post_document_request')
     def test_upload_document(self, mock_post_document_request):
-        mock_post_document_request.return_value = OrderedDict([(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'), (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
+        mock_post_document_request.return_value = OrderedDict(
+            [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
+             (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargebackDocument.upload_document("10000", self.document_to_upload)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
@@ -67,7 +68,9 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('vantivsdk.communication.put_document_request')
     def test_replace_document(self, mock_put_document_request):
-        mock_put_document_request.return_value = OrderedDict([(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'), (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
+        mock_put_document_request.return_value = OrderedDict(
+            [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
+             (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargebackDocument.replace_document("10000", "doc.pdf", self.document_to_upload)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
@@ -76,7 +79,9 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('vantivsdk.communication.delete_document_response')
     def test_remove_document(self, mock_delete_document_response):
-        mock_delete_document_response.return_value = OrderedDict([(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'), (u'documentId', u'logo.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
+        mock_delete_document_response.return_value = OrderedDict(
+            [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
+             (u'documentId', u'logo.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargebackDocument.remove_document("10000", "logo.tiff")
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
@@ -85,7 +90,9 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('vantivsdk.communication.get_document_list_request')
     def test_list_documents(self, mock_get_document_list_request):
-        mock_get_document_list_request.return_value = OrderedDict([(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'), (u'documentId', [u'logo.tiff', u'doc.tiff']), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
+        mock_get_document_list_request.return_value = OrderedDict(
+            [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
+             (u'documentId', [u'logo.tiff', u'doc.tiff']), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargebackDocument.list_documents("10000")
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])

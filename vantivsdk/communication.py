@@ -60,7 +60,7 @@ def http_put_request(request_url, request_xml, config=conf):
     try:
         http_response = requests.put(request_url, headers=chargebackApi_headers,
                                      auth=HTTPBasicAuth(config.user, config.password),
-                                     data=create_request_xml(request_xml))
+                                     data=utils.obj_to_xml(request_xml))
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
@@ -174,17 +174,6 @@ def retrieve_file(response, document_path, print_xml):
 
     if print_xml:
         print("\nDocument saved at: ", document_path)
-
-
-def create_request_xml(request_body):
-    """ Create xml string from request object
-    :param request_body: request_body
-    :return: XML string
-    """
-    request_xml = utils.obj_to_xml(request_body)
-    # if conf.print_xml:
-    #     print('\nRequest XML:\n', request_xml.decode('utf-8'), '\n')
-    return request_xml
 
 
 def get_file_content(path):

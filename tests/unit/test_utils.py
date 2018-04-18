@@ -23,11 +23,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 import os
-import sys
-import unittest2
 import random
+import sys
 
-from vantivsdk import (utils)
+import unittest2
+
+from vantivsdk import (utils, communication)
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -45,6 +46,43 @@ class TestUtils(unittest2.TestCase):
         self.assertEquals(conf.proxy, conf_new.proxy)
         self.assertEquals(conf.url, conf_new.url)
         self.assertNotEqual(conf_ori.url, conf_new.url)
+
+    def test_get_file_content(self):
+        test_file = package_root + "/tests/test.txt"
+        with open(test_file, "w+") as f:
+            f.write("this is a test!")
+
+        data, content_type = communication.get_file_content(test_file)
+        self.assertEqual("this is a test!", data)
+        self.assertEqual("text/plain", content_type)
+        os.remove(test_file)
+
+    def test_neuter_xml(self):
+        xml_string = "<user>test_user</user>"
+        self.assertEqual("<user>****</user>", communication.neuter_xml(xml_string))
+
+    def test_create_list(self):
+        dict = {'test': 'value'}
+        utils._create_list("test", dict)
+        self.assertTrue(isinstance(dict['test'], list))
+        self.assertEqual("value", dict['test'][0])
+        print()
+
+    def test_create_lists(self):
+        activity_dict = {'activity': 'test_activity'}
+        chargeback_dict = {'chargebackCase': activity_dict}
+
+        utils._create_lists(chargeback_dict)
+        self.assertTrue(isinstance(chargeback_dict['chargebackCase'], list))
+        self.assertEqual(activity_dict, chargeback_dict['chargebackCase'][0])
+        self.assertTrue(isinstance(activity_dict['activity'], list))
+        self.assertEqual("test_activity", activity_dict['activity'][0])
+
+        document_id_dict = {'documentId': 'test_id'}
+        utils._create_lists(document_id_dict)
+        self.assertTrue(isinstance(document_id_dict['documentId'], list))
+        self.assertEqual("test_id", document_id_dict['documentId'][0])
+        print()
 
 
 if __name__ == '__main__':

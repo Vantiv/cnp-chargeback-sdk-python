@@ -141,7 +141,7 @@ def convert_to_format(xml_response, response_type, return_format='dict'):
     response_dict = xmltodict.parse(xml_response.text)[response_type]
 
     if response_dict['@xmlns'] != "":
-        create_lists(response_dict)
+        _create_lists(response_dict)
         return_format = return_format.lower()
         if return_format == 'xml':
             response_xml = xml_response.text
@@ -157,20 +157,20 @@ def convert_to_format(xml_response, response_type, return_format='dict'):
         raise VantivException("Invalid Format")
 
 
-def create_lists(response_dict):
+def _create_lists(response_dict):
     if "chargebackCase" in response_dict:
-        create_list("chargebackCase", response_dict)
+        _create_list("chargebackCase", response_dict)
 
         for case in response_dict["chargebackCase"]:
             if "activity" in case:
-                create_list("activity", case)
+                _create_list("activity", case)
 
-    if "documentIds" in response_dict:
-        create_list("documentIds", response_dict)
+    if "documentId" in response_dict:
+        _create_list("documentId", response_dict)
 
 
 # if there is only one element for the given key in container, create a list for it
-def create_list(element_key, container):
+def _create_list(element_key, container):
     element_value = container[element_key]
     if element_value != "" and not isinstance(element_value, list):
         container[element_key] = [element_value]

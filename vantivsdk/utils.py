@@ -149,9 +149,6 @@ def convert_to_format(xml_response, response_type, return_format='dict'):
         elif return_format == 'object':
             return fields_chargeback.CreateFromDocument(xml_response.text)
         else:
-            # if config.print_xml:
-            #     import json
-            #     print('Response Dict:\n', json.dumps(response_dict, indent=4), '\n\n')
             return response_dict
     else:
         raise VantivException("Invalid Format")

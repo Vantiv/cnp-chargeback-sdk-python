@@ -27,7 +27,7 @@ import os
 
 import unittest2
 
-from vantivsdk import utils, chargebackDocument
+from vantivsdk import utils, chargeback_document
 
 # sys.path.insert(0, package_root)
 
@@ -58,50 +58,50 @@ class TestChargebackDocument(unittest2.TestCase):
 
     def test_1(self):
         case_id = conf.merchantId + "001"
-        response = chargebackDocument.upload_document(case_id, self.document_to_upload1, config=conf)
+        response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
 
-        response = chargebackDocument.upload_document(case_id, self.document_to_upload2, config=conf)
+        response = chargeback_document.upload_document(case_id, self.document_to_upload2, config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
 
-        response = chargebackDocument.upload_document(case_id, self.document_to_upload3, config=conf)
+        response = chargeback_document.upload_document(case_id, self.document_to_upload3, config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
 
-        response = chargebackDocument.list_documents(case_id, config=conf)
+        response = chargeback_document.list_documents(case_id, config=conf)
         document_list = response['documentIds']
         self.assertIn(self.document_to_upload1, document_list)
         self.assertIn(self.document_to_upload2, document_list)
         self.assertIn(self.document_to_upload3, document_list)
 
         document_to_retrieve = package_root + "/tests/test1.tiff"
-        chargebackDocument.retrieve_document(case_id, "test.jpg", document_to_retrieve, config=conf)
+        chargeback_document.retrieve_document(case_id, "test.jpg", document_to_retrieve, config=conf)
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
-        chargebackDocument.retrieve_document(case_id, "test.gif", document_to_retrieve, config=conf)
+        chargeback_document.retrieve_document(case_id, "test.gif", document_to_retrieve, config=conf)
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
-        chargebackDocument.retrieve_document(case_id, "test.pdf", document_to_retrieve, config=conf)
+        chargeback_document.retrieve_document(case_id, "test.pdf", document_to_retrieve, config=conf)
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
-        response = chargebackDocument.replace_document(case_id, "test.jpg", self.document_to_upload4, config=conf)
+        response = chargeback_document.replace_document(case_id, "test.jpg", self.document_to_upload4, config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
 
-        chargebackDocument.retrieve_document(case_id, "test.tiff", document_to_retrieve, config=conf)
+        chargeback_document.retrieve_document(case_id, "test.tiff", document_to_retrieve, config=conf)
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
-        response = chargebackDocument.remove_document(case_id, "test.gif", config=conf)
+        response = chargeback_document.remove_document(case_id, "test.gif", config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
 
-        response = chargebackDocument.list_documents(case_id, config=conf)
+        response = chargeback_document.list_documents(case_id, config=conf)
         document_list = response['documentIds']
         self.assertIn(self.document_to_upload3, document_list)
         self.assertIn(self.document_to_upload4, document_list)
@@ -109,14 +109,14 @@ class TestChargebackDocument(unittest2.TestCase):
     def test_2(self):
         case_id = conf.merchantId + "002"
 
-        response = chargebackDocument.upload_document(case_id, self.document_to_upload1, config=conf)
+        response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('010', response['responseCode'])
         self.assertEquals('Case not in valid cycle', response['responseMessage'])
 
     def test_3(self):
         case_id = conf.merchantId + "003"
 
-        response = chargebackDocument.upload_document(case_id, self.document_to_upload1, config=conf)
+        response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('004', response['responseCode'])
         self.assertEquals('Case Not In Merchant Queue', response['responseMessage'])
 
@@ -126,7 +126,7 @@ class TestChargebackDocument(unittest2.TestCase):
         document_maxsize = package_root + "/tests/maxsize.tif"
         open(document_maxsize, "w+").close()
 
-        response = chargebackDocument.upload_document(case_id, document_maxsize, config=conf)
+        response = chargeback_document.upload_document(case_id, document_maxsize, config=conf)
         self.assertEquals('005', response['responseCode'])
         self.assertEquals('Document already exists', response['responseMessage'])
         os.remove(document_maxsize)
@@ -136,12 +136,12 @@ class TestChargebackDocument(unittest2.TestCase):
             f.seek(2050)
             f.write("\0")
 
-        response = chargebackDocument.upload_document(case_id, document_maxsize, config=conf)
+        response = chargeback_document.upload_document(case_id, document_maxsize, config=conf)
         self.assertEquals('005', response['responseCode'])
         self.assertEquals('Filesize exceeds limit of 1MB', response['responseMessage'])
         os.remove(document_maxsize)
 
-        response = chargebackDocument.upload_document(case_id, self.document_to_upload1, config=conf)
+        response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('008', response['responseCode'])
         self.assertEquals('Max Document Limit Per Case Reached', response['responseMessage'])
 

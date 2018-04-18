@@ -29,7 +29,7 @@ from collections import OrderedDict
 
 import mock
 
-from vantivsdk import (utils, chargebackUpdate)
+from vantivsdk import (utils, chargeback_update)
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -42,55 +42,55 @@ class TestChargebackRetrieval(unittest.TestCase):
     def test_assign_case_to_user(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.assign_case_to_user(123, "test_user", "test_note")
+        response = chargeback_update.assign_case_to_user(123, "test_user", "test_note")
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_add_note_to_case(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.add_note_to_case(123, "test_note")
+        response = chargeback_update.add_note_to_case(123, "test_note")
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_assume_liability(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.assume_liability(123, "test_note")
+        response = chargeback_update.assume_liability(123, "test_note")
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_represent_case(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.represent_case(123, "test_note", representment_amount=1234)
+        response = chargeback_update.represent_case(123, "test_note", representment_amount=1234)
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_represent_case_full(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.represent_case(123, "test_note")
+        response = chargeback_update.represent_case(123, "test_note")
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_respond_to_retrieval_request(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.respond_to_retrieval_request(123, "test_note")
+        response = chargeback_update.respond_to_retrieval_request(123, "test_note")
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_request_arbitration(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
-        response = chargebackUpdate.request_arbitration(123, "test_note")
+        response = chargeback_update.request_arbitration(123, "test_note")
         self.assertTrue("transactionId" in response and response['transactionId'] is not None)
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_error_response(self, mock_http_put_request):
         mock_http_put_request.side_effect = utils.VantivException()
-        self.assertRaises(utils.VantivException, chargebackUpdate.add_note_to_case, "00", "note")
+        self.assertRaises(utils.VantivException, chargeback_update.add_note_to_case, "00", "note")
 
 
 if __name__ == '__main__':

@@ -29,7 +29,7 @@ from collections import OrderedDict
 
 import mock
 
-from vantivsdk import (utils, chargebackRetrieval)
+from vantivsdk import (utils, chargeback_retrieval)
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -59,7 +59,7 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_case_id("123456")
+        response = chargeback_retrieval.get_chargeback_by_case_id("123456")
         self.assertEquals("123456", response["chargebackCase"][0]["caseId"])
 
     @mock.patch('vantivsdk.communication.get_retrieval_request')
@@ -83,7 +83,7 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_token("10000")
+        response = chargeback_retrieval.get_chargebacks_by_token("10000")
         self.assertEquals("10000", response["chargebackCase"][0]["token"])
 
     @mock.patch('vantivsdk.communication.get_retrieval_request')
@@ -107,7 +107,7 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_card_number("1111000011110000", "01-18")
+        response = chargeback_retrieval.get_chargebacks_by_card_number("1111000011110000", "01-18")
         self.assertEquals("0000", response["chargebackCase"][0]["cardNumberLast4"])
 
     @mock.patch('vantivsdk.communication.get_retrieval_request')
@@ -131,7 +131,7 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_arn("111111")
+        response = chargeback_retrieval.get_chargebacks_by_arn("111111")
         self.assertEquals("111111", response["chargebackCase"][0]["acquirerReferenceNumber"])
 
     @mock.patch('vantivsdk.communication.get_retrieval_request')
@@ -155,7 +155,7 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_activity_date("2018-01-01")
+        response = chargeback_retrieval.get_chargebacks_by_date("2018-01-01")
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
@@ -180,7 +180,7 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_financial_impact("2018-01-01", True)
+        response = chargeback_retrieval.get_chargebacks_by_financial_impact("2018-01-01", True)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
@@ -205,14 +205,14 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'fromQueue', u'Vantiv'),
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
-        response = chargebackRetrieval.get_actionable(True)
+        response = chargeback_retrieval.get_actionable_chargebacks(True)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
     @mock.patch('vantivsdk.communication.get_retrieval_request')
     def test_error_response(self, mock_get_retrieval_request):
         mock_get_retrieval_request.side_effect = utils.VantivException()
-        self.assertRaises(utils.VantivException, chargebackRetrieval.get_case_id, "00")
+        self.assertRaises(utils.VantivException, chargeback_retrieval.get_chargeback_by_case_id, "00")
 
 
 if __name__ == '__main__':

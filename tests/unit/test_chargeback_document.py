@@ -29,7 +29,7 @@ from collections import OrderedDict
 
 import mock
 
-from vantivsdk import (utils, chargebackDocument)
+from vantivsdk import (utils, chargeback_document)
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -53,7 +53,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         mock_post_document_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargebackDocument.upload_document("10000", self.document_to_upload)
+        response = chargeback_document.upload_document("10000", self.document_to_upload)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('10000', response['caseId'])
@@ -62,7 +62,7 @@ class TestChargebackRetrieval(unittest.TestCase):
     @mock.patch('vantivsdk.communication.get_document_request')
     def test_retrieve_document(self, mock_get_document_request):
         mock_get_document_request.side_effect = open(self.document_to_retrieve, "w+").close()
-        chargebackDocument.retrieve_document(123, "doc.pdf", "test.tiff")
+        chargeback_document.retrieve_document(123, "doc.pdf", "test.tiff")
         self.assertTrue(os.path.exists(self.document_to_retrieve))
         os.remove(self.document_to_retrieve)
 
@@ -71,7 +71,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         mock_put_document_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargebackDocument.replace_document("10000", "doc.pdf", self.document_to_upload)
+        response = chargeback_document.replace_document("10000", "doc.pdf", self.document_to_upload)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('10000', response['caseId'])
@@ -82,7 +82,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         mock_delete_document_response.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', u'logo.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargebackDocument.remove_document("10000", "logo.tiff")
+        response = chargeback_document.remove_document("10000", "logo.tiff")
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('10000', response['caseId'])
@@ -93,7 +93,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         mock_get_document_list_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', [u'logo.tiff', u'doc.tiff']), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargebackDocument.list_documents("10000")
+        response = chargeback_document.list_documents("10000")
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('10000', response['caseId'])
@@ -104,7 +104,7 @@ class TestChargebackRetrieval(unittest.TestCase):
     @mock.patch('vantivsdk.communication.get_document_request')
     def test_error_response(self, mock_get_document_request):
         mock_get_document_request.side_effect = utils.VantivException()
-        self.assertRaises(utils.VantivException, chargebackDocument.retrieve_document, 0, "doc.pdf", "test.tiff")
+        self.assertRaises(utils.VantivException, chargeback_document.retrieve_document, 0, "doc.pdf", "test.tiff")
 
 
 if __name__ == '__main__':

@@ -25,7 +25,6 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import mimetypes
-import os
 import re
 
 import requests
@@ -33,17 +32,15 @@ from requests.auth import HTTPBasicAuth
 
 from vantivsdk import (utils)
 
-package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
-home_dir = os.environ['HOME']
 
-chargebackApi_headers = {"Accept": "application/com.vantivcnp.services-v2+xml",
-                         "Content-Type": "application/com.vantivcnp.services-v2+xml"}
+CHARGEBACK_API_HEADERS = {"Accept": "application/com.vantivcnp.services-v2+xml",
+                          "Content-Type": "application/com.vantivcnp.services-v2+xml"}
 
 
-def get_retrieval_request(request_url, config=conf):
+def http_get_retrieval_request(request_url, config=conf):
     try:
-        http_response = requests.get(request_url, headers=chargebackApi_headers,
+        http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
@@ -58,7 +55,7 @@ def get_retrieval_request(request_url, config=conf):
 
 def http_put_request(request_url, request_xml, config=conf):
     try:
-        http_response = requests.put(request_url, headers=chargebackApi_headers,
+        http_response = requests.put(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.user, config.password),
                                      data=utils.obj_to_xml(request_xml))
     except requests.RequestException:
@@ -71,14 +68,7 @@ def http_put_request(request_url, request_xml, config=conf):
     return response
 
 
-def get_document_request(request_url, document_path, config=conf):
-    """ generate response when merchant id, case id and document id is given using GET method
-
-    :param parameter_value1: merchant id to be appended to url
-    :param case_id: case id to be appended to ur
-    :param document_id: document id to be appended to ur
-    :return: the http response generated
-    """
+def http_get_document_request(request_url, document_path, config=conf):
     try:
         http_response = requests.get(request_url, auth=HTTPBasicAuth(config.user, config.password))
 
@@ -90,7 +80,7 @@ def get_document_request(request_url, document_path, config=conf):
     retrieve_file(http_response, document_path, config.print_xml)
 
 
-def delete_document_response(request_url, config=conf):
+def http_delete_document_response(request_url, config=conf):
     try:
         http_response = requests.delete(request_url, auth=HTTPBasicAuth(config.user, config.password))
 
@@ -104,7 +94,7 @@ def delete_document_response(request_url, config=conf):
     return response
 
 
-def post_document_request(request_url, document_path, config=conf):
+def http_post_document_request(request_url, document_path, config=conf):
     try:
         data, content_type = get_file_content(document_path)
         http_response = requests.post(url=request_url,
@@ -121,7 +111,7 @@ def post_document_request(request_url, document_path, config=conf):
     return response
 
 
-def put_document_request(request_url, document_path, config=conf):
+def http_put_document_request(request_url, document_path, config=conf):
     try:
         data, content_type = get_file_content(document_path)
         http_response = requests.put(url=request_url,
@@ -138,9 +128,9 @@ def put_document_request(request_url, document_path, config=conf):
     return response
 
 
-def get_document_list_request(request_url, config=conf):
+def http_get_document_list_request(request_url, config=conf):
     try:
-        http_response = requests.get(request_url, headers=chargebackApi_headers,
+        http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:

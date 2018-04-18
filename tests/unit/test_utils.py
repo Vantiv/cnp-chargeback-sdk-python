@@ -66,7 +66,6 @@ class TestUtils(unittest2.TestCase):
         utils._create_list("test", dict)
         self.assertTrue(isinstance(dict['test'], list))
         self.assertEqual("value", dict['test'][0])
-        print()
 
     def test_create_lists(self):
         activity_dict = {'activity': 'test_activity'}
@@ -82,7 +81,6 @@ class TestUtils(unittest2.TestCase):
         utils._create_lists(document_id_dict)
         self.assertTrue(isinstance(document_id_dict['documentId'], list))
         self.assertEqual("test_id", document_id_dict['documentId'][0])
-        print()
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ if (sys.version_info[:3] < (2, 7, 9)) or ((sys.version_info[0] == 3) and sys.ver
 (You have %s.)''' % (sys.version,))
 
 setup(
-    name='VantiveCommerceSDK',
+    name='CnpChargebackSDK',
     version='2.1.0',
     description='Vantiv eCommerce Chargeback SDK',
     author='Vantiv eCommerce',
@@ -24,7 +24,6 @@ setup(
         'requests>=2.13.0',
         'six>=1.10.0',
         'xmltodict>=0.10.2',
-        'unittest2>=1.1.0',
         'mock'
     ],
     license='MIT',

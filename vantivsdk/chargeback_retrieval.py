@@ -24,62 +24,58 @@
 #
 from __future__ import absolute_import, print_function, unicode_literals
 
-import os
+from vantivsdk import (utils, communication)
 
-from vantivsdk import (fields_chargeback, utils, communication)
-
-package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
-home_dir = os.environ['HOME']
-
-
-# conf.header = {"Accept":"application/com.vantivcnp.services-v2+xml", "Content-Type":"application/com.vantivcnp.services-v2+xml"}
 
 """
-Retrieval requests
+/////////////////////////////////////////////////////
+            ChargebackRetrieval API:
+/////////////////////////////////////////////////////
 """
 
 
-def get_case_id(case_id, config=conf):
-    response = _get_response(case_id, "", config=config)
+def get_chargeback_by_case_id(case_id, config=conf):
+    response = _get_retrieval_response(case_id, "", config=config)
     return response
 
 
-def get_token(token, config=conf):
-    response = _get_response(token, "token", config=config)
+def get_chargebacks_by_token(token, config=conf):
+    response = _get_retrieval_response(token, "token", config=config)
     return response
 
 
-def get_card_number(card_number, expiration_date, config=conf):
-    response = _get_response(card_number, "cardNumber", expiration_date, "expirationDate", config=config)
+def get_chargebacks_by_card_number(card_number, expiration_date, config=conf):
+    response = _get_retrieval_response(card_number, "cardNumber", expiration_date, "expirationDate", config=config)
     return response
 
 
-def get_arn(arn, config=conf):
-    response = _get_response(arn, "arn", config=config)
+def get_chargebacks_by_arn(arn, config=conf):
+    response = _get_retrieval_response(arn, "arn", config=config)
     return response
 
 
-def get_activity_date(activity_date, config=conf):
-    response = _get_response(activity_date, "date", config=config)
+def get_chargebacks_by_date(activity_date, config=conf):
+    response = _get_retrieval_response(activity_date, "date", config=config)
     return response
 
 
-def get_financial_impact(activity_date, financial_impact, config=conf):
-    response = _get_response(activity_date, "date", financial_impact, "financialOnly", config=config)
+def get_chargebacks_by_financial_impact(activity_date, financial_impact, config=conf):
+    response = _get_retrieval_response(activity_date, "date", financial_impact, "financialOnly", config=config)
     return response
 
 
-def get_actionable(actionable, config=conf):
-    response = _get_response(actionable, "actionable", config=config)
+def get_actionable_chargebacks(actionable, config=conf):
+    response = _get_retrieval_response(actionable, "actionable", config=config)
     return response
+
 
 """
-Internal methods
+/////////////////////////////////////////////////////
 """
 
 
-def _get_response(parameter_value1, parameter_key1, parameter_value2=None, parameter_key2=None, config=conf):
+def _get_retrieval_response(parameter_value1, parameter_key1, parameter_value2=None, parameter_key2=None, config=conf):
     """ generate response with request method  GET
     :param parameter_value1: the parameter value to be appended in url
     :param parameter_key1: the paramater to be appended in url
@@ -97,5 +93,5 @@ def _get_response(parameter_value1, parameter_key1, parameter_value2=None, param
             parameter_key2 = parameter_key2 + "="
         request = request + "&" + parameter_key2 + str(parameter_value2)
 
-    response = communication.get_retrieval_request(request, config)
+    response = communication.http_get_retrieval_request(request, config)
     return response

@@ -24,45 +24,42 @@
 #
 from __future__ import absolute_import, print_function, unicode_literals
 
-import os
+from vantivsdk import (utils, communication)
 
-from vantivsdk import (fields_chargeback, utils, communication)
-
-package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 conf = utils.Configuration()
-home_dir = os.environ['HOME']
-
 
 """
-Document requests
+/////////////////////////////////////////////////////
+            ChargebackRetrieval API:
+/////////////////////////////////////////////////////
 """
 
 
 def upload_document(case_id, document_path, config=conf):
     document_id = document_path.split("/")[-1]
     request_url = config.url + "/upload/" + str(case_id) + "/" + str(document_id)
-    response = communication.post_document_request(request_url, document_path, config=config)
+    response = communication.http_post_document_request(request_url, document_path, config=config)
     return response
 
 
 def retrieve_document(case_id, document_id, document_path, config=conf):
     request_url = config.url + "/retrieve/" + str(case_id) + "/" + str(document_id)
-    communication.get_document_request(request_url, document_path, config=config)
+    communication.http_get_document_request(request_url, document_path, config=config)
 
 
 def replace_document(case_id, document_id, document_path, config=conf):
     request_url = config.url + "/replace/" + case_id + "/" + document_id
-    response = communication.put_document_request(request_url, document_path, config=config)
+    response = communication.http_put_document_request(request_url, document_path, config=config)
     return response
 
 
 def remove_document(case_id, document_id, config=conf):
     request_url = config.url + "/remove/" + str(case_id) + "/" + str(document_id)
-    response = communication.delete_document_response(request_url, config=config)
+    response = communication.http_delete_document_response(request_url, config=config)
     return response
 
 
 def list_documents(case_id, config=conf):
     request_url = config.url + "/list/" + str(case_id)
-    response = communication.get_document_list_request(request_url, config=config)
+    response = communication.http_get_document_list_request(request_url, config=config)
     return response

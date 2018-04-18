@@ -67,6 +67,11 @@ class TestChargebackRetrieval(unittest2.TestCase):
         response = chargeback_retrieval.get_chargebacks_by_arn("1111111111")
         self.assertRegex(response["transactionId"], "\d+")
 
+    def test_get_case_id(self):
+        try:
+            response = chargeback_retrieval.get_chargeback_by_case_id("404")
+        except utils.VantivException as e:
+            self.assertEquals("Error with Https Response, Status code: 404", e.message)
 
 if __name__ == '__main__':
     unittest2.main()

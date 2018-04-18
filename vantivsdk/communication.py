@@ -150,7 +150,7 @@ def check_response(response):
     """
 
     if response.status_code != 200:
-        raise utils.VantivException("Error with Https Response, Status code: ", response.status_code)
+        raise utils.VantivException("Error with Https Response, Status code: " + str(response.status_code))
 
     # Check empty response
     if not response:

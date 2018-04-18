@@ -65,6 +65,11 @@ class TestChargebackUpdate(unittest2.TestCase):
         response = chargeback_update.request_arbitration(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
+    def test_add_not_to_case(self):
+        try:
+            response = chargeback_update.add_note_to_case(404, "ErrorResponse")
+        except utils.VantivException as e:
+            self.assertEquals("Error with Https Response, Status code: 404", e.message)
 
 if __name__ == '__main__':
     unittest2.main()

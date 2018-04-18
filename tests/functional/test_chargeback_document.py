@@ -31,51 +31,68 @@ from vantivsdk import utils, chargeback_document
 
 conf = utils.Configuration()
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+document_to_upload1 = package_root + "/tests/doc.tiff"
+document_to_upload2 = package_root + "/tests/test.jpg"
+document_to_upload3 = package_root + "/tests/index.jpeg"
 
 
 class TestChargebackDocument(unittest2.TestCase):
-    document_to_upload1 = package_root + "/tests/doc.tiff"
-    document_to_upload2 = package_root + "/tests/000_puppy_picture.jpg"
-    document_to_upload3 = package_root + "/tests/index.jpeg"
 
     def setUp(self):
         # create documents
-        open(self.document_to_upload1, "w+").close()
-        open(self.document_to_upload2, "w+").close()
-        open(self.document_to_upload3, "w+").close()
+        open(document_to_upload1, "w+").close()
+        open(document_to_upload2, "w+").close()
+        open(document_to_upload3, "w+").close()
 
     def tearDown(self):
         # delete documents
-        os.remove(self.document_to_upload1)
-        os.remove(self.document_to_upload2)
-        os.remove(self.document_to_upload3)
+        os.remove(document_to_upload1)
+        os.remove(document_to_upload2)
+        os.remove(document_to_upload3)
 
     def test_retrieve_chargebackDocument(self):
-        chargeback_document.retrieve_document("10000000", "document.jpg", package_root + "/tests/doc.tiff")
-        self.assertTrue(os.path.exists(package_root + "/tests/doc.tiff"))
+        chargeback_document.retrieve_document("10000000", "document.jpg", document_to_upload1)
+        self.assertTrue(os.path.exists(document_to_upload1))
 
     def test_upload_chargebackDocument(self):
-        path = package_root + "/tests/000_puppy_picture.jpg"
-        response = chargeback_document.upload_document("10000", path)
+        response = chargeback_document.upload_document("10000", document_to_upload2)
         self.assertEquals('000', response['responseCode'])
+        self.assertEquals('Success', response['responseMessage'])
+        self.assertEquals('test.jpg', response['documentId'])
+        self.assertEquals('10000', response['caseId'])
 
-    def test_update_chargebackDocument(self):
-        path = package_root + "/tests/index.jpeg"
-        response = chargeback_document.replace_document("10000", "logo.tiff", path)
+    def test_replace_chargebackDocument(self):
+        response = chargeback_document.replace_document("10000", "logo.tiff", document_to_upload3)
         self.assertEquals('000', response['responseCode'])
+        self.assertEquals('Success', response['responseMessage'])
+        self.assertEquals('logo.tiff', response['documentId'])
+        self.assertEquals('10000', response['caseId'])
 
     def test_delete_chargebackDocument(self):
         response = chargeback_document.remove_document("10000", "logo.tiff")
         self.assertEquals('000', response['responseCode'])
+        self.assertEquals('Success', response['responseMessage'])
+        self.assertEquals('logo.tiff', response['documentId'])
+        self.assertEquals('10000', response['caseId'])
 
     def test_list_chargebackDocument(self):
-        response = chargeback_document.list_documents("1000000")
+        response = chargeback_document.list_documents("10000")
         self.assertEquals("000", response['responseCode'])
+        self.assertEquals('Success', response['responseMessage'])
+        self.assertEquals('10000', response['caseId'])
+        document_list = response['documentId']
+        self.assertIn("logo.tiff", document_list)
+        self.assertIn("doc.tiff", document_list)
 
-    def test_upload_chargebackDocument_error(self):
-        path = package_root + "/tests/000_puppy_picture.jpg"
-        response = chargeback_document.upload_document("10001", path)
+    def test_error_response(self):
+        response = chargeback_document.upload_document("10001", document_to_upload1)
         self.assertEquals('001', response['responseCode'])
+        self.assertEquals('Invalid Merchant', response['responseMessage'])
+
+        try:
+            chargeback_document.retrieve_document(123002, "logo.tiff", "test.tiff")
+        except utils.VantivException as e:
+            self.assertEquals("Could not find requested object.", e.message)
 
 
 if __name__ == '__main__':

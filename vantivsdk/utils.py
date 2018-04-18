@@ -137,6 +137,10 @@ def generate_document_response(xml_response, return_format='dict'):
     return convert_to_format(xml_response, "chargebackDocumentUploadResponse", return_format)
 
 
+def generate_error_response(xml_response, return_format='dict'):
+    return convert_to_format(xml_response, "errorResponse", return_format)
+
+
 def convert_to_format(xml_response, response_type, return_format='dict'):
     response_dict = xmltodict.parse(xml_response.text)[response_type]
 
@@ -161,9 +165,6 @@ def _create_lists(response_dict):
         for case in response_dict["chargebackCase"]:
             if "activity" in case:
                 _create_list("activity", case)
-
-    if "documentId" in response_dict:
-        _create_list("documentId", response_dict)
 
 
 # if there is only one element for the given key in container, create a list for it

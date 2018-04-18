@@ -28,6 +28,7 @@ import unittest
 from collections import OrderedDict
 
 import mock
+import unittest2
 
 from vantivsdk import (utils, chargeback_update)
 
@@ -36,56 +37,56 @@ sys.path.insert(0, package_root)
 conf = utils.Configuration()
 
 
-class TestChargebackRetrieval(unittest.TestCase):
+class TestChargebackRetrieval(unittest2.TestCase):
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_assign_case_to_user(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.assign_case_to_user(123, "test_user", "test_note")
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_add_note_to_case(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.add_note_to_case(123, "test_note")
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_assume_liability(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.assume_liability(123, "test_note")
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_represent_case(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.represent_case(123, "test_note", representment_amount=1234)
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_represent_case_full(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.represent_case(123, "test_note")
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_respond_to_retrieval_request(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.respond_to_retrieval_request(123, "test_note")
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_request_arbitration(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.request_arbitration(123, "test_note")
-        self.assertTrue("transactionId" in response and response['transactionId'] is not None)
+        self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_error_response(self, mock_http_put_request):

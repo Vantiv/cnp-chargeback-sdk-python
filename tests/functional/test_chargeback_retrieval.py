@@ -41,37 +41,47 @@ class TestChargebackRetrieval(unittest2.TestCase):
     def test_activity_date(self):
         response = chargeback_retrieval.get_chargebacks_by_date("2018-01-01")
         self.assertRegex(response["transactionId"], "\d+")
-        self.assertEqual("2018-01-01", response["chargebackCase"][0]["dateReceivedByVantivCnp"])
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
 
     def test_activity_date_financial_impact(self):
         response = chargeback_retrieval.get_chargebacks_by_financial_impact("2018-01-01", "true")
         self.assertRegex(response["transactionId"], "\d+")
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
 
     def test_actionable(self):
         response = chargeback_retrieval.get_actionable_chargebacks("true")
         self.assertRegex(response["transactionId"], "\d+")
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
 
     def test_case_id(self):
         response = chargeback_retrieval.get_chargeback_by_case_id("1333078000")
-        self.assertEquals("1333078000", response["chargebackCase"][0]["caseId"])
+        self.assertRegex(response["transactionId"], "\d+")
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
+        self.assertEquals(response["chargebackCase"][0]["caseId"], "1333078000")
 
     def test_token(self):
         response = chargeback_retrieval.get_chargebacks_by_token("1000000")
         self.assertRegex(response["transactionId"], "\d+")
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
+        self.assertEquals(response["chargebackCase"][0]["token"], "1000000")
 
     def test_card_number(self):
         response = chargeback_retrieval.get_chargebacks_by_card_number("1111000011110000", "0118")
         self.assertRegex(response["transactionId"], "\d+")
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
+        self.assertEquals(response["chargebackCase"][0]["cardNumberLast4"], "0000")
 
     def test_arn(self):
         response = chargeback_retrieval.get_chargebacks_by_arn("1111111111")
         self.assertRegex(response["transactionId"], "\d+")
+        self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
+        self.assertEquals(response["chargebackCase"][0]["acquirerReferenceNumber"], "1111111111")
 
     def test_get_case_id(self):
         try:
-            response = chargeback_retrieval.get_chargeback_by_case_id("404")
+            chargeback_retrieval.get_chargeback_by_case_id("404")
         except utils.VantivException as e:
-            self.assertEquals("Error with Https Response, Status code: 404", e.message)
+            self.assertEquals("404 : Not Found - Could not find requested object.", e.message)
 
 if __name__ == '__main__':
     unittest2.main()

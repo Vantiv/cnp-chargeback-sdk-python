@@ -34,26 +34,26 @@ from vantivsdk import (utils, chargeback_document)
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
 conf = utils.Configuration()
+document_to_upload = package_root + "/tests/doc.tiff"
+document_to_retrieve = package_root + "/tests/test.tiff"
 
 
 class TestChargebackRetrieval(unittest.TestCase):
-    document_to_upload = package_root + "/tests/doc.tiff"
-    document_to_retrieve = package_root + "/tests/test.tiff"
 
     def setUp(self):
         # create documents
-        open(self.document_to_upload, "w+").close()
+        open(document_to_upload, "w+").close()
 
     def tearDown(self):
         # delete documents
-        os.remove(self.document_to_upload)
+        os.remove(document_to_upload)
 
     @mock.patch('vantivsdk.communication.post_document_request')
     def test_upload_document(self, mock_post_document_request):
         mock_post_document_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargeback_document.upload_document("10000", self.document_to_upload)
+        response = chargeback_document.upload_document("10000", document_to_upload)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('10000', response['caseId'])
@@ -61,17 +61,17 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('vantivsdk.communication.get_document_request')
     def test_retrieve_document(self, mock_get_document_request):
-        mock_get_document_request.side_effect = open(self.document_to_retrieve, "w+").close()
+        mock_get_document_request.side_effect = open(document_to_retrieve, "w+").close()
         chargeback_document.retrieve_document(123, "doc.pdf", "test.tiff")
-        self.assertTrue(os.path.exists(self.document_to_retrieve))
-        os.remove(self.document_to_retrieve)
+        self.assertTrue(os.path.exists(document_to_retrieve))
+        os.remove(document_to_retrieve)
 
     @mock.patch('vantivsdk.communication.put_document_request')
     def test_replace_document(self, mock_put_document_request):
         mock_put_document_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargeback_document.replace_document("10000", "doc.pdf", self.document_to_upload)
+        response = chargeback_document.replace_document("10000", "doc.pdf", document_to_upload)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('10000', response['caseId'])

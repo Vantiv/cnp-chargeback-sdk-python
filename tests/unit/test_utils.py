@@ -77,11 +77,6 @@ class TestUtils(unittest2.TestCase):
         self.assertTrue(isinstance(activity_dict['activity'], list))
         self.assertEqual("test_activity", activity_dict['activity'][0])
 
-        document_id_dict = {'documentId': 'test_id'}
-        utils._create_lists(document_id_dict)
-        self.assertTrue(isinstance(document_id_dict['documentId'], list))
-        self.assertEqual("test_id", document_id_dict['documentId'][0])
-
 
 if __name__ == '__main__':
     unittest2.main()

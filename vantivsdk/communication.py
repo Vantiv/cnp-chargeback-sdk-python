@@ -77,7 +77,7 @@ def http_get_document_request(request_url, document_path, config=conf):
 
     print_to_console("\nGET Request to:", request_url, config)
     check_response(http_response)
-    retrieve_file(http_response, document_path, config.print_xml)
+    retrieve_file(http_response, document_path, config)
 
 
 def http_delete_document_response(request_url, config=conf):
@@ -143,27 +143,33 @@ def http_get_document_list_request(request_url, config=conf):
     return response
 
 
-def check_response(response):
+def check_response(http_response, config=conf):
     """check the status code of the response
-    :param response: http response generated
+    :param http_response: http response generated
     :return: raises an exception
     """
 
-    if response.status_code != 200:
-        raise utils.VantivException("Error with Https Response, Status code: " + str(response.status_code))
+    if http_response.status_code != 200:
+        error_response = utils.generate_error_response(http_response)
+        print_to_console("\nResponse :", utils.generate_error_response(http_response, "xml"), config)
+        raise utils.VantivException(str(http_response.status_code) + " : " + str(http_response.reason) + " - " + str(error_response['errors']['error']))
 
     # Check empty response
-    if not response:
+    if not http_response:
         raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
 
 
-def retrieve_file(response, document_path, print_xml):
-    with open(document_path, 'wb') as f:
-        for block in response.iter_content(1024):
-            f.write(block)
-
-    if print_xml:
-        print("\nDocument saved at: ", document_path)
+def retrieve_file(http_response, document_path, config=conf):
+    content_type = http_response.headers._store['content-type'][1]
+    if content_type != "image/tiff":
+        error_response = utils.generate_error_response(http_response)
+        print_to_console("\nResponse :", utils.generate_error_response(http_response, "xml"), config)
+        raise utils.VantivException(str(error_response['errors']['error']))
+    else:
+        with open(document_path, 'wb') as f:
+            for block in http_response.iter_content(1024):
+                f.write(block)
+        print_to_console("\nDocument saved at: ", document_path, config)
 
 
 def get_file_content(path):

@@ -67,9 +67,9 @@ class TestChargebackUpdate(unittest2.TestCase):
 
     def test_add_not_to_case(self):
         try:
-            response = chargeback_update.add_note_to_case(404, "ErrorResponse")
+            chargeback_update.add_note_to_case(404, "ErrorResponse")
         except utils.VantivException as e:
-            self.assertEquals("Error with Https Response, Status code: 404", e.message)
+            self.assertEquals("404 : Not Found - Could not find requested object.", e.message)
 
 if __name__ == '__main__':
     unittest2.main()

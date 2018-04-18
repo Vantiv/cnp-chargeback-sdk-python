@@ -24,7 +24,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 # XML Version
-VERSION = u'2'
+VERSION = u'2.1'
 # SDK release
-RELEASE = u'2.0dev'
+RELEASE = u'2.1.0'
 

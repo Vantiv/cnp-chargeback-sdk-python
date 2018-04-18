@@ -9,6 +9,8 @@
 
   <xs:element name="errorResponse" type="tns:errorResponse"/>
 
+  <xs:element name="chargebackDocumentUploadResponse" type="tns:chargebackDocumentUploadResponse"/>
+
   <xs:complexType name="chargebackApiActivity">
     <xs:sequence>
       <xs:element name="activityDate" type="xs:date" minOccurs="0"/>
@@ -118,5 +120,15 @@
       <xs:enumeration value="MERCHANT_REQUESTS_ARBITRATION"/>
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:complexType name="chargebackDocumentUploadResponse">
+    <xs:sequence>
+      <xs:element name="merchantId" type="xs:long" />
+      <xs:element name="caseId" type="xs:long" />
+      <xs:element name="documentId" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="responseCode" type="xs:string" />
+      <xs:element name="responseMessage" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>
 

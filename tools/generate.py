@@ -26,10 +26,8 @@ from __future__ import absolute_import, division, print_function
 import os
 import sys
 
-
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, package_root)
-from vantivsdk import utils
 
 from vantivsdk import utils
 
@@ -42,27 +40,8 @@ xsd_abs_path =  os.path.join(package_root, "schema", xsd_name)
 os.system('pyxbgen -u %s -m fields_chargeback' % xsd_abs_path)
 
 print('Copy fields_chargeback.py to package')
-gen_field_py_abs_path = os.path.join(package_root, 'fields_chargeback.py')
+gen_field_py_abs_path = os.path.join(package_root, 'tools', 'fields_chargeback.py')
 target_field_py_abs_path = os.path.join(package_root, 'vantivsdk', 'fields_chargeback.py')
-os.system('mv %s %s' % (gen_field_py_abs_path, target_field_py_abs_path))
-
-xsd_name = 'litleChargebackWebService_v1.0.xsd'
-
-print('Generate module fields using pyxb')
-xsd_abs_path =  os.path.join(package_root, "schema", xsd_name)
-os.system('pyxbgen -u %s -m fields_chargebackDocument' % xsd_abs_path)
-
-
-
-
-print('Copy filed.py to package')
-gen_field_py_abs_path = os.path.join(package_root, 'fields.py')
-target_field_py_abs_path = os.path.join(package_root, 'vantivsdk', 'fields.py')
-os.system('mv %s %s' % (gen_field_py_abs_path, target_field_py_abs_path))
-
-print('Copy fields_chargeback.py to package')
-gen_field_py_abs_path = os.path.join(package_root, 'fields_chargebackDocument.py')
-target_field_py_abs_path = os.path.join(package_root, 'vantivsdk', 'fields_chargebackDocument.py')
 os.system('mv %s %s' % (gen_field_py_abs_path, target_field_py_abs_path))
 
 

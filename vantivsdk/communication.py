@@ -54,14 +54,16 @@ def http_get_retrieval_request(request_url, config=conf):
 
 
 def http_put_request(request_url, request_xml, config=conf):
+    request_xml = utils.obj_to_xml(request_xml)
     try:
         http_response = requests.put(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.user, config.password),
-                                     data=utils.obj_to_xml(request_xml))
+                                     data=request_xml)
     except requests.RequestException:
         raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
 
     print_to_console("\nPUT request to:", request_url, config)
+    print_to_console("\nRequest :", request_xml, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_update_response(http_response, "xml"), config)
     response = utils.generate_update_response(http_response)

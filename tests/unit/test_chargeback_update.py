@@ -44,6 +44,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.assign_case_to_user(123, "test_user", "test_note")
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>ASSIGN_TO_USER</activityType><assignedTo>test_user</assignedTo><note>test_note</note></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
@@ -51,6 +57,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.add_note_to_case(123, "test_note")
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>ADD_NOTE</activityType><note>test_note</note></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
@@ -58,6 +70,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.assume_liability(123, "test_note")
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>MERCHANT_ACCEPTS_LIABILITY</activityType><note>test_note</note></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
@@ -65,6 +83,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.represent_case(123, "test_note", representment_amount=1234)
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>MERCHANT_REPRESENT</activityType><note>test_note</note><representedAmount>1234</representedAmount></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
@@ -72,6 +96,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.represent_case(123, "test_note")
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>MERCHANT_REPRESENT</activityType><note>test_note</note></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
@@ -79,6 +109,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.respond_to_retrieval_request(123, "test_note")
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>MERCHANT_RESPOND</activityType><note>test_note</note></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')
@@ -86,6 +122,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
         response = chargeback_update.request_arbitration(123, "test_note")
+        args = mock_http_put_request.call_args
+        expected_url = conf.url + "/123"
+        expected_request_body = '<?xml version="1.0" encoding="utf-8"?><chargebackUpdateRequest xmlns="http://www.vantivcnp.com/chargebacks"><activityType>MERCHANT_REQUESTS_ARBITRATION</activityType><note>test_note</note></chargebackUpdateRequest>'
+        request_body = utils.obj_to_xml(args[0][1])
+        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
     @mock.patch('vantivsdk.communication.http_put_request')

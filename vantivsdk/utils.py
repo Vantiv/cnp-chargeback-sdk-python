@@ -40,19 +40,14 @@ class Configuration(object):
         user (Str): authentication.user
         password (Str): authentication.password
         merchantId (Str): The unique string to identify the merchant within the system.
-        reportGroup (Str): To separate your transactions into different categories,
         url (Str): Url for server.
         proxy (Str): Https proxy server address. Must start with "https://"
-        sftp_username (Str): Username for sftp
-        fast_url (Str): Fast address, using for batch stream
-        fast_port (Str): Fast port, using for batch stream
         print_xml (Str): Whether print request and response xml
     """
     VERSION = version.VERSION
     RELEASE = version.RELEASE
-    # MERCHANTSDK = 'Python SDKv2 ' + RELEASE
-    _CONFIG_FILE_PATH = os.path.join(os.environ['VANTIV_SDK_CONFIG'], ".vantiv_chargeback_sdk.conf") \
-        if 'VANTIV_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".vantiv_chargeback_sdk.conf")
+    _CONFIG_FILE_PATH = os.path.join(os.environ['CHARGEBACK_SDK_CONFIG'], ".vantiv_chargeback_sdk.conf") \
+        if 'CHARGEBACK_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".vantiv_chargeback_sdk.conf")
 
     def __init__(self, conf_dict=dict()):
         attr_dict = {

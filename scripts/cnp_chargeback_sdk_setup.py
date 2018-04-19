@@ -36,7 +36,7 @@ from vantivsdk import utils
 
 def ask_user():
     attrs = [
-        'user',
+        'username',
         'password',
         'merchantId',
         'url',
@@ -45,7 +45,7 @@ def ask_user():
         'neuter_xml'
     ]
     attr_dict = {
-        'user': '',
+        'username': '',
         'password': '',
         'merchantId': '',
         'url': '',
@@ -65,7 +65,7 @@ def ask_user():
         }
     }
     attr_des_dict = {
-        'user': 'Presenter Username for online request',
+        'username': 'Presenter Username for online request',
         'password': 'Presenter Password for online request',
         'merchantId': 'Your merchantId:',
         'url': 'URL for you online request',
@@ -256,6 +256,7 @@ class CC:
 
 def main(argv=sys.argv):
     ask_user()
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))

@@ -46,17 +46,17 @@ class Configuration(object):
     """
     VERSION = version.VERSION
     RELEASE = version.RELEASE
-    _CONFIG_FILE_PATH = os.path.join(os.environ['CHARGEBACK_SDK_CONFIG'], ".vantiv_chargeback_sdk.conf") \
-        if 'CHARGEBACK_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".vantiv_chargeback_sdk.conf")
+    _CONFIG_FILE_PATH = os.path.join(os.environ['CNP_CHARGEBACK_SDK_CONFIG'], ".cnp_chargeback_sdk.conf") \
+        if 'CNP_CHARGEBACK_SDK_CONFIG' in os.environ else os.path.join(os.path.expanduser("~"), ".cnp_chargeback_sdk.conf")
 
     def __init__(self, conf_dict=dict()):
         attr_dict = {
-            'user': '',
+            'username': '',
             'password': '',
             'merchantId': '',
             'url': 'http://www.testvantivcnp.com/sandbox/new/services/chargebacks/',
             'proxy': '',
-            'print_xml': True,
+            'print_xml': False,
             'neuter_xml': False,
         }
 
@@ -84,7 +84,7 @@ class Configuration(object):
                     raise VantivException('"%s" is NOT an attribute of conf' % k)
 
     def save(self):
-        """Save Class Attributes to .vantiv_chargeback_sdk.conf
+        """Save Class Attributes to .cnp_chargeback_sdk.conf
 
         Returns:
             full path for configuration file.

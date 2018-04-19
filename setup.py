@@ -48,7 +48,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'vantiv_python_sdk_setup = scripts.vantiv_python_sdk_setup:main',
+            'cnp_chargeback_sdk_setup = scripts.cnp_chargeback_sdk_setup:main',
         ],
     },
     long_description='''Vantiv eCommerce Python SDK

@@ -36,38 +36,32 @@ conf = utils.Configuration()
 
 
 def get_chargeback_by_case_id(case_id, config=conf):
-    response = _get_retrieval_response(case_id, "", config=config)
-    return response
+    request_url = config.url + "/" + case_id
+    return communication.http_get_retrieval_request(request_url, config)
 
 
 def get_chargebacks_by_token(token, config=conf):
-    response = _get_retrieval_response(token, "token", config=config)
-    return response
+    return _get_retrieval_response({"token": token}, config)
 
 
 def get_chargebacks_by_card_number(card_number, expiration_date, config=conf):
-    response = _get_retrieval_response(card_number, "cardNumber", expiration_date, "expirationDate", config=config)
-    return response
+    return _get_retrieval_response({"cardNumber": card_number, "expirationDate": expiration_date}, config)
 
 
 def get_chargebacks_by_arn(arn, config=conf):
-    response = _get_retrieval_response(arn, "arn", config=config)
-    return response
+    return _get_retrieval_response({"arn": arn}, config)
 
 
 def get_chargebacks_by_date(activity_date, config=conf):
-    response = _get_retrieval_response(activity_date, "date", config=config)
-    return response
+    return _get_retrieval_response({"date": activity_date}, config)
 
 
 def get_chargebacks_by_financial_impact(activity_date, financial_impact, config=conf):
-    response = _get_retrieval_response(activity_date, "date", financial_impact, "financialOnly", config=config)
-    return response
+    return _get_retrieval_response({"date": activity_date, "financialOnly": financial_impact}, config)
 
 
 def get_actionable_chargebacks(actionable, config=conf):
-    response = _get_retrieval_response(actionable, "actionable", config=config)
-    return response
+    return _get_retrieval_response({"actionable": actionable}, config)
 
 
 """
@@ -75,23 +69,12 @@ def get_actionable_chargebacks(actionable, config=conf):
 """
 
 
-def _get_retrieval_response(parameter_value1, parameter_key1, parameter_value2=None, parameter_key2=None, config=conf):
-    """ generate response with request method  GET
-    :param parameter_value1: the parameter value to be appended in url
-    :param parameter_key1: the paramater to be appended in url
-    :return: returns the response received
-    """
-    url = config.url
+def _get_retrieval_response(parameters, config):
+    request_url = config.url
+    prefix = "?"
 
-    if parameter_key1 != "":
-        url = url + "?"
-        parameter_key1 = parameter_key1 + "="
-    request = url + parameter_key1 + str(parameter_value1)
+    for name in parameters:
+        request_url += prefix + name + "=" + str(parameters[name])
+        prefix = "&"
 
-    if parameter_value2 is not None:
-        if parameter_key2 != "":
-            parameter_key2 = parameter_key2 + "="
-        request = request + "&" + parameter_key2 + str(parameter_value2)
-
-    response = communication.http_get_retrieval_request(request, config)
-    return response
+    return communication.http_get_retrieval_request(request_url, config)

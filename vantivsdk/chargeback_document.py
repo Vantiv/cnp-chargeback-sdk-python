@@ -38,9 +38,8 @@ conf = utils.Configuration()
 def upload_document(case_id, document_path, config=conf):
     document_id = document_path.split("/")[-1]
     request_url = config.url + "/upload/" + str(case_id) + "/" + str(document_id)
-    response = communication.http_post_document_request(request_url, document_path, config=config)
-    return response
-
+    return communication.http_post_document_request(request_url, document_path, config=config)
+    
 
 def retrieve_document(case_id, document_id, document_path, config=conf):
     request_url = config.url + "/retrieve/" + str(case_id) + "/" + str(document_id)
@@ -49,17 +48,14 @@ def retrieve_document(case_id, document_id, document_path, config=conf):
 
 def replace_document(case_id, document_id, document_path, config=conf):
     request_url = config.url + "/replace/" + case_id + "/" + document_id
-    response = communication.http_put_document_request(request_url, document_path, config=config)
-    return response
+    return communication.http_put_document_request(request_url, document_path, config=config)
 
 
 def remove_document(case_id, document_id, config=conf):
     request_url = config.url + "/remove/" + str(case_id) + "/" + str(document_id)
-    response = communication.http_delete_document_response(request_url, config=config)
-    return response
+    return communication.http_delete_document_response(request_url, config=config)
 
 
 def list_documents(case_id, config=conf):
     request_url = config.url + "/list/" + str(case_id)
-    response = communication.http_get_document_list_request(request_url, config=config)
-    return response
+    return communication.http_get_document_list_request(request_url, config=config)

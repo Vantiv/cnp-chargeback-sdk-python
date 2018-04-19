@@ -37,6 +37,7 @@ conf = utils.Configuration()
 CHARGEBACK_API_HEADERS = {"Accept": "application/com.vantivcnp.services-v2+xml",
                           "Content-Type": "application/com.vantivcnp.services-v2+xml"}
 
+HTTP_ERROR_MESSAGE = "Error with Https Request, Please Check Proxy and Url configuration"
 
 def http_get_retrieval_request(request_url, config=conf):
     try:
@@ -44,13 +45,12 @@ def http_get_retrieval_request(request_url, config=conf):
                                      auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nGET request to:", request_url, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_retrieval_response(http_response, "xml"), config)
-    response = utils.generate_retrieval_response(http_response)
-    return response
+    return utils.generate_retrieval_response(http_response)
 
 
 def http_put_request(request_url, request_xml, config=conf):
@@ -60,22 +60,21 @@ def http_put_request(request_url, request_xml, config=conf):
                                      auth=HTTPBasicAuth(config.user, config.password),
                                      data=request_xml)
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nPUT request to:", request_url, config)
     print_to_console("\nRequest :", request_xml, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_update_response(http_response, "xml"), config)
-    response = utils.generate_update_response(http_response)
-    return response
-
+    return utils.generate_update_response(http_response)
+    
 
 def http_get_document_request(request_url, document_path, config=conf):
     try:
         http_response = requests.get(request_url, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nGET Request to:", request_url, config)
     check_response(http_response)
@@ -87,14 +86,13 @@ def http_delete_document_response(request_url, config=conf):
         http_response = requests.delete(request_url, auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nDELETE request to:", request_url, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
-    response = utils.generate_document_response(http_response)
-    return response
-
+    return utils.generate_document_response(http_response)
+    
 
 def http_post_document_request(request_url, document_path, config=conf):
     try:
@@ -103,15 +101,14 @@ def http_post_document_request(request_url, document_path, config=conf):
                                       headers={"Content-Type": content_type},
                                       auth=HTTPBasicAuth(config.user, config.password), data=data)
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nPOST request to:", request_url, config)
     print_to_console("\nFile:", document_path, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
-    response = utils.generate_document_response(http_response)
-    return response
-
+    return utils.generate_document_response(http_response)
+    
 
 def http_put_document_request(request_url, document_path, config=conf):
     try:
@@ -120,15 +117,14 @@ def http_put_document_request(request_url, document_path, config=conf):
                                      headers={"Content-Type": content_type},
                                      auth=HTTPBasicAuth(config.user, config.password), data=data)
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nPUT request to:", request_url, config)
     print_to_console("\nFile:", document_path, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
-    response = utils.generate_document_response(http_response)
-    return response
-
+    return utils.generate_document_response(http_response)
+    
 
 def http_get_document_list_request(request_url, config=conf):
     try:
@@ -136,14 +132,13 @@ def http_get_document_list_request(request_url, config=conf):
                                      auth=HTTPBasicAuth(config.user, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException("Error with Https Request, Please Check Proxy and Url configuration")
+        raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nGET request to:", request_url, config)
     check_response(http_response)
     print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
-    response = utils.generate_document_response(http_response)
-    return response
-
+    return utils.generate_document_response(http_response)
+    
 
 def check_response(http_response, config=conf):
     """check the status code of the response

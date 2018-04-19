@@ -32,27 +32,27 @@ Setup
 
 Using pip 
 
->pip install VantiveCommerceSDK
+>pip install CnpChargebackSdk
 
 Without Pip
 
->git clone https://github.com/Vantiv/vantiv-sdk-for-python.git
+>git clone https://github.com/Vantiv/cnp-chargeback-sdk-python.git
 
->cd vantiv-sdk-for-python
+>cd cnp-chargeback-sdk-python
 
-checkout branch master for XML v12.x
+checkout branch master for XML v2.x
 >git checkout master
 
 >python setup.py install
 
 2) setup configurations
 
->vantiv_python_sdk_setup
+>chargeback_sdk_setup
 
 3) Create a python file similar to:
 
 ```python
-#Example for SDK transaction presented by object
+#Example for Chargeback SDK
 from __future__ import print_function, unicode_literals
 
 from vantivsdk import *
@@ -201,12 +201,5 @@ response = online.request(txn_dict, conf)
 print('Message: %s' % response['batchResponse']['authorizationResponse']['message'])
 print('cnpTransaction ID: %s' % response['batchResponse']['authorizationResponse']['cnpTxnId'])
 ```
-
-NOTE: you may need to edit the proxy to to work for your system
-
-4) Next run this file.  You should see the following result.
-
-    Message: Valid Format
-    cnp Transaction ID: <your-numeric-cnp-txn-id>
 
 Please contact Vantiv eCommerce with any further questions. You can reach us at SDKSupport@Vantiv.com

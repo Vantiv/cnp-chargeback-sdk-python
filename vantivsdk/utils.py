@@ -120,35 +120,42 @@ def obj_to_xml(obj):
     return xml
 
 
-def generate_retrieval_response(xml_response, return_format='dict'):
-    return convert_to_format(xml_response, "chargebackRetrievalResponse", return_format)
+def generate_retrieval_response(http_response, return_format='dict'):
+    return convert_to_format(http_response.text, "chargebackRetrievalResponse", return_format)
 
 
-def generate_update_response(xml_response, return_format='dict'):
-    return convert_to_format(xml_response, "chargebackUpdateResponse", return_format)
+def generate_update_response(http_response, return_format='dict'):
+    return convert_to_format(http_response.text, "chargebackUpdateResponse", return_format)
 
 
-def generate_document_response(xml_response, return_format='dict'):
-    return convert_to_format(xml_response, "chargebackDocumentUploadResponse", return_format)
+def generate_document_response(http_response, return_format='dict'):
+    return convert_to_format(http_response.text, "chargebackDocumentUploadResponse", return_format)
 
 
-def generate_error_response(xml_response, return_format='dict'):
-    return convert_to_format(xml_response, "errorResponse", return_format)
+def generate_error_response(http_response, return_format='dict'):
+    return convert_to_format(http_response.text, "errorResponse", return_format)
 
 
-def convert_to_format(xml_response, response_type, return_format='dict'):
-    response_dict = xmltodict.parse(xml_response.text)[response_type]
+def convert_to_format(http_response, response_type, return_format='dict'):
+    return_format = return_format.lower()
+    if return_format == 'xml':
+        response_xml = http_response.text
+        return response_xml
+    elif return_format == 'object':
+        return convert_to_obj(http_response.text)
+    else:
+        return convert_to_dict(http_response, response_type)
 
+
+def convert_to_obj(xml_response):
+    return fields_chargeback.CreateFromDocument(xml_response)
+
+
+def convert_to_dict(xml_response, response_type):
+    response_dict = xmltodict.parse(xml_response)[response_type]
     if response_dict['@xmlns'] != "":
         _create_lists(response_dict)
-        return_format = return_format.lower()
-        if return_format == 'xml':
-            response_xml = xml_response.text
-            return response_xml
-        elif return_format == 'object':
-            return fields_chargeback.CreateFromDocument(xml_response.text)
-        else:
-            return response_dict
+        return response_dict
     else:
         raise VantivException("Invalid Format")
 

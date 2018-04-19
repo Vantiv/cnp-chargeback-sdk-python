@@ -39,6 +39,7 @@ CHARGEBACK_API_HEADERS = {"Accept": "application/com.vantivcnp.services-v2+xml",
 
 HTTP_ERROR_MESSAGE = "Error with Https Request, Please Check Proxy and Url configuration"
 
+
 def http_get_retrieval_request(request_url, config=conf):
     try:
         http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
@@ -49,7 +50,7 @@ def http_get_retrieval_request(request_url, config=conf):
 
     print_to_console("\nGET request to:", request_url, config)
     check_response(http_response)
-    print_to_console("\nResponse :", utils.generate_retrieval_response(http_response, "xml"), config)
+    print_to_console("\nResponse :", http_response.text, config)
     return utils.generate_retrieval_response(http_response)
 
 
@@ -65,7 +66,7 @@ def http_put_request(request_url, request_xml, config=conf):
     print_to_console("\nPUT request to:", request_url, config)
     print_to_console("\nRequest :", request_xml, config)
     check_response(http_response)
-    print_to_console("\nResponse :", utils.generate_update_response(http_response, "xml"), config)
+    print_to_console("\nResponse :", http_response.text, config)
     return utils.generate_update_response(http_response)
     
 
@@ -90,7 +91,7 @@ def http_delete_document_response(request_url, config=conf):
 
     print_to_console("\nDELETE request to:", request_url, config)
     check_response(http_response)
-    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
+    print_to_console("\nResponse :", http_response.text, config)
     return utils.generate_document_response(http_response)
     
 
@@ -106,7 +107,7 @@ def http_post_document_request(request_url, document_path, config=conf):
     print_to_console("\nPOST request to:", request_url, config)
     print_to_console("\nFile:", document_path, config)
     check_response(http_response)
-    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
+    print_to_console("\nResponse :", http_response.text, config)
     return utils.generate_document_response(http_response)
     
 
@@ -122,7 +123,7 @@ def http_put_document_request(request_url, document_path, config=conf):
     print_to_console("\nPUT request to:", request_url, config)
     print_to_console("\nFile:", document_path, config)
     check_response(http_response)
-    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
+    print_to_console("\nResponse :", http_response.text, config)
     return utils.generate_document_response(http_response)
     
 
@@ -136,7 +137,7 @@ def http_get_document_list_request(request_url, config=conf):
 
     print_to_console("\nGET request to:", request_url, config)
     check_response(http_response)
-    print_to_console("\nResponse :", utils.generate_document_response(http_response, "xml"), config)
+    print_to_console("\nResponse :", http_response.text, config)
     return utils.generate_document_response(http_response)
     
 
@@ -148,7 +149,7 @@ def check_response(http_response, config=conf):
 
     if http_response.status_code != 200:
         error_response = utils.generate_error_response(http_response)
-        print_to_console("\nResponse :", utils.generate_error_response(http_response, "xml"), config)
+        print_to_console("\nResponse :", http_response.text, config)
         raise utils.VantivException(str(http_response.status_code) + " : " + str(http_response.reason) + " - " + str(error_response['errors']['error']))
 
     # Check empty response
@@ -160,7 +161,7 @@ def retrieve_file(http_response, document_path, config=conf):
     content_type = http_response.headers._store['content-type'][1]
     if content_type != "image/tiff":
         error_response = utils.generate_error_response(http_response)
-        print_to_console("\nResponse :", utils.generate_error_response(http_response, "xml"), config)
+        print_to_console("\nResponse :", http_response.text, config)
         raise utils.VantivException(str(error_response['errors']['error']))
     else:
         with open(document_path, 'wb') as f:

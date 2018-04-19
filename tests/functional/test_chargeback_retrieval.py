@@ -28,7 +28,7 @@ import sys
 
 import unittest2
 
-from vantivsdk import chargeback_retrieval, utils
+from cnpsdk import chargeback_retrieval, utils
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)

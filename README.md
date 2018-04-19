@@ -55,7 +55,7 @@ checkout branch master for XML v2.x
 #Example for Chargeback SDK
 from __future__ import print_function, unicode_literals
 
-from vantivsdk import *
+from cnpsdk import *
 
 # Initial Configuration object. If you have saved configuration in '.vantiv_chargeback_sdk.conf' at system environment
 # variable: CHARGEBACK_SDK_CONFIG or user home directory, the saved configuration will be automatically load.

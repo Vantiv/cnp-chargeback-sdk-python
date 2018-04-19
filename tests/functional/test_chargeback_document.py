@@ -27,7 +27,7 @@ import os
 
 import unittest2
 
-from vantivsdk import utils, chargeback_document
+from cnpsdk import utils, chargeback_document
 
 conf = utils.Configuration()
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))

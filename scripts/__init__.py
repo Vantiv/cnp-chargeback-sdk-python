@@ -21,4 +21,4 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 
-__all__ = ["chargeback_sdk_setup.py"]
+__all__ = ["cnp_chargeback_sdk_setup"]

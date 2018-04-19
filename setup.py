@@ -17,7 +17,7 @@ setup(
     author='Vantiv eCommerce',
     author_email='SDKSupport@vantiv.com',
     url='https://developer.vantiv.com/community/ecommerce',
-    packages=['vantivsdk', 'scripts'],
+    packages=['cnpsdk', 'scripts'],
     install_requires=[
         'PyXB==1.2.5',
         'paramiko>=1.14.0',
@@ -98,7 +98,7 @@ Using dict
     #Example for Chargeback SDK
     from __future__ import print_function, unicode_literals
     
-    from vantivsdk import *
+    from cnpsdk import *
     
     # Initial Configuration object. If you have saved configuration in '.vantiv_chargeback_sdk.conf' at system environment
     # variable: CHARGEBACK_SDK_CONFIG or user home directory, the saved configuration will be automatically load.

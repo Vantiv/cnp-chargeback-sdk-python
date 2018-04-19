@@ -24,7 +24,7 @@
 #
 from __future__ import absolute_import, print_function, unicode_literals
 
-from vantivsdk import (utils, communication)
+from cnpsdk import (utils, communication)
 
 conf = utils.Configuration()
 

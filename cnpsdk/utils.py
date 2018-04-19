@@ -28,7 +28,7 @@ import json
 import os
 import pyxb
 import xmltodict
-from vantivsdk import fields_chargeback
+from cnpsdk import fields_chargeback
 
 from . import version
 

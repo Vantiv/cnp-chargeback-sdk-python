@@ -30,7 +30,7 @@ from collections import OrderedDict
 import mock
 import unittest2
 
-from vantivsdk import (utils, chargeback_update)
+from cnpsdk import (utils, chargeback_update)
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -39,7 +39,7 @@ conf = utils.Configuration()
 
 class TestChargebackUpdate(unittest2.TestCase):
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_assign_case_to_user(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -52,7 +52,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_add_note_to_case(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -65,7 +65,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_assume_liability(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -78,7 +78,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_represent_case(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -91,7 +91,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_represent_case_full(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -104,7 +104,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_respond_to_retrieval_request(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -117,7 +117,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_request_arbitration(self, mock_http_put_request):
         mock_http_put_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'21260530003675')])
@@ -130,7 +130,7 @@ class TestChargebackUpdate(unittest2.TestCase):
         self.assertEquals(request_body, expected_request_body)
         self.assertRegex(response["transactionId"], "\d+")
 
-    @mock.patch('vantivsdk.communication.http_put_request')
+    @mock.patch('cnpsdk.communication.http_put_request')
     def test_error_response(self, mock_http_put_request):
         mock_http_put_request.side_effect = utils.VantivException()
         self.assertRaises(utils.VantivException, chargeback_update.add_note_to_case, "00", "note")

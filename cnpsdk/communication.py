@@ -30,7 +30,7 @@ import re
 import requests
 from requests.auth import HTTPBasicAuth
 
-from vantivsdk import (utils)
+from cnpsdk import (utils)
 
 conf = utils.Configuration()
 

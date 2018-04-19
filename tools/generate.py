@@ -29,7 +29,7 @@ import sys
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, package_root)
 
-from vantivsdk import utils
+from cnpsdk import utils
 
 version = utils.Configuration().VERSION
 xsd_name = 'chargeback-api-v%s.xsd' % version
@@ -41,7 +41,7 @@ os.system('pyxbgen -u %s -m fields_chargeback' % xsd_abs_path)
 
 print('Copy fields_chargeback.py to package')
 gen_field_py_abs_path = os.path.join(package_root, 'tools', 'fields_chargeback.py')
-target_field_py_abs_path = os.path.join(package_root, 'vantivsdk', 'fields_chargeback.py')
+target_field_py_abs_path = os.path.join(package_root, 'cnpsdk', 'fields_chargeback.py')
 os.system('mv %s %s' % (gen_field_py_abs_path, target_field_py_abs_path))
 
 

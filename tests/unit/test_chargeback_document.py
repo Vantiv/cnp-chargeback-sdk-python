@@ -29,7 +29,7 @@ from collections import OrderedDict
 
 import mock
 
-from vantivsdk import (utils, chargeback_document)
+from cnpsdk import (utils, chargeback_document)
 
 package_root = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, package_root)
@@ -48,7 +48,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         # delete documents
         os.remove(document_to_upload)
 
-    @mock.patch('vantivsdk.communication.http_post_document_request')
+    @mock.patch('cnpsdk.communication.http_post_document_request')
     def test_upload_document(self, mock_http_post_document_request):
         mock_http_post_document_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
@@ -62,7 +62,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertEquals(response['caseId'], '10000')
         self.assertEquals(response['documentId'], 'doc.tiff')
 
-    @mock.patch('vantivsdk.communication.http_get_document_request')
+    @mock.patch('cnpsdk.communication.http_get_document_request')
     def test_retrieve_document(self, mock_http_get_document_request):
         mock_http_get_document_request.side_effect = open(document_to_retrieve, "w+").close()
         chargeback_document.retrieve_document(123, "doc.pdf", "test.tiff")
@@ -72,7 +72,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
-    @mock.patch('vantivsdk.communication.http_put_document_request')
+    @mock.patch('cnpsdk.communication.http_put_document_request')
     def test_replace_document(self, mock_http_put_document_request):
         mock_http_put_document_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
@@ -86,7 +86,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertEquals(response['caseId'], '10000')
         self.assertEquals(response['documentId'], 'doc.tiff')
 
-    @mock.patch('vantivsdk.communication.http_delete_document_response')
+    @mock.patch('cnpsdk.communication.http_delete_document_response')
     def test_remove_document(self, mock_http_delete_document_response):
         mock_http_delete_document_response.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
@@ -100,7 +100,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertEquals(response['caseId'], '10000')
         self.assertEquals(response['documentId'], 'logo.tiff')
 
-    @mock.patch('vantivsdk.communication.http_get_document_list_request')
+    @mock.patch('cnpsdk.communication.http_get_document_list_request')
     def test_list_documents(self, mock_http_get_document_list_request):
         mock_http_get_document_list_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
@@ -116,7 +116,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertIn("logo.tiff", document_list)
         self.assertIn("doc.tiff", document_list)
 
-    @mock.patch('vantivsdk.communication.http_get_document_request')
+    @mock.patch('cnpsdk.communication.http_get_document_request')
     def test_error_response(self, mock_http_get_document_request):
         mock_http_get_document_request.side_effect = utils.VantivException()
         self.assertRaises(utils.VantivException, chargeback_document.retrieve_document, 0, "doc.pdf", "test.tiff")

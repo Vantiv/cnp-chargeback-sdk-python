@@ -32,7 +32,7 @@ import six
 package_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.insert(0, package_root)
 
-from vantivsdk import utils
+from cnpsdk import utils
 
 def ask_user():
     attrs = [

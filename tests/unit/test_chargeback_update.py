@@ -37,7 +37,7 @@ sys.path.insert(0, package_root)
 conf = utils.Configuration()
 
 
-class TestChargebackRetrieval(unittest2.TestCase):
+class TestChargebackUpdate(unittest2.TestCase):
 
     @mock.patch('vantivsdk.communication.http_put_request')
     def test_assign_case_to_user(self, mock_http_put_request):

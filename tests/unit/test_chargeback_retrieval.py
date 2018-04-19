@@ -38,9 +38,9 @@ conf = utils.Configuration()
 
 class TestChargebackRetrieval(unittest.TestCase):
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_case_id(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_case_id(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -62,9 +62,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         response = chargeback_retrieval.get_chargeback_by_case_id("123456")
         self.assertEquals("123456", response["chargebackCase"][0]["caseId"])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_token(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_token(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -86,9 +86,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         response = chargeback_retrieval.get_chargebacks_by_token("10000")
         self.assertEquals("10000", response["chargebackCase"][0]["token"])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_card_number(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_card_number(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -110,9 +110,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         response = chargeback_retrieval.get_chargebacks_by_card_number("1111000011110000", "01-18")
         self.assertEquals("0000", response["chargebackCase"][0]["cardNumberLast4"])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_arn(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_arn(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -134,9 +134,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         response = chargeback_retrieval.get_chargebacks_by_arn("111111")
         self.assertEquals("111111", response["chargebackCase"][0]["acquirerReferenceNumber"])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_activity_date(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_activity_date(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -159,9 +159,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_financial_impact(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_financial_impact(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -184,9 +184,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_get_actionable(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.return_value = OrderedDict(
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_get_actionable(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'transactionId', u'1234567890'), (
                 u'chargebackCase', [OrderedDict(
                     [(u'caseId', u'123456'), (u'merchantId', u'Merchant01'), (u'dayIssuedByBank', u'2018-01-01'),
@@ -209,9 +209,9 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
-    @mock.patch('vantivsdk.communication.get_retrieval_request')
-    def test_error_response(self, mock_get_retrieval_request):
-        mock_get_retrieval_request.side_effect = utils.VantivException()
+    @mock.patch('vantivsdk.communication.http_get_retrieval_request')
+    def test_error_response(self, mock_http_get_retrieval_request):
+        mock_http_get_retrieval_request.side_effect = utils.VantivException()
         self.assertRaises(utils.VantivException, chargeback_retrieval.get_chargeback_by_case_id, "00")
 
 

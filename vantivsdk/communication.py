@@ -43,7 +43,7 @@ HTTP_ERROR_MESSAGE = "Error with Https Request, Please Check Proxy and Url confi
 def http_get_retrieval_request(request_url, config=conf):
     try:
         http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
-                                     auth=HTTPBasicAuth(config.user, config.password))
+                                     auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)
@@ -58,7 +58,7 @@ def http_put_request(request_url, request_xml, config=conf):
     request_xml = utils.obj_to_xml(request_xml)
     try:
         http_response = requests.put(request_url, headers=CHARGEBACK_API_HEADERS,
-                                     auth=HTTPBasicAuth(config.user, config.password),
+                                     auth=HTTPBasicAuth(config.username, config.password),
                                      data=request_xml)
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)
@@ -72,7 +72,7 @@ def http_put_request(request_url, request_xml, config=conf):
 
 def http_get_document_request(request_url, document_path, config=conf):
     try:
-        http_response = requests.get(request_url, auth=HTTPBasicAuth(config.user, config.password))
+        http_response = requests.get(request_url, auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)
@@ -84,7 +84,7 @@ def http_get_document_request(request_url, document_path, config=conf):
 
 def http_delete_document_response(request_url, config=conf):
     try:
-        http_response = requests.delete(request_url, auth=HTTPBasicAuth(config.user, config.password))
+        http_response = requests.delete(request_url, auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)
@@ -100,7 +100,7 @@ def http_post_document_request(request_url, document_path, config=conf):
         data, content_type = get_file_content(document_path)
         http_response = requests.post(url=request_url,
                                       headers={"Content-Type": content_type},
-                                      auth=HTTPBasicAuth(config.user, config.password), data=data)
+                                      auth=HTTPBasicAuth(config.username, config.password), data=data)
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
@@ -116,7 +116,7 @@ def http_put_document_request(request_url, document_path, config=conf):
         data, content_type = get_file_content(document_path)
         http_response = requests.put(url=request_url,
                                      headers={"Content-Type": content_type},
-                                     auth=HTTPBasicAuth(config.user, config.password), data=data)
+                                     auth=HTTPBasicAuth(config.username, config.password), data=data)
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)
 
@@ -130,7 +130,7 @@ def http_put_document_request(request_url, document_path, config=conf):
 def http_get_document_list_request(request_url, config=conf):
     try:
         http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
-                                     auth=HTTPBasicAuth(config.user, config.password))
+                                     auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
         raise utils.VantivException(HTTP_ERROR_MESSAGE)

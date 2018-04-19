@@ -60,6 +60,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargeback_by_case_id("123456")
+        expected_url = conf.url + "/123456"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertEquals("123456", response["chargebackCase"][0]["caseId"])
 
     @mock.patch('vantivsdk.communication.http_get_retrieval_request')
@@ -84,6 +86,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_token("10000")
+        expected_url = conf.url + "?token=10000"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertEquals("10000", response["chargebackCase"][0]["token"])
 
     @mock.patch('vantivsdk.communication.http_get_retrieval_request')
@@ -108,6 +112,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_card_number("1111000011110000", "01-18")
+        expected_url = conf.url + "?cardNumber=1111000011110000&expirationDate=01-18"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertEquals("0000", response["chargebackCase"][0]["cardNumberLast4"])
 
     @mock.patch('vantivsdk.communication.http_get_retrieval_request')
@@ -132,6 +138,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_arn("111111")
+        expected_url = conf.url + "?arn=111111"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertEquals("111111", response["chargebackCase"][0]["acquirerReferenceNumber"])
 
     @mock.patch('vantivsdk.communication.http_get_retrieval_request')
@@ -156,6 +164,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_date("2018-01-01")
+        expected_url = conf.url + "?date=2018-01-01"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
@@ -181,6 +191,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_financial_impact("2018-01-01", True)
+        expected_url = conf.url + "?date=2018-01-01&financialOnly=True"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
@@ -206,6 +218,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_actionable_chargebacks(True)
+        expected_url = conf.url + "?actionable=True"
+        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 

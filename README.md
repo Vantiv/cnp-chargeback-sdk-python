@@ -57,8 +57,8 @@ from __future__ import print_function, unicode_literals
 
 from vantivsdk import *
 
-# Initial Configuration object. If you have saved configuration in '.vantiv_python_sdk.conf' at system environment
-# variable: VANTIV_SDK_CONFIG or user home directory, the saved configuration will be automatically load.
+# Initial Configuration object. If you have saved configuration in '.vantiv_chargeback_sdk.conf' at system environment
+# variable: CHARGEBACK_SDK_CONFIG or user home directory, the saved configuration will be automatically load.
 conf = utils.Configuration()
 
 # Configuration need following attributes for chargeback requests:

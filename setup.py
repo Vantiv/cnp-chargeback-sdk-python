@@ -114,7 +114,7 @@ Using dict
     # attributes = default value
     # user = ''
     # password = ''
-    # merchantId = ''
+    # merchant_id = ''
     # reportGroup = 'Default Report Group'
     # url = 'https://www.testlitle.com/sandbox/communicator/online'
     # proxy = ''
@@ -197,7 +197,7 @@ Using object
     # attributes = default value
     # user = ''
     # password = ''
-    # merchantId = ''
+    # merchant_id = ''
     # reportGroup = 'Default Report Group'
     # url = 'https://www.testlitle.com/sandbox/communicator/online'
     # proxy = ''

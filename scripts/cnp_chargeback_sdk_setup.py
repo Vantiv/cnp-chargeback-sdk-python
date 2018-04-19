@@ -38,7 +38,7 @@ def ask_user():
     attrs = [
         'username',
         'password',
-        'merchantId',
+        'merchant_id',
         'url',
         'proxy',
         'print_xml',
@@ -47,7 +47,7 @@ def ask_user():
     attr_dict = {
         'username': '',
         'password': '',
-        'merchantId': '',
+        'merchant_id': '',
         'url': '',
         'proxy': '',
         'print_xml': 'n',
@@ -67,7 +67,7 @@ def ask_user():
     attr_des_dict = {
         'username': 'Presenter Username for online request',
         'password': 'Presenter Password for online request',
-        'merchantId': 'Your merchantId:',
+        'merchant_id': 'Your merchant_id:',
         'url': 'URL for you online request',
         'proxy': 'If you want to using https proxy, please input your proxy server address. Must start with "https://"',
         'print_xml': 'Do you want to print xml in console? y for Yes, n for No.',

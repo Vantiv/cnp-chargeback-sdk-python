@@ -57,7 +57,7 @@ class TestChargebackDocument(unittest2.TestCase):
         os.remove(self.document_to_upload4)
 
     def test_1(self):
-        case_id = conf.merchantId + "001"
+        case_id = conf.merchant_id + "001"
         response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
@@ -107,21 +107,21 @@ class TestChargebackDocument(unittest2.TestCase):
         self.assertIn(self.document_to_upload4, document_list)
 
     def test_2(self):
-        case_id = conf.merchantId + "002"
+        case_id = conf.merchant_id + "002"
 
         response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('010', response['responseCode'])
         self.assertEquals('Case not in valid cycle', response['responseMessage'])
 
     def test_3(self):
-        case_id = conf.merchantId + "003"
+        case_id = conf.merchant_id + "003"
 
         response = chargeback_document.upload_document(case_id, self.document_to_upload1, config=conf)
         self.assertEquals('004', response['responseCode'])
         self.assertEquals('Case Not In Merchant Queue', response['responseMessage'])
 
     def test_4(self):
-        case_id = conf.merchantId + "004"
+        case_id = conf.merchant_id + "004"
 
         document_maxsize = package_root + "/tests/maxsize.tif"
         open(document_maxsize, "w+").close()

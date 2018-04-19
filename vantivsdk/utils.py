@@ -39,7 +39,7 @@ class Configuration(object):
     Attributes:
         user (Str): authentication.user
         password (Str): authentication.password
-        merchantId (Str): The unique string to identify the merchant within the system.
+        merchant_id (Str): The unique string to identify the merchant within the system.
         url (Str): Url for server.
         proxy (Str): Https proxy server address. Must start with "https://"
         print_xml (Str): Whether print request and response xml
@@ -53,7 +53,7 @@ class Configuration(object):
         attr_dict = {
             'username': '',
             'password': '',
-            'merchantId': '',
+            'merchant_id': '',
             'url': 'http://www.testvantivcnp.com/sandbox/new/services/chargebacks/',
             'proxy': '',
             'print_xml': False,

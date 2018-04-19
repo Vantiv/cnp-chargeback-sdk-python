@@ -87,7 +87,6 @@ class TestUtils(unittest2.TestCase):
                              '</settlementCurrencyType><notes>notes on ' \
                              'activity</notes></activity></chargebackCase></chargebackRetrievalResponse> '
         obj = utils.convert_to_obj(retrieval_response)
-        print(obj)
         self.assertEqual(obj.transactionId, 1234567890)
         self.assertEqual(obj.chargebackCase[0].caseId, 1333078000)
         self.assertEqual(obj.chargebackCase[0].merchantId, 101)
@@ -97,7 +96,6 @@ class TestUtils(unittest2.TestCase):
                           'xmlns="http://www.vantivcnp.com/chargebacks"><transactionId>21260530003675</transactionId' \
                           '></chargebackUpdateResponse> '
         obj = utils.convert_to_obj(update_response)
-        print(obj)
         self.assertEqual(obj.transactionId, 21260530003675)
 
         document_response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><chargebackDocumentUploadResponse ' \
@@ -106,7 +104,6 @@ class TestUtils(unittest2.TestCase):
                             '><responseCode>000</responseCode><responseMessage>Success</responseMessage' \
                             '></chargebackDocumentUploadResponse> '
         obj = utils.convert_to_obj(document_response)
-        print(obj)
         self.assertEqual(obj.caseId, 10000)
         self.assertEqual(obj.merchantId, 999)
         self.assertEqual(obj.documentId[0], "logo.tiff")

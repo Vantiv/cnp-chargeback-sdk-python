@@ -47,7 +47,7 @@ checkout branch master for XML v2.x
 
 2) setup configurations
 
->chargeback_sdk_setup
+>cnp_chargeback_sdk_setup
 
 3) Create a python file similar to:
 

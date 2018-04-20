@@ -12,7 +12,7 @@ if (sys.version_info[:3] < (2, 7, 9)) or ((sys.version_info[0] == 3) and sys.ver
 
 setup(
     name='CnpChargebackSDK',
-    version='2.1.0',
+    version='2.1.1',
     description='Vantiv eCommerce Chargeback SDK',
     author='Vantiv eCommerce',
     author_email='SDKSupport@vantiv.com',

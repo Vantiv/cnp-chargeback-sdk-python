@@ -52,7 +52,7 @@ setup(
         ],
     },
     long_description='''Vantiv eCommerce Python Chargeback SDK
-=============================
+=====================================================
 
 .. _`Vantiv eCommerce`: https://developer.vantiv.com/community/ecommerce
 

@@ -51,8 +51,9 @@ class TestChargebackDocument(unittest2.TestCase):
         os.remove(document_to_upload3)
 
     def test_retrieve_chargebackDocument(self):
-        chargeback_document.retrieve_document("10000000", "document.jpg", document_to_upload1)
-        self.assertTrue(os.path.exists(document_to_upload1))
+        chargeback_document.retrieve_document("10000000", "document.jpg", "test.tiff")
+        self.assertTrue(os.path.exists("test.tiff"))
+        os.remove("test.tiff")
 
     def test_upload_chargebackDocument(self):
         response = chargeback_document.upload_document("10000", document_to_upload2)

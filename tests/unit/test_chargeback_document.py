@@ -55,8 +55,7 @@ class TestChargebackRetrieval(unittest.TestCase):
              (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargeback_document.upload_document("10000", document_to_upload)
         args = mock_http_post_document_request.call_args
-        expected_url = conf.url + "/upload/10000/doc.tiff"
-        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(args[0][0], "/services/chargebacks/upload/10000/doc.tiff")
         self.assertEquals(response['responseCode'], '000')
         self.assertEquals(response['responseMessage'], 'Success')
         self.assertEquals(response['caseId'], '10000')
@@ -67,8 +66,7 @@ class TestChargebackRetrieval(unittest.TestCase):
         mock_http_get_document_request.side_effect = open(document_to_retrieve, "w+").close()
         chargeback_document.retrieve_document(123, "doc.pdf", "test.tiff")
         args = mock_http_get_document_request.call_args
-        expected_url = conf.url + "/retrieve/123/doc.pdf"
-        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(args[0][0], "/services/chargebacks/retrieve/123/doc.pdf")
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
@@ -79,8 +77,7 @@ class TestChargebackRetrieval(unittest.TestCase):
              (u'documentId', u'doc.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargeback_document.replace_document("10000", "doc.pdf", document_to_upload)
         args = mock_http_put_document_request.call_args
-        expected_url = conf.url + "/replace/10000/doc.pdf"
-        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(args[0][0], "/services/chargebacks/replace/10000/doc.pdf")
         self.assertEquals(response['responseCode'], '000')
         self.assertEquals(response['responseMessage'], 'Success')
         self.assertEquals(response['caseId'], '10000')
@@ -93,8 +90,7 @@ class TestChargebackRetrieval(unittest.TestCase):
              (u'documentId', u'logo.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargeback_document.remove_document("10000", "logo.tiff")
         args = mock_http_delete_document_response.call_args
-        expected_url = conf.url + "/remove/10000/logo.tiff"
-        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(args[0][0], "/services/chargebacks/remove/10000/logo.tiff")
         self.assertEquals(response['responseCode'], '000')
         self.assertEquals(response['responseMessage'], 'Success')
         self.assertEquals(response['caseId'], '10000')
@@ -107,8 +103,7 @@ class TestChargebackRetrieval(unittest.TestCase):
              (u'documentId', [u'logo.tiff', u'doc.tiff']), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargeback_document.list_documents("10000")
         args = mock_http_get_document_list_request.call_args
-        expected_url = conf.url + "/list/10000"
-        self.assertEquals(args[0][0], expected_url)
+        self.assertEquals(args[0][0], "/services/chargebacks/list/10000")
         self.assertEquals(response['responseCode'], '000')
         self.assertEquals(response['responseMessage'], 'Success')
         self.assertEquals(response['caseId'], '10000')
@@ -118,7 +113,7 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('cnpsdk.communication.http_get_document_request')
     def test_error_response(self, mock_http_get_document_request):
-        mock_http_get_document_request.side_effect = utils.ChargebackError()
+        mock_http_get_document_request.side_effect = utils.ChargebackError("Error")
         self.assertRaises(utils.ChargebackError, chargeback_document.retrieve_document, 0, "doc.pdf", "test.tiff")
 
 

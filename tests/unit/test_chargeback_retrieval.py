@@ -60,8 +60,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargeback_by_case_id("123456")
-        expected_url = conf.url + "/123456"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks/123456"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertEquals("123456", response["chargebackCase"][0]["caseId"])
 
     @mock.patch('cnpsdk.communication.http_get_retrieval_request')
@@ -86,8 +86,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_token("10000")
-        expected_url = conf.url + "?token=10000"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks?token=10000"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertEquals("10000", response["chargebackCase"][0]["token"])
 
     @mock.patch('cnpsdk.communication.http_get_retrieval_request')
@@ -112,8 +112,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_card_number("1111000011110000", "01-18")
-        expected_url = conf.url + "?cardNumber=1111000011110000&expirationDate=01-18"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks?cardNumber=1111000011110000&expirationDate=01-18"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertEquals("0000", response["chargebackCase"][0]["cardNumberLast4"])
 
     @mock.patch('cnpsdk.communication.http_get_retrieval_request')
@@ -138,8 +138,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_arn("111111")
-        expected_url = conf.url + "?arn=111111"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks?arn=111111"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertEquals("111111", response["chargebackCase"][0]["acquirerReferenceNumber"])
 
     @mock.patch('cnpsdk.communication.http_get_retrieval_request')
@@ -164,8 +164,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_date("2018-01-01")
-        expected_url = conf.url + "?date=2018-01-01"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks?date=2018-01-01"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
@@ -191,8 +191,8 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_chargebacks_by_financial_impact("2018-01-01", True)
-        expected_url = conf.url + "?date=2018-01-01&financialOnly=True"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks?date=2018-01-01&financialOnly=True"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
@@ -218,14 +218,14 @@ class TestChargebackRetrieval(unittest.TestCase):
                          (u'toQueue', u'Merchant'), (u'settlementAmount', u'2002'), (u'settlementCurrencyType', u'USD'),
                          (u'notes', u'notes on activity')])])])])])
         response = chargeback_retrieval.get_actionable_chargebacks(True)
-        expected_url = conf.url + "?actionable=True"
-        mock_http_get_retrieval_request.assert_called_with(expected_url, mock.ANY)
+        expected_url_suffix = "/chargebacks?actionable=True"
+        mock_http_get_retrieval_request.assert_called_with(expected_url_suffix, mock.ANY)
         self.assertTrue("chargebackCase" in response)
         self.assertTrue("caseId" in response["chargebackCase"][0])
 
     @mock.patch('cnpsdk.communication.http_get_retrieval_request')
     def test_error_response(self, mock_http_get_retrieval_request):
-        mock_http_get_retrieval_request.side_effect = utils.ChargebackError()
+        mock_http_get_retrieval_request.side_effect = utils.ChargebackError("Error")
         self.assertRaises(utils.ChargebackError, chargeback_retrieval.get_chargeback_by_case_id, "00")
 
 

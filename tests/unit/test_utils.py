@@ -58,8 +58,8 @@ class TestUtils(unittest2.TestCase):
         os.remove(test_file)
 
     def test_neuter_xml(self):
-        xml_string = "<user>test_user</user>"
-        self.assertEqual("<user>****</user>", communication.neuter_xml(xml_string))
+        xml_string = "<token>test_user</token>"
+        self.assertEqual("<token>****</token>", communication.neuter_xml(xml_string))
 
     def test_create_list(self):
         dict = {'test': 'value'}

@@ -187,7 +187,7 @@ class ChargebackError(Exception):
 
 class ChargebackWebError(Exception):
 
-    def __init__(self, message, code, error_list):
+    def __init__(self, message, code, error_list=None):
         self.message = message
         self.code = code
         self.error_list = error_list

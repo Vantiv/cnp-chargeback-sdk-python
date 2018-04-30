@@ -1,6 +1,6 @@
 = Vantiv eCommerce Chargeback SDK CHANGELOG
 
-== Version 2.1.1 (April 20, 2018)
+== Version 2.1.2 (April 30, 2018)
 
 * Split exceptions into
     - ChargebackDocumentError : thrown when there is error in retrieve document
@@ -8,6 +8,11 @@
     - ChargebackError : thrown when there are any other kinds of exceptions in the SDK
 * Text fixes
 * Fixed some test values
+
+== Version 2.1.1 (April 20, 2018)
+
+* Upgraded to XML v2.1
+* Internal code refactoring
 
 == Version 2.1.0 (April 20, 2018)
 

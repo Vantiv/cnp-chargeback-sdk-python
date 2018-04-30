@@ -72,9 +72,9 @@ class TestChargebackDocument(unittest2.TestCase):
 
         response = chargeback_document.list_documents(case_id, config=conf)
         document_list = response['documentIds']
-        self.assertIn(self.document_to_upload1, document_list)
-        self.assertIn(self.document_to_upload2, document_list)
-        self.assertIn(self.document_to_upload3, document_list)
+        self.assertIn("test.jpg", document_list)
+        self.assertIn("test.gif", document_list)
+        self.assertIn("test.pdf", document_list)
 
         document_to_retrieve = package_root + "/tests/test1.tiff"
         chargeback_document.retrieve_document(case_id, "test.jpg", document_to_retrieve, config=conf)
@@ -103,8 +103,8 @@ class TestChargebackDocument(unittest2.TestCase):
 
         response = chargeback_document.list_documents(case_id, config=conf)
         document_list = response['documentIds']
-        self.assertIn(self.document_to_upload3, document_list)
-        self.assertIn(self.document_to_upload4, document_list)
+        self.assertIn("test.pdf", document_list)
+        self.assertIn("test.tiff", document_list)
 
     def test_2(self):
         case_id = conf.merchant_id + "002"
@@ -133,11 +133,11 @@ class TestChargebackDocument(unittest2.TestCase):
 
         document_maxsize = package_root + "/tests/maxsize1.tif"
         with open(document_maxsize, "w+") as f:
-            f.seek(2050)
+            f.seek(2100000)
             f.write("\0")
 
         response = chargeback_document.upload_document(case_id, document_maxsize, config=conf)
-        self.assertEquals('005', response['responseCode'])
+        self.assertEquals('012', response['responseCode'])
         self.assertEquals('Filesize exceeds limit of 1MB', response['responseMessage'])
         os.remove(document_maxsize)
 

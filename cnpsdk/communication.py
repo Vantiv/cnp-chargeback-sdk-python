@@ -40,13 +40,15 @@ CHARGEBACK_API_HEADERS = {"Accept": "application/com.vantivcnp.services-v2+xml",
 HTTP_ERROR_MESSAGE = "Error with Https Request, Please Check Proxy and Url configuration"
 
 
-def http_get_retrieval_request(request_url, config=conf):
+def http_get_retrieval_request(url_suffix, config=conf):
+    request_url = config.url + url_suffix
+
     try:
         http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nGET request to:", request_url, config)
     check_response(http_response)
@@ -54,14 +56,15 @@ def http_get_retrieval_request(request_url, config=conf):
     return utils.generate_retrieval_response(http_response)
 
 
-def http_put_request(request_url, request_xml, config=conf):
+def http_put_request(url_suffix, request_xml, config=conf):
+    request_url = config.url + url_suffix;
     request_xml = utils.obj_to_xml(request_xml)
     try:
         http_response = requests.put(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.username, config.password),
                                      data=request_xml)
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nPUT request to:", request_url, config)
     print_to_console("\nRequest :", request_xml, config)
@@ -70,24 +73,28 @@ def http_put_request(request_url, request_xml, config=conf):
     return utils.generate_update_response(http_response)
     
 
-def http_get_document_request(request_url, document_path, config=conf):
+def http_get_document_request(url_suffix, document_path, config=conf):
+    request_url = config.url + url_suffix
+
     try:
         http_response = requests.get(request_url, auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nGET Request to:", request_url, config)
     check_response(http_response)
     retrieve_file(http_response, document_path, config)
 
 
-def http_delete_document_response(request_url, config=conf):
+def http_delete_document_response(url_suffix, config=conf):
+    request_url = config.url + url_suffix
+
     try:
         http_response = requests.delete(request_url, auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nDELETE request to:", request_url, config)
     check_response(http_response)
@@ -95,14 +102,15 @@ def http_delete_document_response(request_url, config=conf):
     return utils.generate_document_response(http_response)
     
 
-def http_post_document_request(request_url, document_path, config=conf):
+def http_post_document_request(url_suffix, document_path, config=conf):
+    request_url = config.url + url_suffix
     try:
         data, content_type = get_file_content(document_path)
         http_response = requests.post(url=request_url,
                                       headers={"Content-Type": content_type},
                                       auth=HTTPBasicAuth(config.username, config.password), data=data)
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nPOST request to:", request_url, config)
     print_to_console("\nFile:", document_path, config)
@@ -111,14 +119,16 @@ def http_post_document_request(request_url, document_path, config=conf):
     return utils.generate_document_response(http_response)
     
 
-def http_put_document_request(request_url, document_path, config=conf):
+def http_put_document_request(url_suffix, document_path, config=conf):
+    request_url = config.url + url_suffix
+
     try:
         data, content_type = get_file_content(document_path)
         http_response = requests.put(url=request_url,
                                      headers={"Content-Type": content_type},
                                      auth=HTTPBasicAuth(config.username, config.password), data=data)
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nPUT request to:", request_url, config)
     print_to_console("\nFile:", document_path, config)
@@ -127,13 +137,15 @@ def http_put_document_request(request_url, document_path, config=conf):
     return utils.generate_document_response(http_response)
     
 
-def http_get_document_list_request(request_url, config=conf):
+def http_get_document_list_request(url_suffix, config=conf):
+    request_url = config.url + url_suffix
+
     try:
         http_response = requests.get(request_url, headers=CHARGEBACK_API_HEADERS,
                                      auth=HTTPBasicAuth(config.username, config.password))
 
     except requests.RequestException:
-        raise utils.VantivException(HTTP_ERROR_MESSAGE)
+        raise utils.ChargebackError(HTTP_ERROR_MESSAGE)
 
     print_to_console("\nGET request to:", request_url, config)
     check_response(http_response)
@@ -146,23 +158,31 @@ def check_response(http_response, config=conf):
     :param http_response: http response generated
     :return: raises an exception
     """
+    # Check empty response
+    if http_response is None:
+        raise utils.ChargebackError("There was an exception while fetching the response")
 
     if http_response.status_code != 200:
         error_response = utils.generate_error_response(http_response)
         print_to_console("\nResponse :", http_response.text, config)
-        raise utils.VantivException(str(http_response.status_code) + " : " + str(http_response.reason) + " - " + str(error_response['errors']['error']))
-
-    # Check empty response
-    if not http_response:
-        raise utils.VantivException("The response is empty, Please call Vantiv eCommerce")
+        error_list = error_response['errors']['error']
+        error_message = ""
+        prefix = ""
+        for error in error_list:
+            print(error)
+            error_message += prefix + error
+            prefix = "\n"
+        raise utils.ChargebackWebError(error_message, str(http_response.status_code), error_list)
 
 
 def retrieve_file(http_response, document_path, config=conf):
     content_type = http_response.headers._store['content-type'][1]
     if content_type != "image/tiff":
-        error_response = utils.generate_error_response(http_response)
+        error_response = utils.generate_document_response(http_response)
         print_to_console("\nResponse :", http_response.text, config)
-        raise utils.VantivException(str(error_response['errors']['error']))
+        error_message = str(error_response['responseMessage'])
+        error_code = error_response['responseCode']
+        raise utils.ChargebackDocumentError(error_message, error_code)
     else:
         with open(document_path, 'wb') as f:
             for block in http_response.iter_content(1024):
@@ -178,11 +198,8 @@ def get_file_content(path):
 
 
 def neuter_xml(xml_string):
-    xml_string = re.sub(r"<accNum>.*</accNum>", "<accNum>****</accNum>", xml_string)
-    xml_string = re.sub(r"<user>.*</user>", "<user>****</user>", xml_string)
-    xml_string = re.sub(r"<password>.*</password>", "<password>****</password>", xml_string)
-    xml_string = re.sub(r"<track>.*</track>", "<track>****</track>", xml_string)
-    xml_string = re.sub(r"<number>.*</number>", "<number>****</number>", xml_string)
+    xml_string = re.sub(r"<token>.*</token>", "<token>****</token>", xml_string)
+    xml_string = re.sub(r"<cardNumberLast4>.*</cardNumberLast4>", "<cardNumberLast4>****</cardNumberLast4>", xml_string)
     return xml_string
 
 

@@ -2,6 +2,10 @@
 
 == Version 2.1.1 (April 20, 2018)
 
+* Split exceptions into
+    - ChargebackDocumentError : thrown when there is error in retrieve document
+    - ChargebackWebError : thrown when http status code is not 200 (success)
+    - ChargebackException : thrown when there are any other kinds of exceptions in the SDK
 * Text fixes
 
 == Version 2.1.0 (April 20, 2018)

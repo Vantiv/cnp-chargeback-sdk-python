@@ -225,8 +225,8 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('cnpsdk.communication.http_get_retrieval_request')
     def test_error_response(self, mock_http_get_retrieval_request):
-        mock_http_get_retrieval_request.side_effect = utils.VantivException()
-        self.assertRaises(utils.VantivException, chargeback_retrieval.get_chargeback_by_case_id, "00")
+        mock_http_get_retrieval_request.side_effect = utils.ChargebackError()
+        self.assertRaises(utils.ChargebackError, chargeback_retrieval.get_chargeback_by_case_id, "00")
 
 
 if __name__ == '__main__':

@@ -54,7 +54,7 @@ class Configuration(object):
             'username': '',
             'password': '',
             'merchant_id': '',
-            'url': 'http://www.testvantivcnp.com/sandbox/new/services/chargebacks/',
+            'url': 'http://www.testvantivcnp.com/sandbox/new',
             'proxy': '',
             'print_xml': False,
             'neuter_xml': False,
@@ -81,7 +81,7 @@ class Configuration(object):
                 if k in attr_dict:
                     setattr(self, k, conf_dict[k])
                 else:
-                    raise VantivException('"%s" is NOT an attribute of conf' % k)
+                    raise ChargebackError('"%s" is NOT an attribute of conf' % k)
 
     def save(self):
         """Save Class Attributes to .cnp_chargeback_sdk.conf
@@ -114,7 +114,7 @@ def obj_to_xml(obj):
 
         xml = obj.toxml('utf-8')
     except pyxb.ValidationError as e:
-        raise VantivException(e.details())
+        raise ChargebackError(e.details())
     xml = xml.replace(b'ns1:', b'')
     xml = xml.replace(b':ns1', b'')
     return xml
@@ -157,7 +157,7 @@ def convert_to_dict(xml_response, response_type):
         _create_lists(response_dict)
         return response_dict
     else:
-        raise VantivException("Invalid Format")
+        raise ChargebackError("Invalid Format")
 
 
 def _create_lists(response_dict):
@@ -168,6 +168,9 @@ def _create_lists(response_dict):
             if "activity" in case:
                 _create_list("activity", case)
 
+    if "errors" in response_dict:
+        _create_list("error", response_dict["errors"])
+
 
 # if there is only one element for the given key in container, create a list for it
 def _create_list(element_key, container):
@@ -176,5 +179,22 @@ def _create_list(element_key, container):
         container[element_key] = [element_value]
 
 
-class VantivException(Exception):
-    pass
+class ChargebackError(Exception):
+
+    def __init__(self, message):
+        self.message = message
+
+
+class ChargebackWebError(Exception):
+
+    def __init__(self, message, code, error_list):
+        self.message = message
+        self.code = code
+        self.error_list = error_list
+
+
+class ChargebackDocumentError(Exception):
+
+    def __init__(self, message, code):
+        self.message = message
+        self.code = code

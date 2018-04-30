@@ -77,11 +77,13 @@ class TestChargebackRetrieval(unittest2.TestCase):
         self.assertRegex(response["chargebackCase"][0]["caseId"], "\d+")
         self.assertEquals(response["chargebackCase"][0]["acquirerReferenceNumber"], "1111111111")
 
-    def test_get_case_id(self):
+    def test_error_response(self):
         try:
             chargeback_retrieval.get_chargeback_by_case_id("404")
-        except utils.VantivException as e:
-            self.assertEquals("404 : Not Found - Could not find requested object.", e.message)
+        except utils.ChargebackWebError as e:
+            self.assertEquals("Could not find requested object.", e.message)
+            self.assertEquals("404", e.code)
+
 
 if __name__ == '__main__':
     unittest2.main()

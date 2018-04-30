@@ -28,6 +28,8 @@ from cnpsdk import (fields_chargeback, utils, communication)
 
 conf = utils.Configuration()
 
+SERVICE_ROUTE = "/chargebacks"
+
 
 """
 /////////////////////////////////////////////////////
@@ -86,6 +88,6 @@ def request_arbitration(case_id, note, config=conf):
 
 
 def _get_update_response(parameter_value1, request_body, config):
-    request_url = conf.url + "/" + str(parameter_value1)
-    return communication.http_put_request(request_url, request_body, config)
+    url_suffix = SERVICE_ROUTE + "/" + str(parameter_value1)
+    return communication.http_put_request(url_suffix, request_body, config)
 

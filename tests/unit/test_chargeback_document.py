@@ -118,8 +118,8 @@ class TestChargebackRetrieval(unittest.TestCase):
 
     @mock.patch('cnpsdk.communication.http_get_document_request')
     def test_error_response(self, mock_http_get_document_request):
-        mock_http_get_document_request.side_effect = utils.VantivException()
-        self.assertRaises(utils.VantivException, chargeback_document.retrieve_document, 0, "doc.pdf", "test.tiff")
+        mock_http_get_document_request.side_effect = utils.ChargebackError()
+        self.assertRaises(utils.ChargebackError, chargeback_document.retrieve_document, 0, "doc.pdf", "test.tiff")
 
 
 if __name__ == '__main__':

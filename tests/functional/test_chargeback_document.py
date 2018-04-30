@@ -91,9 +91,16 @@ class TestChargebackDocument(unittest2.TestCase):
         self.assertEquals('Invalid Merchant', response['responseMessage'])
 
         try:
-            chargeback_document.retrieve_document(123002, "logo.tiff", "test.tiff")
-        except utils.VantivException as e:
+            chargeback_document.retrieve_document(123009, "logo.tiff", "test.tiff")
+        except utils.ChargebackDocumentError as e:
+            self.assertEquals("Document Not Found", e.message)
+            self.assertEquals("009", e.code)
+
+        try:
+            chargeback_document.retrieve_document(123404, "logo.tiff", "test.tiff")
+        except utils.ChargebackWebError as e:
             self.assertEquals("Could not find requested object.", e.message)
+            self.assertEquals("404", e.code)
 
 
 if __name__ == '__main__':

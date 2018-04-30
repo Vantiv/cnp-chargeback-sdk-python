@@ -65,11 +65,12 @@ class TestChargebackUpdate(unittest2.TestCase):
         response = chargeback_update.request_arbitration(10000, "Test note")
         self.assertRegex(response["transactionId"], "\d+")
 
-    def test_add_not_to_case(self):
+    def test_error_response(self):
         try:
             chargeback_update.add_note_to_case(404, "ErrorResponse")
-        except utils.VantivException as e:
-            self.assertEquals("404 : Not Found - Could not find requested object.", e.message)
+        except utils.ChargebackWebError as e:
+            self.assertEquals("Could not find requested object.", e.message)
+            self.assertEquals("404", e.code)
 
 if __name__ == '__main__':
     unittest2.main()

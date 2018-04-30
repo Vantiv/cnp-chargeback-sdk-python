@@ -27,7 +27,7 @@ import os
 import sys
 
 import unittest2
-from cnpsdk.utils import VantivException
+from cnpsdk.utils import ChargebackError
 
 from cnpsdk import chargeback_retrieval, utils, chargeback_update
 
@@ -97,10 +97,10 @@ class TestChargebackRetrieval(unittest2.TestCase):
         self.assertEqual(self.activity_merchant_accepts_liability, activity['activityType'])
         self.assertEqual("Cert test4", activity['notes'])
 
-        self.assertRaises(VantivException, chargeback_update.assume_liability, case_id, "Cert test5_1", config=conf)
+        self.assertRaises(ChargebackError, chargeback_update.assume_liability, case_id, "Cert test5_1", config=conf)
 
     def test5_2(self):
-        self.assertRaises(VantivException, chargeback_retrieval.get_chargeback_by_case_id, 12345, config=conf)
+        self.assertRaises(ChargebackError, chargeback_retrieval.get_chargeback_by_case_id, 12345, config=conf)
 
     def test_6_1(self):
         case_id = get_case_id_for_arn("5555555550")

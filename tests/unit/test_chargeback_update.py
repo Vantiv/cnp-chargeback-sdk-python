@@ -132,8 +132,8 @@ class TestChargebackUpdate(unittest2.TestCase):
 
     @mock.patch('cnpsdk.communication.http_put_request')
     def test_error_response(self, mock_http_put_request):
-        mock_http_put_request.side_effect = utils.VantivException()
-        self.assertRaises(utils.VantivException, chargeback_update.add_note_to_case, "00", "note")
+        mock_http_put_request.side_effect = utils.ChargebackError()
+        self.assertRaises(utils.ChargebackError, chargeback_update.add_note_to_case, "00", "note")
 
 
 if __name__ == '__main__':

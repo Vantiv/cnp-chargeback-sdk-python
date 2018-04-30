@@ -28,6 +28,8 @@ from cnpsdk import (utils, communication)
 
 conf = utils.Configuration()
 
+SERVICE_ROUTE = "/chargebacks"
+
 """
 /////////////////////////////////////////////////////
             ChargebackRetrieval API:
@@ -36,8 +38,8 @@ conf = utils.Configuration()
 
 
 def get_chargeback_by_case_id(case_id, config=conf):
-    request_url = config.url + "/" + case_id
-    return communication.http_get_retrieval_request(request_url, config)
+    url_suffix = SERVICE_ROUTE + "/" + case_id
+    return communication.http_get_retrieval_request(url_suffix, config)
 
 
 def get_chargebacks_by_token(token, config=conf):
@@ -70,11 +72,11 @@ def get_actionable_chargebacks(actionable, config=conf):
 
 
 def _get_retrieval_response(parameters, config):
-    request_url = config.url
+    url_suffix = SERVICE_ROUTE
     prefix = "?"
 
     for name in parameters:
-        request_url += prefix + name + "=" + str(parameters[name])
+        url_suffix += prefix + name + "=" + str(parameters[name])
         prefix = "&"
 
-    return communication.http_get_retrieval_request(request_url, config)
+    return communication.http_get_retrieval_request(url_suffix, config)

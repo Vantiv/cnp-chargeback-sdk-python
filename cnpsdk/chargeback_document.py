@@ -54,8 +54,8 @@ def replace_document(case_id, document_id, document_path, config=conf):
     return communication.http_put_document_request(url_suffix, document_path, config=config)
 
 
-def remove_document(case_id, document_id, config=conf):
-    url_suffix = SERVICE_ROUTE + "/remove/" + str(case_id) + "/" + str(document_id)
+def delete_document(case_id, document_id, config=conf):
+    url_suffix = SERVICE_ROUTE + "/delete/" + str(case_id) + "/" + str(document_id)
     return communication.http_delete_document_response(url_suffix, config=config)
 
 

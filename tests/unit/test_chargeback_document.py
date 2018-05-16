@@ -84,11 +84,11 @@ class TestChargebackRetrieval(unittest.TestCase):
         self.assertEquals(response['documentId'], 'doc.tiff')
 
     @mock.patch('cnpsdk.communication.http_delete_document_response')
-    def test_remove_document(self, mock_http_delete_document_response):
+    def test_delete_document(self, mock_http_delete_document_response):
         mock_http_delete_document_response.return_value = OrderedDict(
             [(u'@xmlns', u'http://www.vantivcnp.com/chargebacks'), (u'merchantId', u'999'), (u'caseId', u'10000'),
              (u'documentId', u'logo.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
-        response = chargeback_document.remove_document("10000", "logo.tiff")
+        response = chargeback_document.delete_document("10000", "logo.tiff")
         args = mock_http_delete_document_response.call_args
         self.assertEquals(args[0][0], "/services/chargebacks/remove/10000/logo.tiff")
         self.assertEquals(response['responseCode'], '000')

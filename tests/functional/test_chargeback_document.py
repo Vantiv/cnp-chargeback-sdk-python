@@ -70,7 +70,7 @@ class TestChargebackDocument(unittest2.TestCase):
         self.assertEquals('10000', response['caseId'])
 
     def test_delete_chargebackDocument(self):
-        response = chargeback_document.remove_document("10000", "logo.tiff")
+        response = chargeback_document.delete_document("10000", "logo.tiff")
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
         self.assertEquals('logo.tiff', response['documentId'])

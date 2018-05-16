@@ -97,7 +97,7 @@ class TestChargebackDocument(unittest2.TestCase):
         self.assertTrue(os.path.exists(document_to_retrieve))
         os.remove(document_to_retrieve)
 
-        response = chargeback_document.remove_document(case_id, "test.gif", config=conf)
+        response = chargeback_document.delete_document(case_id, "test.gif", config=conf)
         self.assertEquals('000', response['responseCode'])
         self.assertEquals('Success', response['responseMessage'])
 

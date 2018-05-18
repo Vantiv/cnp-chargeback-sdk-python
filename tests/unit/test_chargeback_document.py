@@ -90,7 +90,7 @@ class TestChargebackRetrieval(unittest.TestCase):
              (u'documentId', u'logo.tiff'), (u'responseCode', u'000'), (u'responseMessage', u'Success')])
         response = chargeback_document.delete_document("10000", "logo.tiff")
         args = mock_http_delete_document_response.call_args
-        self.assertEquals(args[0][0], "/services/chargebacks/remove/10000/logo.tiff")
+        self.assertEquals(args[0][0], "/services/chargebacks/delete/10000/logo.tiff")
         self.assertEquals(response['responseCode'], '000')
         self.assertEquals(response['responseMessage'], 'Success')
         self.assertEquals(response['caseId'], '10000')

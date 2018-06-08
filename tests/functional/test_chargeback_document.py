@@ -57,15 +57,15 @@ class TestChargebackDocument(unittest2.TestCase):
 
     def test_upload_chargebackDocument(self):
         response = chargeback_document.upload_document("10000", document_to_upload2)
-        self.assertEquals('000', response['responseCode'])
-        self.assertEquals('Success', response['responseMessage'])
+        self.assertEquals('013', response['responseCode'])
+        self.assertEquals('Invalid File Content', response['responseMessage'])
         self.assertEquals('test.jpg', response['documentId'])
         self.assertEquals('10000', response['caseId'])
 
     def test_replace_chargebackDocument(self):
         response = chargeback_document.replace_document("10000", "logo.tiff", document_to_upload3)
-        self.assertEquals('000', response['responseCode'])
-        self.assertEquals('Success', response['responseMessage'])
+        self.assertEquals('013', response['responseCode'])
+        self.assertEquals('Invalid File Content', response['responseMessage'])
         self.assertEquals('logo.tiff', response['documentId'])
         self.assertEquals('10000', response['caseId'])
 

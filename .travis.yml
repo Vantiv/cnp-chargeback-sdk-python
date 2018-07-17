@@ -1,10 +1,10 @@
 language: python
 python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
+ - "2.6"
+ - "2.7"
+ - "3.3"
+ - "3.4"
+ - "3.5"
 notifications:
  email:
   - sdksupport@vantiv.com
@@ -15,16 +15,16 @@ env:
   - CHARGEBACK_CONFIG_FILE=$CNP_CHARGEBACK_SDK_CONFIG/.cnp_chargeback_sdk.conf
 branches:
  only:
- - 2.x
+  - 2.x
 # command to install dependencies
 install:
-  - pip install
-  - python setup.py install
-  - pip install coverage
+ - pip install
+ - python setup.py install
+ - pip install coverage
 script:
  - echo $BUILD_DIR
  - echo $CHARGEBACK_CONFIG_FILE
  - echo "{'url': 'https://www.testvantivcnp.com/sandbox', 'print_xml': true, 'proxy': '', 'merchant_id': '1288791', 'username': 'USERNAME', 'password': 'PASSWORD', 'neuter_xml': false}">$CHARGEBACK_CONFIG_FILE - cat $CHARGEBACK_CONFIG_FILE
  - nosetests --with-coverage --with-xunit --verbosity=3 $CHARGEBACK_CONFIG_FILE/tests/unit $CHARGEBACK_CONFIG_FILE/tests/functional
- after_success:
+after_success:
  - bash <(curl -s https://codecov.io/bash)

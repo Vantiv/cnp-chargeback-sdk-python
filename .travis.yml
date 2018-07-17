@@ -24,7 +24,8 @@ install:
 script:
  - echo $BUILD_DIR
  - echo $CHARGEBACK_CONFIG_FILE
- - echo "{'url': 'https://www.testvantivcnp.com/sandbox', 'print_xml': true, 'proxy': '', 'merchant_id': '1288791', 'username': 'USERNAME', 'password': 'PASSWORD', 'neuter_xml': false}">$CHARGEBACK_CONFIG_FILE - cat $CHARGEBACK_CONFIG_FILE
+ - echo "{'url': 'https://www.testvantivcnp.com/sandbox', 'print_xml': true, 'proxy': '', 'merchant_id': '1288791', 'username': 'USERNAME', 'password': 'PASSWORD', 'neuter_xml': false}">$CHARGEBACK_CONFIG_FILE 
+ - cat $CHARGEBACK_CONFIG_FILE
  - nosetests --with-coverage --with-xunit --verbosity=3 $CHARGEBACK_CONFIG_FILE/tests/unit $CHARGEBACK_CONFIG_FILE/tests/functional
 after_success:
  - bash <(curl -s https://codecov.io/bash)

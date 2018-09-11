@@ -15,6 +15,6 @@ script:
  - echo $BUILD_DIR
  - echo $CHARGEBACK_CONFIG_FILE
  - cat $CHARGEBACK_CONFIG_FILE
- - nosetests --with-coverage --with-xunit --verbosity=3 $CHARGEBACK_CONFIG_FILE/tests/unit $CHARGEBACK_CONFIG_FILE/tests/functional
+ - nosetests --with-coverage --with-xunit --verbosity=3 $BUILD_DIR/tests/unit $BUILD_DIR/tests/functional
 after_success:
  - bash <(curl -s https://codecov.io/bash)

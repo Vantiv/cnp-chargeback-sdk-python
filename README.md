@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/Vantiv/cnp-chargeback-sdk-python.svg?branch=2.x)](https://travis-ci.org/Vantiv/cnp-chargeback-sdk-python) [![codecov](https://codecov.io/gh/Vantiv/cnp-chargeback-sdk-python/branch/2.x/graph/badge.svg)](https://codecov.io/gh/Vantiv/cnp-chargeback-sdk-python/branch/2.x) ![Github All Releases](https://img.shields.io/github/downloads/vantiv/cnp-chargeback-sdk-python/total.svg)
+[![GitHub](https://img.shields.io/github/license/vantiv/cnp-chargeback-sdk-python.svg)](https://github.com/Vantiv/cnp-chargeback-sdk-python/2.x/LICENSE) 
+[![GitHub issues](https://img.shields.io/github/issues/vantiv/cnp-chargeback-sdk-python.svg)](https://github.com/Vantiv/cnp-chargeback-sdk-python/issues)
+
 Vantiv eCommerce Python Chargeback SDK
 =====================
 

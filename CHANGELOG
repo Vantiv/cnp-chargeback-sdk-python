@@ -1,5 +1,8 @@
 = Vantiv eCommerce Chargeback SDK CHANGELOG
 
+== Version 2.1.4 (October 20, 2020)
+* Updated pyxb dependency version to 1.2.6
+
 == Version 2.1.3 (May 22, 2018)
 
 * Replaced all instances of remove to delete according to new changes in Chargeback Sandbox

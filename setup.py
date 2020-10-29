@@ -12,7 +12,7 @@ if (sys.version_info[:3] < (2, 7, 9)) or ((sys.version_info[0] == 3) and sys.ver
 
 setup(
     name='CnpChargebackSDK',
-    version='2.1.3',
+    version='2.1.4',
     description='Vantiv eCommerce Chargeback SDK',
     author='Vantiv eCommerce',
     author_email='SDKSupport@vantiv.com',
@@ -75,7 +75,7 @@ Please contact `Vantiv eCommerce`_ to receive valid merchant credentials in orde
 
 Dependencies
 ------------
-* pyxb v1.2.5 : http://pyxb.sourceforge.net/
+* pyxb v1.2.6 : http://pyxb.sourceforge.net/
 * paramiko v1.14.0: http://www.paramiko.org/
 * requests v2.13.0: http://docs.python-requests.org/en/master/
 * six v1.10.0: https://github.com/benjaminp/six
